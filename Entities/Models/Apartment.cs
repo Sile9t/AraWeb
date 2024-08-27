@@ -27,11 +27,9 @@ namespace Entities.Models
         [Required(ErrorMessage = "Rooms count field is required!")]
         public int RoomsCount {  get; set; }
 
-        [Required(ErrorMessage = "Cost field is required!")]
-        public decimal Cost { get; set; }
-        public decimal ExtraCharge { get; set; }
-
         public double Rate { get; set; }
         public long ReviewsCount { get; set; }
+
+        public ICollection<ReservationDate>? ReservationDates { get; set; }
     }
 }

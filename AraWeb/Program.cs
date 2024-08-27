@@ -1,4 +1,3 @@
-
 using AraWeb.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
 using NLog;
