@@ -12,5 +12,6 @@ namespace Entities.Models
         public string? PhoneNumber { get; set; }
 
         public ICollection<Apartment>? Apartments { get; set; }
+        public ICollection<Occupancy>? Occupancies { get; set; }
     }
 }
