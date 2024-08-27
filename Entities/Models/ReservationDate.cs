@@ -13,5 +13,8 @@ namespace Entities
         [ForeignKey(nameof(Apartment))]
         public Guid ApartmentId { get; set; }
         public Apartment? Apartment { get; set; }
+        [ForeignKey(nameof(User))]
+        public Guid? ReservedById { get; set; }
+        public User? ReservedBy {  get; set; }
     }
 }

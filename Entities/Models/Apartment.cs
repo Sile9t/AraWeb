@@ -30,6 +30,9 @@ namespace Entities.Models
         public double Rate { get; set; }
         public long ReviewsCount { get; set; }
 
+        [ForeignKey(nameof(User))]
+        public Guid OwnerId { get; set; }
+        public User? Owner { get; set; }
         public ICollection<ReservationDate>? ReservationDates { get; set; }
     }
 }
