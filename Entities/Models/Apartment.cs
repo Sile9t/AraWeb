@@ -33,6 +33,7 @@ namespace Entities.Models
         [ForeignKey(nameof(User))]
         public Guid OwnerId { get; set; }
         public User? Owner { get; set; }
+        public ICollection<Occupancy>? Occupancies { get; set; }
         public ICollection<ReservationDate>? ReservationDates { get; set; }
     }
 }
