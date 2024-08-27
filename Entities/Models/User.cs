@@ -10,5 +10,7 @@ namespace Entities.Models
         [Required(ErrorMessage = "Phone number is required!")]
         [DataType(DataType.PhoneNumber)]
         public string? PhoneNumber { get; set; }
+
+        public ICollection<Apartment>? Apartments { get; set; }
     }
 }
