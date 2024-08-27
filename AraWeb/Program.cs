@@ -1,4 +1,7 @@
 
+using AraWeb.Extensions;
+using Microsoft.AspNetCore.HttpOverrides;
+
 namespace AraWeb
 {
     public class Program
@@ -8,6 +11,9 @@ namespace AraWeb
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+
+            builder.Services.ConfigureCors();
+            builder.Services.ConfigureIISIntegration();
 
             builder.Services.AddControllers();
             
@@ -22,14 +28,25 @@ namespace AraWeb
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
+                app.UseDeveloperExceptionPage();
+
                 app.UseSwagger();
                 app.UseSwaggerUI(s =>
                 {
                     s.SwaggerEndpoint("/swagger/v1/swagger.json", "Ara Web");
                 });
             }
+            else app.UseHsts();
 
             app.UseHttpsRedirection();
+
+            app.UseStaticFiles();
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.All
+            });
+
+            app.UseCors("CorsPolicy");
 
             app.UseAuthorization();
 
