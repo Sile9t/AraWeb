@@ -15,6 +15,9 @@ namespace Entities
         public Apartment? Apartment { get; set; }
         [ForeignKey(nameof(User))]
         public Guid? ReservedById { get; set; }
-        public User? ReservedBy {  get; set; }
+        public User? ReservedBy { get; set; }
+        [ForeignKey(nameof(Occupancy))]
+        public Guid? OccupancyId { get; set; }
+        public Occupancy? Occupancy { get; set; }
     }
 }

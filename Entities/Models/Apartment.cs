@@ -16,7 +16,7 @@ namespace Entities.Models
         public string? Address { get; set; }
 
         [Required(ErrorMessage = "Capacity square field is required!")]
-        public int CapacitySquare { get; set; }
+        public double CapacitySquare { get; set; }
 
         [Required(ErrorMessage = "Guests count field is required!")]
         public int GuestsCount { get; set; }
