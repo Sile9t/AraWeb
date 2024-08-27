@@ -70,13 +70,13 @@ namespace AraWeb.Migrations
                         column: x => x.ApartmentId,
                         principalTable: "Apartments",
                         principalColumn: "ApartmentId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Occupancies_Users_ReservedById",
                         column: x => x.ReservedById,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -103,7 +103,8 @@ namespace AraWeb.Migrations
                         name: "FK_ReservationDates_Occupancies_OccupancyId",
                         column: x => x.OccupancyId,
                         principalTable: "Occupancies",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ReservationDates_Users_ReservedById",
                         column: x => x.ReservedById,

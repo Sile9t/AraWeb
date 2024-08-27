@@ -163,13 +163,13 @@ namespace AraWeb.Migrations
                     b.HasOne("Entities.Models.Apartment", "Apartment")
                         .WithMany("Occupancies")
                         .HasForeignKey("ApartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Entities.Models.User", "ReservedBy")
-                        .WithMany()
+                        .WithMany("Occupancies")
                         .HasForeignKey("ReservedById")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Apartment");
@@ -187,7 +187,8 @@ namespace AraWeb.Migrations
 
                     b.HasOne("Entities.Models.Occupancy", "Occupancy")
                         .WithMany("ReservedDates")
-                        .HasForeignKey("OccupancyId");
+                        .HasForeignKey("OccupancyId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Entities.Models.User", "ReservedBy")
                         .WithMany()
@@ -215,6 +216,8 @@ namespace AraWeb.Migrations
             modelBuilder.Entity("Entities.Models.User", b =>
                 {
                     b.Navigation("Apartments");
+
+                    b.Navigation("Occupancies");
                 });
 #pragma warning restore 612, 618
         }
