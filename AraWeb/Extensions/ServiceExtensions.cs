@@ -1,7 +1,13 @@
-﻿namespace AraWeb.Extensions
+﻿using Contracts;
+using LoggerService;
+
+namespace AraWeb.Extensions
 {
     public static class ServiceExtensions
     {
+        public static void ConfigureLoggerService(this IServiceCollection services) =>
+            services.AddSingleton<ILoggerManager, LoggerManager>();
+
         public static void ConfigureCors(this IServiceCollection services) =>
             services.AddCors(options =>
             {
