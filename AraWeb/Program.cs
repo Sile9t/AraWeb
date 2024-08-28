@@ -1,5 +1,6 @@
 using AraWeb.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.Extensions.DependencyInjection;
 using NLog;
 
 namespace AraWeb
@@ -24,7 +25,8 @@ namespace AraWeb
             builder.Services.ConfigureRepositoryManager();
             builder.Services.ConfigureServiceManager();
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers()
+                .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
             
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(s =>
