@@ -11,9 +11,9 @@ namespace Repository
         {
         }
 
-        public IEnumerable<ApartmentDto> GetAllApartments(bool trackChanges)
+        public IEnumerable<Apartment> GetAllApartments(bool trackChanges)
         {
-            FindAll(trackChanges)
+            return FindAll(trackChanges)
                 .OrderBy(a => a.Name)
                 .ToList();
         }

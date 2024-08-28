@@ -3,7 +3,7 @@ using Service.Contracts;
 
 namespace Service
 {
-    internal class ReservationService : IReservationDateService
+    internal class ReservationDateService : IReservationDateService
     {
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _logger;

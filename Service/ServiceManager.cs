@@ -17,7 +17,7 @@ namespace Service
             _apartmentService = new Lazy<IApartmentService>(() => 
                 new ApartmentService(repositoryManager, logger));
             _reservationDateService = new Lazy<IReservationDateService>(() => 
-                new ReservationService(repositoryManager, logger));
+                new ReservationDateService(repositoryManager, logger));
             _occupancyService = new Lazy<IOccupancyService>(() => 
                 new OccupancyService(repositoryManager, logger));
         }

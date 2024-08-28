@@ -1,4 +1,5 @@
 ﻿using Contracts;
+using Entities.Models;
 using Service.Contracts;
 using Shared.Dtos;
 
@@ -15,7 +16,7 @@ namespace Service
             _logger = logger;
         }
 
-        public IEnumerable<ApartmentDto> GetAllApartments(bool trackChanges)
+        public IEnumerable<Apartment> GetAllApartments(bool trackChanges)
         {
             var apartments = _repository.Apartment.GetAllApartments(trackChanges);
             if (apartments is null)

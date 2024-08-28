@@ -1,11 +1,11 @@
-﻿using Shared.Dtos;
+﻿using Entities.Models;
 
 namespace Contracts
 {
     public interface IApartmentRepository
     {
-        IEnumerable<ApartmentDto> GetAllApartments(bool trackChanges);
-        //ApartmentDto GetApartmentById(Guid id, bool trackChanges);
+        IEnumerable<Apartment> GetAllApartments(bool trackChanges);
+        //Apartment GetApartmentById(Guid id, bool trackChanges);
 
     }
 }
