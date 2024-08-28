@@ -26,7 +26,7 @@ namespace Service
             if (apartments is null)
                 throw new Exception();
 
-            var apartmentsDto = _mapper.Map<ApartmentDto>(apartments);
+            var apartmentsDto = _mapper.Map<IEnumerable<ApartmentDto>>(apartments);
 
             return apartmentsDto;
         }
