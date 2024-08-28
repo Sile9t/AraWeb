@@ -19,6 +19,8 @@ namespace AraWeb
             builder.Services.ConfigureIISIntegration();
             builder.Services.ConfigureLoggerService();
 
+            builder.Services.ConfigureRepositoryManager();
+
             builder.Services.AddControllers();
             
             builder.Services.AddEndpointsApiExplorer();
