@@ -1,4 +1,5 @@
 using AraWeb.Extensions;
+using Contracts;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.DependencyInjection;
 using NLog;
@@ -37,6 +38,9 @@ namespace AraWeb
             });
 
             var app = builder.Build();
+
+            var logger = app.Services.GetRequiredService<ILoggerManager>();
+            app.ConfigureExceptionHandler(logger'')
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
