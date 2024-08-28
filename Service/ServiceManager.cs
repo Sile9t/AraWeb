@@ -1,4 +1,5 @@
-﻿using Contracts;
+﻿using AutoMapper;
+using Contracts;
 using Service.Contracts;
 
 namespace Service
@@ -10,12 +11,13 @@ namespace Service
         private readonly Lazy<IReservationDateService> _reservationDateService;
         private readonly Lazy<IOccupancyService> _occupancyService;
 
-        public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger)
+        public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger,
+            IMapper mapper)
         {
             _userService = new Lazy<IUserService>(() => 
                 new UserService(repositoryManager, logger));
             _apartmentService = new Lazy<IApartmentService>(() => 
-                new ApartmentService(repositoryManager, logger));
+                new ApartmentService(repositoryManager, logger, mapper));
             _reservationDateService = new Lazy<IReservationDateService>(() => 
                 new ReservationDateService(repositoryManager, logger));
             _occupancyService = new Lazy<IOccupancyService>(() => 
