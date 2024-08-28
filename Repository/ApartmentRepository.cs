@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using Entities.Models;
+using Shared.Dtos;
 
 namespace Repository
 {
@@ -8,7 +9,13 @@ namespace Repository
         public ApartmentRepository(RepositoryContext repositoryContext)
             : base(repositoryContext)
         {
-            
+        }
+
+        public IEnumerable<ApartmentDto> GetAllApartments(bool trackChanges)
+        {
+            FindAll(trackChanges)
+                .OrderBy(a => a.Name)
+                .ToList();
         }
     }
 }
