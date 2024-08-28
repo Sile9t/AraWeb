@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using LoggerService;
+using Microsoft.EntityFrameworkCore;
 using Repository;
 using Service;
 using Service.Contracts;
@@ -24,6 +25,12 @@ namespace AraWeb.Extensions
             services.Configure<IISOptions>(options =>
             {
 
+            });
+
+        public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration) =>
+            services.AddDbContext<RepositoryContext>(options =>
+            {
+                options.UseSqlServer(configuration.GetConnectionString("sqlConnection"))
             });
 
         public static void ConfigureRepositoryManager(this IServiceCollection services) =>
