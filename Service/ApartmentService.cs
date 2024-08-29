@@ -32,6 +32,14 @@ namespace Service
             return apartmentsDto;
         }
 
+        public IEnumerable<ApartmentDto> GetApartmentsByIds(IEnumerable<Guid> ids, bool trackChanges)
+        {
+            if (ids is null)
+                throw new IdParametersBadRequestException();
+
+            var apartments = _repository.Apartment.GetApartmentsByIds(ids, trackChanges);
+        }
+
         public ApartmentDto GetApartmentById(Guid id, bool trackChanges)
         {
             var apartment = _repository.Apartment.GetApartmentById(id, trackChanges);
