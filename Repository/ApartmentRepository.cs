@@ -17,5 +17,9 @@ namespace Repository
                 .OrderBy(a => a.Name)
                 .ToList();
         }
+
+        public Apartment GetApartmentById(Guid id, bool trackChanges) =>
+            FindByCondition(a => a.Id.Equals(id), trackChanges)
+            .SingleOrDefault()!;
     }
 }
