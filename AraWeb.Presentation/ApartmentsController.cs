@@ -20,5 +20,14 @@ namespace AraWeb.Presentation
 
             return Ok(apartments);
         }
+
+        [HttpGet("{id:guid}", Name = "GetApartmentById")]
+        public IActionResult GetApartment(Guid id)
+        {
+            var apartment = _service.ApartmentService
+                .GetApartmentById(id, trackChanges: false);
+
+            return Ok(apartment);
+        }
     }
 }
