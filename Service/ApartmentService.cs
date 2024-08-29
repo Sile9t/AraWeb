@@ -71,7 +71,19 @@ namespace Service
         public (IEnumerable<ApartmentDto> apartments, string ids) CreateApartmentCollection(
             IEnumerable<ApartmentForCreationDto> apartmentCollection)
         {
+            if (apartmentCollection is null)
+                throw new ApartmentCollectionBadRequestException();
 
+            var apartEntities = _mapper.Map<IEnumerable<Apartment>>(apartmentCollection);
+            foreach (var apart in apartEntities)
+                _repository.Apartment.CreateApartment(apart);
+
+            _repository.Save();
+
+            var apartCollectionToReturn = _mapper.Map<IEnumerable<ApartmentDto>>(apartEntities);
+            var ids = string.Join(",", apartCollectionToReturn.Select(x => x.Id));
+
+            return (apartCollectionToReturn, ids);
         }
     }
 }
