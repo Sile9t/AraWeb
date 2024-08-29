@@ -10,5 +10,7 @@ namespace Service.Contracts
             bool trackChanges);
         ApartmentDto GetApartmentById(Guid id, bool trackChanges);
         ApartmentDto CreateApartment(ApartmentForCreationDto apartmentForCreation);
+        (IEnumerable<ApartmentDto> apartments, string ids) CreateApartmentCollection(
+            IEnumerable<ApartmentForCreationDto> apartmentCollection);
     }
 }

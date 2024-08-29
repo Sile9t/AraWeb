@@ -67,5 +67,11 @@ namespace Service
 
             return apartToReturn;
         }
+
+        public (IEnumerable<ApartmentDto> apartments, string ids) CreateApartmentCollection(
+            IEnumerable<ApartmentForCreationDto> apartmentCollection)
+        {
+
+        }
     }
 }
