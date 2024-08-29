@@ -37,7 +37,13 @@ namespace Service
             if (ids is null)
                 throw new IdParametersBadRequestException();
 
-            var apartments = _repository.Apartment.GetApartmentsByIds(ids, trackChanges);
+            var apartEntities = _repository.Apartment.GetApartmentsByIds(ids, trackChanges);
+            if (apartEntities.Count() != ids.Count())
+                throw new CollectionByIdsBadRequestException();
+
+            var apartsToReturn = _mapper.Map<IEnumerable<ApartmentDto>>(apartEntities);
+
+            return apartsToReturn;
         }
 
         public ApartmentDto GetApartmentById(Guid id, bool trackChanges)
