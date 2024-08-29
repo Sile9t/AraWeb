@@ -23,6 +23,15 @@ namespace AraWeb.Presentation
             return Ok(apartments);
         }
 
+        [HttpGet("collection/{ids}", Name = "ApartmentCollection")]
+        public IActionResult GetApartmentCollection(IEnumerable<Guid> ids)
+        {
+            var apartments = _service.ApartmentService.GetApartmentsByIds(ids,
+                trackChanges: false);
+
+            return Ok(apartments);
+        }
+
         [HttpGet("{id:guid}", Name = "GetApartmentById")]
         public IActionResult GetApartmentById(Guid id)
         {
