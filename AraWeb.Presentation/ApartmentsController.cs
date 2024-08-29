@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Entities.Exceptions;
+using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 
 namespace AraWeb.Presentation
@@ -19,6 +20,16 @@ namespace AraWeb.Presentation
                 .GetAllApartments(trackChanges: false);
 
             return Ok(apartments);
+        }
+
+        [HttpGet("{id:guid}", Name = "GetApartment")]
+        public IActionResult GetApartment(Guid id)
+        {
+            var apartment = _service.ApartmentService.GetApartmentById(id, trackChanges);
+            if (apartment is null)
+                throw new ApartmentNotFoundException(id);
+
+            return Ok(apartment);
         }
     }
 }
