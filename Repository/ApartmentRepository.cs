@@ -1,6 +1,5 @@
 ﻿using Contracts;
 using Entities.Models;
-using Shared.Dtos;
 
 namespace Repository
 {
@@ -21,5 +20,8 @@ namespace Repository
         public Apartment GetApartmentById(Guid id, bool trackChanges) =>
             FindByCondition(a => a.Id.Equals(id), trackChanges)
             .SingleOrDefault()!;
+
+        public void CreateApartment(Apartment apartment) =>
+            Create(apartment);
     }
 }
