@@ -1,13 +1,22 @@
 using AraWeb.Extensions;
 using Contracts;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using NLog;
 
 namespace AraWeb
 {
     public class Program
     {
+        private static NewtonsoftJsonPatchInputFormatter GetJsonPatchInputFormatter() =>
+            new ServiceCollection().AddLogging().AddMvc().AddNewtonsoftJson()
+            .Services.BuildServiceProvider()
+            .GetRequiredService<IOptions<MvcOptions>>().Value.InputFormatters
+            .OfType<NewtonsoftJsonPatchInputFormatter>().First();
+
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -31,6 +40,8 @@ namespace AraWeb
             builder.Services.AddControllers(config =>
             {
                 config.RespectBrowserAcceptHeader = true;
+                config.ReturnHttpNotAcceptable = true;
+                config.InputFormatters.Insert(0, GetJsonPatchInputFormatter());
             })
                 .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
             
