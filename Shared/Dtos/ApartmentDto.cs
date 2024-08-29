@@ -14,5 +14,6 @@ namespace Shared.Dtos
         public int RoomsCount { get; init; }
         public double Rate { get; init; }
         public long ReviewsCount { get; init; }
+        public Guid OwnerId { get; init; }
     }
 }

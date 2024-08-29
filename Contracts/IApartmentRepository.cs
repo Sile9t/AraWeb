@@ -6,7 +6,6 @@ namespace Contracts
     {
         IEnumerable<Apartment> GetAllApartments(bool trackChanges);
         Apartment GetApartmentById(Guid id, bool trackChanges);
-        void CrateApartment(Apartment apartment);
-
+        void CreateApartment(Apartment apartment);
     }
 }

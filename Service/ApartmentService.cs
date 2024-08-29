@@ -46,7 +46,7 @@ namespace Service
         {
             var apartEntity = _mapper.Map<Apartment>(apartment);
 
-            _repository.Apartment.CrateApartment(apartEntity);
+            _repository.Apartment.CreateApartment(apartEntity);
             _repository.Save();
 
             var apartToReturn = _mapper.Map<ApartmentDto>(apartEntity);

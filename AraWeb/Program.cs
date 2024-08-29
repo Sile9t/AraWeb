@@ -45,7 +45,7 @@ namespace AraWeb
             // Configure the HTTP request pipeline.
 
             //Note: Exception handler wouldn't work with swagger.
-            if (app.Environment.IsDevelopment() & false)
+            if (app.Environment.IsDevelopment() & true)
             {
                 app.UseDeveloperExceptionPage();
 

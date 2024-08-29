@@ -31,7 +31,7 @@ namespace AraWeb.Presentation
             return Ok(apartment);
         }
 
-        [HttpPost]
+        [HttpPost(Name = "CreateApartment")]
         public IActionResult CreateApartment([FromBody] ApartmentForCreationDto apartment)
         {
             if (apartment is null)

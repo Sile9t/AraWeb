@@ -26,6 +26,8 @@ namespace Shared.Dtos
 
         public double Rate { get; init; }
         public long ReviewsCount { get; init; }
+
+        public Guid OwnerId { get; init; }
     }
 
     public record ApartmentForCreationDto : ApartmentForManipulationDto;
