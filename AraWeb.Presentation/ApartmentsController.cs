@@ -12,7 +12,7 @@ namespace AraWeb.Presentation
     {
         private readonly IServiceManager _service;
 
-        public ApartmentsController(IServiceManager service) 
+        public ApartmentsController(IServiceManager service)
             => _service = service;
 
         [HttpGet(Name = "GetApartments")]
@@ -56,7 +56,15 @@ namespace AraWeb.Presentation
         {
             var result = _service.ApartmentService.CreateApartmentCollection(apartments);
 
-            return  Ok(result);
+            return Ok(result);
+        }
+
+        [HttpDelete("{id:guid}", Name = "DeleteApartment")]
+        public IActionResult DeleteApartment(Guid id)
+        {
+            _service.ApartmentService.DeleteApartment(id, trackChanges: false);
+
+            return NoContent();
         }
     }
 }
