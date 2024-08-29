@@ -18,14 +18,14 @@ namespace AraWeb.Extensions
                     context.Response.ContentType = "application/json";
 
                     var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
-                    if (contextFeature is null)
+                    if (contextFeature != null)
                     {
                         logger.LogError($"Something went wrong: {contextFeature.Error}");
 
                         await context.Response.WriteAsync(new ErrorDetails()
                         {
                             StatusCode = context.Response.StatusCode,
-                            Message = "Internal Server Error."
+                            Message = "Internal Server Error.",
                         }.ToString());
                     }
                 });

@@ -43,7 +43,9 @@ namespace AraWeb
             app.ConfigureExceptionHandler(logger);
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+
+            //Note: Exception handler wouldn't work with swagger.
+            if (app.Environment.IsDevelopment() & false)
             {
                 app.UseDeveloperExceptionPage();
 
@@ -53,7 +55,7 @@ namespace AraWeb
                     s.SwaggerEndpoint("/swagger/v1/swagger.json", "Ara Web");
                 });
             }
-            else app.UseHsts();
+            if (app.Environment.IsProduction()) app.UseHsts();
 
             app.UseHttpsRedirection();
 

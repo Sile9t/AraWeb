@@ -15,6 +15,7 @@ namespace AraWeb.Presentation
         [HttpGet(Name = "GetApartments")]
         public IActionResult GetApartments()
         {
+            throw new Exception("Test Exception");
             var apartments = _service.ApartmentService
                 .GetAllApartments(trackChanges: false);
 
