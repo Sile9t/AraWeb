@@ -28,7 +28,10 @@ namespace AraWeb
             builder.Services.ConfigureRepositoryManager();
             builder.Services.ConfigureServiceManager();
 
-            builder.Services.AddControllers()
+            builder.Services.AddControllers(config =>
+            {
+                config.RespectBrowserAcceptHeader = true;
+            })
                 .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
             
             builder.Services.AddEndpointsApiExplorer();
