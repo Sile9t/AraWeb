@@ -28,5 +28,8 @@ namespace Repository
 
         public void CreateApartment(Apartment apartment) =>
             Create(apartment);
+
+        public void DeleteApartment(Apartment apartment) =>
+            Delete(apartment);
     }
 }

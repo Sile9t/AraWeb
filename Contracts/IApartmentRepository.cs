@@ -9,5 +9,6 @@ namespace Contracts
             bool trackChanges);
         Apartment GetApartmentById(Guid id, bool trackChanges);
         void CreateApartment(Apartment apartment);
+        void DeleteApartment(Apartment apartment);
     }
 }
