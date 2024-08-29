@@ -41,5 +41,17 @@ namespace Service
             var apartmentDto = _mapper.Map<ApartmentDto>(apartment);
             return apartmentDto;
         }
+
+        public ApartmentDto CreateApartment(ApartmentForCreationDto apartment)
+        {
+            var apartEntity = _mapper.Map<Apartment>(apartment);
+
+            _repository.Apartment.CrateApartment(apartEntity);
+            _repository.Save();
+
+            var apartToReturn = _mapper.Map<ApartmentDto>(apartEntity);
+
+            return apartToReturn;
+        }
     }
 }
