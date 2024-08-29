@@ -10,7 +10,7 @@ namespace AraWeb
         {
             CreateMap<Apartment, ApartmentDto>();
             CreateMap<ApartmentForCreationDto, Apartment>();
-            CreateMap<Apartment, ApartmentForUpdateDto>();
+            CreateMap<ApartmentForUpdateDto, Apartment>();
         }
     }
 }
