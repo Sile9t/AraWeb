@@ -7,5 +7,6 @@ namespace Service.Contracts
     {
         IEnumerable<ApartmentDto> GetAllApartments(bool trackChanges);
         ApartmentDto GetApartmentById(Guid id, bool trackChanges);
+        ApartmentDto CreateApartment(ApartmentForCreationDto apartmentForCreation);
     }
 }
