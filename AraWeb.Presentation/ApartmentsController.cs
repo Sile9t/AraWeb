@@ -13,8 +13,8 @@ namespace AraWeb.Presentation
         public ApartmentsController(IServiceManager service) 
             => _service = service;
 
-        [HttpGet(Name = "GetApartments")]
-        public IActionResult GetApartments()
+        [HttpGet(Name = "Apartments")]
+        public IActionResult Apartments()
         {
             var apartments = _service.ApartmentService
                 .GetAllApartments(trackChanges: false);
@@ -22,8 +22,8 @@ namespace AraWeb.Presentation
             return Ok(apartments);
         }
 
-        [HttpGet("{id:guid}", Name = "GetApartmentById")]
-        public IActionResult GetApartment(Guid id)
+        [HttpGet("{id:guid}", Name = "ApartmentById")]
+        public IActionResult ApartmentById(Guid id)
         {
             var apartment = _service.ApartmentService
                 .GetApartmentById(id, trackChanges: false);
@@ -39,7 +39,7 @@ namespace AraWeb.Presentation
 
             var createdApart = _service.ApartmentService.CreateApartment(apartment);
 
-            return CreatedAtRoute("GetApartmentById", new {id = createdApart.Id}, createdApart);
+            return CreatedAtRoute("ApartmentById", new {id = createdApart.Id}, createdApart);
         }
     }
 }
