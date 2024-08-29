@@ -12,16 +12,16 @@ namespace Shared.Dtos
         [MinLength(10, ErrorMessage = "Minimum length for Address is 10 characters")]
         public string? Address { get; init; }
 
-        [Required(ErrorMessage = "Capacity square field is required!")]
+        [Range(10, double.MaxValue, ErrorMessage = "Capacity square is required and it can't be lower than 10")]
         public double CapacitySquare { get; init; }
 
-        [Required(ErrorMessage = "Guests count field is required!")]
+        [Range(1, int.MaxValue, ErrorMessage = "Guests count is required and it can't be lower than 10")]
         public int GuestsCount { get; init; }
 
-        [Required(ErrorMessage = "Beds count field is required!")]
+        [Range(1, int.MaxValue, ErrorMessage = "Beds count is required and it can't be lower than 10")]
         public int BedsCount { get; init; }
 
-        [Required(ErrorMessage = "Rooms count field is required!")]
+        [Range(1, int.MaxValue, ErrorMessage = "Room count is required and it can't be lower than 10")]
         public int RoomsCount { get; init; }
 
         public double Rate { get; init; }
