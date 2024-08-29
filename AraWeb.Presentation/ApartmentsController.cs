@@ -1,5 +1,6 @@
 ﻿using AraWeb.Presentation.ModelBinder;
 using Entities.Exceptions;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.Dtos;
@@ -74,6 +75,22 @@ namespace AraWeb.Presentation
                 return BadRequest("ApartmentForUpdateDto object is null");
 
             _service.ApartmentService.UpdateApartment(id, apartment, trackChanges: true);
+
+            return NoContent();
+        }
+
+        [HttpPatch("{id:guid}", Name = "ParticallyUpdateApartment")]
+        public IActionResult ParticallyUpdateApartment(Guid id, 
+            [FromBody] JsonPatchDocument<ApartmentForUpdateDto> patchDoc)
+        {
+            if (patchDoc is null)
+                return BadRequest("PatchDoc object sent from client is null.");
+
+            var result = _service.ApartmentService.GetApartmentForPatch(id, trackChanges: false);
+            patchDoc.ApplyTo(result.apartmentToPatch);
+
+            _service.ApartmentService.SaveChangesForPatch(result.apartmentToPatch, 
+                result.apartmentEntity);
 
             return NoContent();
         }
