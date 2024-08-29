@@ -1,4 +1,5 @@
-﻿using Entities.Exceptions;
+﻿using AraWeb.Presentation.ModelBinder;
+using Entities.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.Dtos;
@@ -24,7 +25,8 @@ namespace AraWeb.Presentation
         }
 
         [HttpGet("collection/{ids}", Name = "ApartmentCollection")]
-        public IActionResult GetApartmentCollection(IEnumerable<Guid> ids)
+        public IActionResult GetApartmentCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))]
+            IEnumerable<Guid> ids)
         {
             var apartments = _service.ApartmentService.GetApartmentsByIds(ids,
                 trackChanges: false);
