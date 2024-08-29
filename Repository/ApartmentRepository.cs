@@ -17,6 +17,11 @@ namespace Repository
                 .ToList();
         }
 
+        public IEnumerable<Apartment> GetApartmentsByIds(IEnumerable<Guid> ids,
+            bool trackChanges) =>
+            FindByCondition(a => ids.Contains(a.Id), trackChanges)
+            .ToList();
+
         public Apartment GetApartmentById(Guid id, bool trackChanges) =>
             FindByCondition(a => a.Id.Equals(id), trackChanges)
             .SingleOrDefault()!;
