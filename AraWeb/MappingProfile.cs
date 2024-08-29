@@ -9,7 +9,7 @@ namespace AraWeb
         public MappingProfile()
         {
             CreateMap<Apartment, ApartmentDto>();
-            CreateMap<Apartment, ApartmentForCreationDto>();
+            CreateMap<ApartmentForCreationDto, Apartment>();
             CreateMap<Apartment, ApartmentForUpdateDto>();
         }
     }
