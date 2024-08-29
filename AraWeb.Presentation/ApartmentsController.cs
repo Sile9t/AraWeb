@@ -66,5 +66,16 @@ namespace AraWeb.Presentation
 
             return NoContent();
         }
+
+        [HttpPut("{id:guid}")]
+        public IActionResult UpdateApartment(Guid id, [FromBody] ApartmentForUpdateDto apartment)
+        {
+            if (apartment is null)
+                return BadRequest("ApartmentForUpdateDto object is null");
+
+            _service.ApartmentService.UpdateApartment(id, apartment, trackChanges: true);
+
+            return NoContent();
+        }
     }
 }
