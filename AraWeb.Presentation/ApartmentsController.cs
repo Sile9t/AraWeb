@@ -44,12 +44,17 @@ namespace AraWeb.Presentation
         [HttpPost(Name = "CreateApartment")]
         public IActionResult CreateApartment([FromBody] ApartmentForCreationDto apartment)
         {
-            if (apartment is null)
-                return BadRequest("ApartmentForCreationDto object is null.");
-
             var createdApart = _service.ApartmentService.CreateApartment(apartment);
 
-            return CreatedAtRoute("GetApartmentById", new {id = createdApart.Id}, createdApart);
+            return CreatedAtRoute("GetApartmentById", new { id = createdApart.Id }, createdApart);
+        }
+
+        [HttpPost("collection", Name = "CreateApartmentCollection")]
+        public IActionResult CreateApartmentCollection(IEnumerable<ApartmentForCreationDto> apartments)
+        {
+            var result = _service.ApartmentService.CreateApartmentCollection(apartments);
+
+            return  Ok(result);
         }
     }
 }
