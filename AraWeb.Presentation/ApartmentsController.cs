@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
+using Shared.Dtos;
 
 namespace AraWeb.Presentation
 {
@@ -28,6 +29,17 @@ namespace AraWeb.Presentation
                 .GetApartmentById(id, trackChanges: false);
 
             return Ok(apartment);
+        }
+
+        [HttpPost]
+        public IActionResult CreateApartment([FromBody] ApartmentForCreationDto apartment)
+        {
+            if (apartment is null)
+                return BadRequest("ApartmentForCreationDto object is null.");
+
+            var createdApart = _service.ApartmentService.CreateApartment(apartment);
+
+            return CreatedAtRoute("GetApartmentById", new {id = createdApart.Id}, createdApart);
         }
     }
 }
