@@ -96,5 +96,15 @@ namespace Service
             _repository.Apartment.DeleteApartment(apartment);
             _repository.Save();
         }
+
+        public void UpdateApartment(Guid id, ApartmentForUpdateDto apartmentForUpdate, bool trackChanges)
+        {
+            var apartment = _repository.Apartment.GetApartmentById(id, trackChanges);
+            if (apartment is null)
+                throw new ApartmentNotFoundException(id);
+
+            _mapper.Map(apartmentForUpdate, apartment);
+            _repository.Save();
+        }
     }
 }
