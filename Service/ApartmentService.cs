@@ -32,7 +32,8 @@ namespace Service
             return apartmentsDto;
         }
 
-        public IEnumerable<ApartmentDto> GetApartmentsByIds(IEnumerable<Guid> ids, bool trackChanges)
+        public IEnumerable<ApartmentDto> GetApartmentsByIds(IEnumerable<Guid> ids, 
+            bool trackChanges)
         {
             if (ids is null)
                 throw new IdParametersBadRequestException();
@@ -84,6 +85,16 @@ namespace Service
             var ids = string.Join(",", apartCollectionToReturn.Select(x => x.Id));
 
             return (apartCollectionToReturn, ids);
+        }
+
+        public void DeleteApartment(Guid id, bool trackChanges)
+        {
+            var apartment = _repository.Apartment.GetApartmentById(id, trackChanges);
+            if (apartment is null)
+                throw new ApartmentNotFoundException(id);
+
+            _repository.Apartment.DeleteApartment(apartment);
+            _repository.Save();
         }
     }
 }
