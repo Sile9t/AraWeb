@@ -13,6 +13,11 @@ namespace Service.Contracts
         (IEnumerable<ApartmentDto> apartments, string ids) CreateApartmentCollection(
             IEnumerable<ApartmentForCreationDto> apartmentCollection);
         void DeleteApartment(Guid id, bool trackChanges);
-        void UpdateApartment(Guid id, ApartmentForUpdateDto apartmentForUpdate, bool trackChanges);
+        void UpdateApartment(Guid id, ApartmentForUpdateDto apartmentForUpdate, 
+            bool trackChanges);
+        (ApartmentForUpdateDto apartmentToPatch, Apartment apartmentEntity) GetApartmentForPatch(
+            Guid id, bool trackChanges);
+        void SaveChangesForPatch(ApartmentForUpdateDto apartmentToPatch,
+            Apartment apartmentEntity);
     }
 }

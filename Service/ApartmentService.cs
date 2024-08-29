@@ -106,5 +106,23 @@ namespace Service
             _mapper.Map(apartmentForUpdate, apartment);
             _repository.Save();
         }
+
+        public (ApartmentForUpdateDto apartmentToPatch, Apartment apartmentEntity) GetApartmentForPatch(
+            Guid id, bool trackChanges)
+        {
+            var apartmentEntity = _repository.Apartment.GetApartmentById(id, trackChanges);
+            if (apartmentEntity is null)
+                throw new ApartmentNotFoundException(id);
+
+            var apartmentToPatch = _mapper.Map<ApartmentForUpdateDto>(apartmentEntity);
+
+            return (apartmentToPatch, apartmentEntity);
+        }
+
+        public void SaveChangesForPatch(ApartmentForUpdateDto apartmentToPatch, Apartment apartmentEntity)
+        {
+            _mapper.Map(apartmentToPatch, apartmentEntity);
+            _repository.Save();
+        }
     }
 }
