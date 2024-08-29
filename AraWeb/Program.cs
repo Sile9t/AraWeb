@@ -48,7 +48,8 @@ namespace AraWeb
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(s =>
             {
-                s.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Ara Web", Version = "v1" });
+                s.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Ara Web", 
+                    Version = "v1" });
             });
 
             var app = builder.Build();

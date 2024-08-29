@@ -86,7 +86,8 @@ namespace AraWeb.Presentation
             if (patchDoc is null)
                 return BadRequest("PatchDoc object sent from client is null.");
 
-            var result = _service.ApartmentService.GetApartmentForPatch(id, trackChanges: false);
+            var result = _service.ApartmentService.GetApartmentForPatch(id, 
+                trackChanges: true);
             patchDoc.ApplyTo(result.apartmentToPatch);
 
             _service.ApartmentService.SaveChangesForPatch(result.apartmentToPatch, 
