@@ -6,13 +6,13 @@ namespace Entities.LinkModels
     {
         public bool HasLinks { get; set; }
 
-        public List<Entity> ShapedEntites { get; set; }
+        public List<Entity> ShapedEntities { get; set; }
         public LinkCollectionWrapper<Entity> LinkedEntities { get; set; }
 
         public LinkResponse()
         {
             LinkedEntities = new LinkCollectionWrapper<Entity>();
-            ShapedEntites = new List<Entity> ();
+            ShapedEntities = new List<Entity> ();
         }
     }
 }

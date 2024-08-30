@@ -1,4 +1,5 @@
-﻿using AraWeb.ActionFilters;
+﻿using ActionFilter;
+using AraWeb.ActionFilters;
 using AraWeb.Presentation.ModelBinder;
 using Entities.Exceptions;
 using Microsoft.AspNetCore.JsonPatch;
@@ -20,6 +21,7 @@ namespace AraWeb.Presentation
             => _service = service;
 
         [HttpGet(Name = "GetApartments")]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
         public async Task<IActionResult> GetApartments([FromQuery] ApartmentParameters apartmentParameters)
         {
             var pagedResult = await _service.ApartmentService
