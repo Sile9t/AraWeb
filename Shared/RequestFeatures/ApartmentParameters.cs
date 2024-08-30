@@ -2,6 +2,8 @@
 {
     public class ApartmentParameters : RequestParameters
     {
+        public ApartmentParameters() => OrderBy = "rate, reviewsCount";
+
         public double MinSquare { get; set; }
         public double MaxSquare { get; set; } = uint.MaxValue;
 
