@@ -4,6 +4,7 @@ using System.Xml.Schema;
 using System.Xml.Serialization;
 using System.Xml;
 using System.Collections;
+using Entities.LinkModels;
 
 namespace Entities.Models
 {
@@ -61,29 +62,29 @@ namespace Entities.Models
             foreach (var key in _expando.Keys)
             {
                 var value = _expando[key];
-                //WriteLinksToXml(key, value, writer);
+                WriteLinksToXml(key, value, writer);
             }
         }
 
-        //private void WriteLinksToXml(string key, object value, XmlWriter writer)
-        //{
-        //    writer.WriteStartElement(key);
+        private void WriteLinksToXml(string key, object value, XmlWriter writer)
+        {
+            writer.WriteStartElement(key);
 
-        //    if (value.GetType().Equals(typeof(List<Link>)))
-        //    {
-        //        foreach (var val in value as List<Link>)
-        //        {
-        //            writer.WriteStartElement(nameof(Link));
-        //            WriteLinksToXml(nameof(val.Href), val, writer);
-        //            WriteLinksToXml(nameof(val.Method), val, writer);
-        //            WriteLinksToXml(nameof(val.Rel), val, writer);
-        //            writer.WriteEndElement();
-        //        }
-        //    }
-        //    else writer.WriteString(value.ToString());
+            if (value.GetType().Equals(typeof(List<Link>)))
+            {
+                foreach (var val in value as List<Link>)
+                {
+                    writer.WriteStartElement(nameof(Link));
+                    WriteLinksToXml(nameof(val.Href), val, writer);
+                    WriteLinksToXml(nameof(val.Method), val, writer);
+                    WriteLinksToXml(nameof(val.Rel), val, writer);
+                    writer.WriteEndElement();
+                }
+            }
+            else writer.WriteString(value.ToString());
 
-        //    writer.WriteEndElement();
-        //}
+            writer.WriteEndElement();
+        }
 
         public object this[string key] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
