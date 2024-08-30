@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NLog;
+using AraWeb.ActionFilters;
 
 namespace AraWeb
 {
@@ -44,7 +45,9 @@ namespace AraWeb
                 config.InputFormatters.Insert(0, GetJsonPatchInputFormatter());
             })
                 .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
-            
+
+            builder.Services.AddScoped<AsyncValidationFilterAttribute>();
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(s =>
             {
