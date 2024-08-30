@@ -2,6 +2,7 @@
 using AraWeb.ActionFilters;
 using AraWeb.Presentation.ModelBinder;
 using Entities.Exceptions;
+using Entities.LinkModels;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
@@ -24,13 +25,16 @@ namespace AraWeb.Presentation
         [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
         public async Task<IActionResult> GetApartments([FromQuery] ApartmentParameters apartmentParameters)
         {
-            var pagedResult = await _service.ApartmentService
-                .GetAllApartmentsAsync(apartmentParameters, trackChanges: false);
+            var linkParams = new LinkParameters(apartmentParameters, HttpContext);
+
+            var result = await _service.ApartmentService
+                .GetAllApartmentsAsync(linkParams, trackChanges: false);
 
             Response.Headers.Add("X-Pagination",
-                JsonSerializer.Serialize(pagedResult.metaData));
+                JsonSerializer.Serialize(result.metaData));
 
-            return Ok(pagedResult.apartments);
+            return result.linkResponse.HasLinks ? Ok(result.linkResponse.LinkedEntities) :
+                Ok(result.linkResponse.ShapedEntities);
         }
 
         [HttpGet("collection/{ids}", Name = "ApartmentCollection")]

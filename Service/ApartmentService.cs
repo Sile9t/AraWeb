@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Contracts;
+using Contracts.Links;
 using Entities.Exceptions;
+using Entities.LinkModels;
 using Entities.Models;
 using Service.Contracts;
 using Shared.Dtos;
@@ -13,26 +15,27 @@ namespace Service
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
-        private readonly IDataShaper<ApartmentDto> _dataShaper;
+        private readonly IApartmentLinks _apartmentLinks;
 
         public ApartmentService(IRepositoryManager repository, ILoggerManager logger,
-            IMapper mapper, IDataShaper<ApartmentDto> dataShaper)
+            IMapper mapper, IApartmentLinks apartmentLinks)
         {
             _repository = repository;
             _logger = logger;
             _mapper = mapper;
-            _dataShaper = dataShaper;
+            _apartmentLinks = apartmentLinks;
         }
 
-        public async Task<(IEnumerable<ShapedEntity> apartments, MetaData metaData)> GetAllApartmentsAsync(
-            ApartmentParameters apartmentParameters, bool trackChanges)
+        public async Task<(LinkResponse linkResponse, MetaData metaData)> GetAllApartmentsAsync(
+            LinkParameters linkParameters, bool trackChanges)
         {
-            var apartmentsWithMetaData = await _repository.Apartment.GetAllApartmentsAsync(apartmentParameters, 
-                trackChanges);
+            var apartmentsWithMetaData = await _repository.Apartment.GetAllApartmentsAsync(
+                linkParameters.ApartmentParameters, trackChanges);
             
             var apartmentsDto = _mapper.Map<IEnumerable<ApartmentDto>>(apartmentsWithMetaData);
-            var shapedData = _dataShaper.ShapeData(apartmentsDto, apartmentParameters.Fields);
-            return (apartments: shapedData, metaData: apartmentsWithMetaData.MetaData);
+            var links = _apartmentLinks.TryGenerateLinks(apartmentsDto,
+                linkParameters.ApartmentParameters.Fields, linkParameters.HttpContext);
+            return (apartments: links, metaData: apartmentsWithMetaData.MetaData);
         }
 
         public async Task<IEnumerable<ApartmentDto>> GetApartmentsByIdsAsync(IEnumerable<Guid> ids, 

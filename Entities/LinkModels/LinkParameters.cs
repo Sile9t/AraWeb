@@ -3,9 +3,5 @@ using Shared.RequestFeatures;
 
 namespace Entities.LinkModels
 {
-    public record LinkParameters
-    {
-        ApartmentParameters ApartmentParameters { get; init; }
-        HttpContext HttpContext { get; init; }
-    }
+    public record LinkParameters(ApartmentParameters ApartmentParameters, HttpContext HttpContext);
 }

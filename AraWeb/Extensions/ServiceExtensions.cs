@@ -49,7 +49,7 @@ namespace AraWeb.Extensions
                 if (systemJsonOutputFormatter is not null)
                 {
                     systemJsonOutputFormatter.SupportedMediaTypes
-                    .Add("application/vnd.ara.hateoas+json");
+                        .Add("application/vnd.ara.hateoas+json");
                 }
 
                 var xmlOutputFormatter = config.OutputFormatters

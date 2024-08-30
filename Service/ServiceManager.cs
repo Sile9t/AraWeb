@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Contracts;
+using Contracts.Links;
 using Service.Contracts;
 using Shared.Dtos;
 
@@ -13,12 +14,12 @@ namespace Service
         private readonly Lazy<IOccupancyService> _occupancyService;
 
         public ServiceManager(IRepositoryManager repositoryManager, ILoggerManager logger,
-            IMapper mapper, IDataShaper<ApartmentDto> dataShaper)
+            IMapper mapper, IApartmentLinks apartmentLinks)
         {
             _userService = new Lazy<IUserService>(() => 
                 new UserService(repositoryManager, logger));
             _apartmentService = new Lazy<IApartmentService>(() => 
-                new ApartmentService(repositoryManager, logger, mapper, dataShaper));
+                new ApartmentService(repositoryManager, logger, mapper, apartmentLinks));
             _reservationDateService = new Lazy<IReservationDateService>(() => 
                 new ReservationDateService(repositoryManager, logger));
             _occupancyService = new Lazy<IOccupancyService>(() => 

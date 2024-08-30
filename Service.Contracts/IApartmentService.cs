@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.LinkModels;
+using Entities.Models;
 using Shared.Dtos;
 using Shared.RequestFeatures;
 
@@ -6,8 +7,8 @@ namespace Service.Contracts
 {
     public interface IApartmentService
     {
-        Task<(IEnumerable<ShapedEntity> apartments, MetaData metaData)> GetAllApartmentsAsync(
-            ApartmentParameters apartmentParameters, bool trackChanges);
+        Task<(LinkResponse linkResponse, MetaData metaData)> GetAllApartmentsAsync(
+            LinkParameters linkParameters, bool trackChanges);
         Task<IEnumerable<ApartmentDto>> GetApartmentsByIdsAsync(IEnumerable<Guid> ids, 
             bool trackChanges);
         Task<ApartmentDto> GetApartmentByIdAsync(Guid id, bool trackChanges);

@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System.Net.Http.Headers;
+using Microsoft.Net.Http.Headers;
 
 namespace ActionFilter
 {
-    public class ValidateMediaTypeAttribute : IAsyncActionFilter
+    public class ValidateMediaTypeAttribute : IActionFilter
     {
-        public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+        public void OnActionExecuting(ActionExecutingContext context)
         {
             var acceptHeaderPresent = context.HttpContext.Request
                 .Headers.ContainsKey("Accept");
@@ -31,5 +31,7 @@ namespace ActionFilter
 
             context.HttpContext.Items.Add("AcceptHeaderMediaType", outMediaType);
         }
+
+        public void OnActionExecuted(ActionExecutedContext context) { }
     }
 }

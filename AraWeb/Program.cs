@@ -10,6 +10,9 @@ using AraWeb.ActionFilters;
 using Service.Contracts;
 using Service;
 using Shared.Dtos;
+using Contracts.Links;
+using AraWeb.Utility;
+using ActionFilter;
 
 namespace AraWeb
 {
@@ -50,6 +53,7 @@ namespace AraWeb
                 .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
 
             builder.Services.AddScoped<IDataShaper<ApartmentDto>, DataShaper<ApartmentDto>>();
+            builder.Services.AddScoped<IApartmentLinks, ApartmentLinks>();
 
             builder.Services.AddCustomMediTypes();
 
@@ -58,6 +62,7 @@ namespace AraWeb
                 options.SuppressModelStateInvalidFilter = true;
             });
             builder.Services.AddScoped<AsyncValidationFilterAttribute>();
+            builder.Services.AddScoped<ValidateMediaTypeAttribute>();
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(s =>

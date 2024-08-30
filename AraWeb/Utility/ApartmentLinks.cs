@@ -36,7 +36,7 @@ namespace AraWeb.Utility
 
         private bool ShouldGenerateLinks(HttpContext httpContext)
         {
-            var mediaType = (MediaTypeHeaderValue)httpContext.Items["AcceptHeaderMeadiaType"];
+            var mediaType = (MediaTypeHeaderValue)httpContext.Items["AcceptHeaderMediaType"];
 
             return mediaType.SubTypeWithoutSuffix.EndsWith("hateoas",
                 StringComparison.InvariantCultureIgnoreCase);
@@ -67,7 +67,7 @@ namespace AraWeb.Utility
         {
             var links = new List<Link>
             {
-                new Link(_linkGenerator.GetUriByAction(httpContext, "GetApartment",
+                new Link(_linkGenerator.GetUriByAction(httpContext, "GetApartmentById",
                 values: new {id, fields}),
                 "self",
                 "GET"),
@@ -79,7 +79,7 @@ namespace AraWeb.Utility
                 values: new {id}),
                 "update_apartment",
                 "PUT"),
-                new Link(_linkGenerator.GetUriByAction(httpContext, "PartiallyUpdateApartment",
+                new Link(_linkGenerator.GetUriByAction(httpContext, "ParticallyUpdateApartment",
                 values: new {id}),
                 "partially_update_apartment",
                 "PATCH")

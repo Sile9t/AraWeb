@@ -12,7 +12,7 @@ namespace Entities.LinkModels
         public LinkResponse()
         {
             LinkedEntities = new LinkCollectionWrapper<Entity>();
-            ShapedEntities = new List<Entity> ();
+            ShapedEntities = new List<Entity>();
         }
     }
 }
