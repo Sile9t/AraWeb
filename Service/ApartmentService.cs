@@ -13,24 +13,26 @@ namespace Service
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
+        private readonly IDataShaper<ApartmentDto> _dataShaper;
 
         public ApartmentService(IRepositoryManager repository, ILoggerManager logger,
-            IMapper mapper)
+            IMapper mapper, IDataShaper<ApartmentDto> dataShaper)
         {
             _repository = repository;
             _logger = logger;
             _mapper = mapper;
+            _dataShaper = dataShaper;
         }
 
-        public async Task<(IEnumerable<ApartmentDto> apartments, MetaData metaData)> GetAllApartmentsAsync(
+        public async Task<(IEnumerable<ShapedEntity> apartments, MetaData metaData)> GetAllApartmentsAsync(
             ApartmentParameters apartmentParameters, bool trackChanges)
         {
             var apartmentsWithMetaData = await _repository.Apartment.GetAllApartmentsAsync(apartmentParameters, 
                 trackChanges);
             
             var apartmentsDto = _mapper.Map<IEnumerable<ApartmentDto>>(apartmentsWithMetaData);
-
-            return (apartments: apartmentsDto, metaData: apartmentsWithMetaData.MetaData);
+            var shapedData = _dataShaper.ShapeData(apartmentsDto, apartmentParameters.Fields);
+            return (apartments: shapedData, metaData: apartmentsWithMetaData.MetaData);
         }
 
         public async Task<IEnumerable<ApartmentDto>> GetApartmentsByIdsAsync(IEnumerable<Guid> ids, 

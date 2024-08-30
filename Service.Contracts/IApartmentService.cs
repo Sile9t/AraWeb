@@ -6,7 +6,7 @@ namespace Service.Contracts
 {
     public interface IApartmentService
     {
-        Task<(IEnumerable<ApartmentDto> apartments, MetaData metaData)> GetAllApartmentsAsync(
+        Task<(IEnumerable<ShapedEntity> apartments, MetaData metaData)> GetAllApartmentsAsync(
             ApartmentParameters apartmentParameters, bool trackChanges);
         Task<IEnumerable<ApartmentDto>> GetApartmentsByIdsAsync(IEnumerable<Guid> ids, 
             bool trackChanges);

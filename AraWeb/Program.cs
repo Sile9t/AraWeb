@@ -7,6 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NLog;
 using AraWeb.ActionFilters;
+using Service.Contracts;
+using Service;
+using Shared.Dtos;
 
 namespace AraWeb
 {
@@ -45,6 +48,8 @@ namespace AraWeb
                 config.InputFormatters.Insert(0, GetJsonPatchInputFormatter());
             })
                 .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
+
+            builder.Services.AddScoped<IDataShaper<ApartmentDto>, DataShaper<ApartmentDto>>();
 
             builder.Services.Configure<ApiBehaviorOptions>(options =>
             {

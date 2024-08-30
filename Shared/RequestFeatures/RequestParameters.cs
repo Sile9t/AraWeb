@@ -16,6 +16,8 @@
         }
 
         public string? OrderBy { get; set; }
+
+        public string? Fields { get; set; }
     }
 
     public static class Paging
