@@ -50,7 +50,7 @@ namespace AraWeb
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
-            builder.Services.AddScoped<ValidationFilterAttribute>();
+            builder.Services.AddScoped<AsyncValidationFilterAttribute>();
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(s =>

@@ -46,7 +46,7 @@ namespace AraWeb.Presentation
         }
 
         [HttpPost(Name = "CreateApartment")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ServiceFilter(typeof(AsyncValidationFilterAttribute))]
         public async Task<IActionResult> CreateApartment([FromBody] ApartmentForCreationDto apartment)
         {
             var createdApart = await _service.ApartmentService.CreateApartmentAsync(apartment);
@@ -55,7 +55,7 @@ namespace AraWeb.Presentation
         }
 
         [HttpPost("collection", Name = "CreateApartmentCollection")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ServiceFilter(typeof(AsyncValidationFilterAttribute))]
         public async Task<IActionResult> CreateApartmentCollection(
             IEnumerable<ApartmentForCreationDto> apartments)
         {
@@ -73,7 +73,7 @@ namespace AraWeb.Presentation
         }
 
         [HttpPut("{id:guid}")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ServiceFilter(typeof(AsyncValidationFilterAttribute))]
         public async Task<IActionResult> UpdateApartment(Guid id, [FromBody] ApartmentForUpdateDto apartment)
         {
             //if (apartment is null)
@@ -85,7 +85,7 @@ namespace AraWeb.Presentation
         }
 
         [HttpPatch("{id:guid}", Name = "ParticallyUpdateApartment")]
-        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ServiceFilter(typeof(AsyncValidationFilterAttribute))]
         public async Task<IActionResult> ParticallyUpdateApartment(Guid id, 
             [FromBody] JsonPatchDocument<ApartmentForUpdateDto> patchDoc)
         {
