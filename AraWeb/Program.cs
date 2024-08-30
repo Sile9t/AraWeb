@@ -51,6 +51,8 @@ namespace AraWeb
 
             builder.Services.AddScoped<IDataShaper<ApartmentDto>, DataShaper<ApartmentDto>>();
 
+            builder.Services.AddCustomMediTypes();
+
             builder.Services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;

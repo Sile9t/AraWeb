@@ -1,5 +1,7 @@
 ﻿using Contracts;
 using LoggerService;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Repository;
 using Service;
@@ -36,5 +38,30 @@ namespace AraWeb.Extensions
 
         public static void ConfigureServiceManager(this IServiceCollection services) =>
             services.AddScoped<IServiceManager, ServiceManager>();
+
+        public static void AddCustomMediTypes(this IServiceCollection services)
+        {
+            services.Configure<MvcOptions>(config =>
+            {
+                var systemJsonOutputFormatter = config.OutputFormatters
+                    .OfType<SystemTextJsonOutputFormatter>()?.FirstOrDefault();
+
+                if (systemJsonOutputFormatter is not null)
+                {
+                    systemJsonOutputFormatter.SupportedMediaTypes
+                    .Add("application/vnd.ara.hateoas+json");
+                }
+
+                var xmlOutputFormatter = config.OutputFormatters
+                    .OfType<XmlDataContractSerializerOutputFormatter>()?
+                    .FirstOrDefault();
+
+                if (xmlOutputFormatter is not null)
+                {
+                    xmlOutputFormatter.SupportedMediaTypes
+                        .Add("application/vnd.ara.hateoas+xml");
+                }
+            });
+        }
     }
 }
