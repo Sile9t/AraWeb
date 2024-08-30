@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository
 {
@@ -10,21 +11,21 @@ namespace Repository
         {
         }
 
-        public IEnumerable<Apartment> GetAllApartments(bool trackChanges)
+        public async Task<IEnumerable<Apartment>> GetAllApartmentsAsync(bool trackChanges)
         {
-            return FindAll(trackChanges)
+            return await FindAll(trackChanges)
                 .OrderBy(a => a.Name)
-                .ToList();
+                .ToListAsync();
         }
 
-        public IEnumerable<Apartment> GetApartmentsByIds(IEnumerable<Guid> ids,
+        public async Task<IEnumerable<Apartment>> GetApartmentsByIdsAsync(IEnumerable<Guid> ids,
             bool trackChanges) =>
-            FindByCondition(a => ids.Contains(a.Id), trackChanges)
-            .ToList();
+            await FindByCondition(a => ids.Contains(a.Id), trackChanges)
+            .ToListAsync();
 
-        public Apartment GetApartmentById(Guid id, bool trackChanges) =>
-            FindByCondition(a => a.Id.Equals(id), trackChanges)
-            .SingleOrDefault()!;
+        public async Task<Apartment> GetApartmentByIdAsync(Guid id, bool trackChanges) =>
+            await FindByCondition(a => a.Id.Equals(id), trackChanges)
+            .SingleOrDefaultAsync();
 
         public void CreateApartment(Apartment apartment) =>
             Create(apartment);

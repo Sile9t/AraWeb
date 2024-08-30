@@ -1,4 +1,5 @@
-﻿using AraWeb.Presentation.ModelBinder;
+﻿using AraWeb.ActionFilters;
+using AraWeb.Presentation.ModelBinder;
 using Entities.Exceptions;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -17,80 +18,82 @@ namespace AraWeb.Presentation
             => _service = service;
 
         [HttpGet(Name = "GetApartments")]
-        public IActionResult GetApartments()
+        public async Task<IActionResult> GetApartments()
         {
-            var apartments = _service.ApartmentService
-                .GetAllApartments(trackChanges: false);
+            var apartments = await _service.ApartmentService
+                .GetAllApartmentsAsync(trackChanges: false);
 
             return Ok(apartments);
         }
 
         [HttpGet("collection/{ids}", Name = "ApartmentCollection")]
-        public IActionResult GetApartmentCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))]
-            IEnumerable<Guid> ids)
+        public async Task<IActionResult> GetApartmentCollection([ModelBinder(BinderType = 
+            typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
         {
-            var apartments = _service.ApartmentService.GetApartmentsByIds(ids,
+            var apartments = await _service.ApartmentService.GetApartmentsByIdsAsync(ids,
                 trackChanges: false);
 
             return Ok(apartments);
         }
 
         [HttpGet("{id:guid}", Name = "GetApartmentById")]
-        public IActionResult GetApartmentById(Guid id)
+        public async Task<IActionResult> GetApartmentById(Guid id)
         {
-            var apartment = _service.ApartmentService
-                .GetApartmentById(id, trackChanges: false);
+            var apartment = await _service.ApartmentService
+                .GetApartmentByIdAsync(id, trackChanges: false);
 
             return Ok(apartment);
         }
 
         [HttpPost(Name = "CreateApartment")]
-        public IActionResult CreateApartment([FromBody] ApartmentForCreationDto apartment)
+        [ServiceFilter(typeof(AsyncValidationFilterAttribute))]
+        public async Task<IActionResult> CreateApartment([FromBody] ApartmentForCreationDto apartment)
         {
-            var createdApart = _service.ApartmentService.CreateApartment(apartment);
+            var createdApart = await _service.ApartmentService.CreateApartmentAsync(apartment);
 
             return CreatedAtRoute("GetApartmentById", new { id = createdApart.Id }, createdApart);
         }
 
         [HttpPost("collection", Name = "CreateApartmentCollection")]
-        public IActionResult CreateApartmentCollection(IEnumerable<ApartmentForCreationDto> apartments)
+        public async Task<IActionResult> CreateApartmentCollection(
+            IEnumerable<ApartmentForCreationDto> apartments)
         {
-            var result = _service.ApartmentService.CreateApartmentCollection(apartments);
+            var result = await _service.ApartmentService.CreateApartmentCollectionAsync(apartments);
 
             return Ok(result);
         }
 
         [HttpDelete("{id:guid}", Name = "DeleteApartment")]
-        public IActionResult DeleteApartment(Guid id)
+        public async Task<IActionResult> DeleteApartment(Guid id)
         {
-            _service.ApartmentService.DeleteApartment(id, trackChanges: false);
+            await _service.ApartmentService.DeleteApartmentAsync(id, trackChanges: false);
 
             return NoContent();
         }
 
         [HttpPut("{id:guid}")]
-        public IActionResult UpdateApartment(Guid id, [FromBody] ApartmentForUpdateDto apartment)
+        public async Task<IActionResult> UpdateApartment(Guid id, [FromBody] ApartmentForUpdateDto apartment)
         {
             if (apartment is null)
                 return BadRequest("ApartmentForUpdateDto object is null");
 
-            _service.ApartmentService.UpdateApartment(id, apartment, trackChanges: true);
+            await _service.ApartmentService.UpdateApartmentAsync(id, apartment, trackChanges: true);
 
             return NoContent();
         }
 
         [HttpPatch("{id:guid}", Name = "ParticallyUpdateApartment")]
-        public IActionResult ParticallyUpdateApartment(Guid id, 
+        public async Task<IActionResult> ParticallyUpdateApartment(Guid id, 
             [FromBody] JsonPatchDocument<ApartmentForUpdateDto> patchDoc)
         {
             if (patchDoc is null)
                 return BadRequest("PatchDoc object sent from client is null.");
 
-            var result = _service.ApartmentService.GetApartmentForPatch(id, 
+            var result = await _service.ApartmentService.GetApartmentForPatchAsync(id, 
                 trackChanges: true);
             patchDoc.ApplyTo(result.apartmentToPatch);
 
-            _service.ApartmentService.SaveChangesForPatch(result.apartmentToPatch, 
+            await _service.ApartmentService.SaveChangesForPatchAsync(result.apartmentToPatch, 
                 result.apartmentEntity);
 
             return NoContent();

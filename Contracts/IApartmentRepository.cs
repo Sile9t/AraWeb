@@ -4,10 +4,10 @@ namespace Contracts
 {
     public interface IApartmentRepository
     {
-        IEnumerable<Apartment> GetAllApartments(bool trackChanges);
-        IEnumerable<Apartment> GetApartmentsByIds(IEnumerable<Guid> ids,
+        Task<IEnumerable<Apartment>> GetAllApartmentsAsync(bool trackChanges);
+        Task<IEnumerable<Apartment>> GetApartmentsByIdsAsync(IEnumerable<Guid> ids,
             bool trackChanges);
-        Apartment GetApartmentById(Guid id, bool trackChanges);
+        Task<Apartment> GetApartmentByIdAsync(Guid id, bool trackChanges);
         void CreateApartment(Apartment apartment);
         void DeleteApartment(Apartment apartment);
     }

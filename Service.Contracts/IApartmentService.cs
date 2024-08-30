@@ -5,19 +5,19 @@ namespace Service.Contracts
 {
     public interface IApartmentService
     {
-        IEnumerable<ApartmentDto> GetAllApartments(bool trackChanges);
-        IEnumerable<ApartmentDto> GetApartmentsByIds(IEnumerable<Guid> ids, 
+        Task<IEnumerable<ApartmentDto>> GetAllApartmentsAsync(bool trackChanges);
+        Task<IEnumerable<ApartmentDto>> GetApartmentsByIdsAsync(IEnumerable<Guid> ids, 
             bool trackChanges);
-        ApartmentDto GetApartmentById(Guid id, bool trackChanges);
-        ApartmentDto CreateApartment(ApartmentForCreationDto apartmentForCreation);
-        (IEnumerable<ApartmentDto> apartments, string ids) CreateApartmentCollection(
+        Task<ApartmentDto> GetApartmentByIdAsync(Guid id, bool trackChanges);
+        Task<ApartmentDto> CreateApartmentAsync(ApartmentForCreationDto apartmentForCreation);
+        Task<(IEnumerable<ApartmentDto> apartments, string ids)> CreateApartmentCollectionAsync(
             IEnumerable<ApartmentForCreationDto> apartmentCollection);
-        void DeleteApartment(Guid id, bool trackChanges);
-        void UpdateApartment(Guid id, ApartmentForUpdateDto apartmentForUpdate, 
+        Task DeleteApartmentAsync(Guid id, bool trackChanges);
+        Task UpdateApartmentAsync(Guid id, ApartmentForUpdateDto apartmentForUpdate, 
             bool trackChanges);
-        (ApartmentForUpdateDto apartmentToPatch, Apartment apartmentEntity) GetApartmentForPatch(
+        Task<(ApartmentForUpdateDto apartmentToPatch, Apartment apartmentEntity)> GetApartmentForPatchAsync(
             Guid id, bool trackChanges);
-        void SaveChangesForPatch(ApartmentForUpdateDto apartmentToPatch,
+        Task SaveChangesForPatchAsync(ApartmentForUpdateDto apartmentToPatch,
             Apartment apartmentEntity);
     }
 }

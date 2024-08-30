@@ -6,6 +6,6 @@
         IApartmentRepository Apartment { get; }
         IReservationDateRepository ReservationDate { get; }
         IOccupancyRepository Occupancy { get; }
-        void Save();
+        Task SaveAsync();
     }
 }

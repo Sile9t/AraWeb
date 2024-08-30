@@ -21,9 +21,9 @@ namespace Service
             _mapper = mapper;
         }
 
-        public IEnumerable<ApartmentDto> GetAllApartments(bool trackChanges)
+        public async Task<IEnumerable<ApartmentDto>> GetAllApartmentsAsync(bool trackChanges)
         {
-            var apartments = _repository.Apartment.GetAllApartments(trackChanges);
+            var apartments = await _repository.Apartment.GetAllApartmentsAsync(trackChanges);
             if (apartments is null)
                 throw new Exception();
 
@@ -32,13 +32,13 @@ namespace Service
             return apartmentsDto;
         }
 
-        public IEnumerable<ApartmentDto> GetApartmentsByIds(IEnumerable<Guid> ids, 
+        public async Task<IEnumerable<ApartmentDto>> GetApartmentsByIdsAsync(IEnumerable<Guid> ids, 
             bool trackChanges)
         {
             if (ids is null)
                 throw new IdParametersBadRequestException();
 
-            var apartEntities = _repository.Apartment.GetApartmentsByIds(ids, trackChanges);
+            var apartEntities = await _repository.Apartment.GetApartmentsByIdsAsync(ids, trackChanges);
             if (apartEntities.Count() != ids.Count())
                 throw new CollectionByIdsBadRequestException();
 
@@ -47,9 +47,9 @@ namespace Service
             return apartsToReturn;
         }
 
-        public ApartmentDto GetApartmentById(Guid id, bool trackChanges)
+        public async Task<ApartmentDto> GetApartmentByIdAsync(Guid id, bool trackChanges)
         {
-            var apartment = _repository.Apartment.GetApartmentById(id, trackChanges);
+            var apartment = await _repository.Apartment.GetApartmentByIdAsync(id, trackChanges);
             if (apartment is null)
                 throw new ApartmentNotFoundException(id);
 
@@ -57,20 +57,20 @@ namespace Service
             return apartmentDto;
         }
 
-        public ApartmentDto CreateApartment(ApartmentForCreationDto apartment)
+        public async Task<ApartmentDto> CreateApartmentAsync(ApartmentForCreationDto apartment)
         {
             var apartEntity = _mapper.Map<Apartment>(apartment);
 
             _repository.Apartment.CreateApartment(apartEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
 
             var apartToReturn = _mapper.Map<ApartmentDto>(apartEntity);
 
             return apartToReturn;
         }
 
-        public (IEnumerable<ApartmentDto> apartments, string ids) CreateApartmentCollection(
-            IEnumerable<ApartmentForCreationDto> apartmentCollection)
+        public async Task<(IEnumerable<ApartmentDto> apartments, string ids)> 
+            CreateApartmentCollectionAsync(IEnumerable<ApartmentForCreationDto> apartmentCollection)
         {
             if (apartmentCollection is null)
                 throw new ApartmentCollectionBadRequestException();
@@ -79,7 +79,7 @@ namespace Service
             foreach (var apart in apartEntities)
                 _repository.Apartment.CreateApartment(apart);
 
-            _repository.Save();
+            await _repository.SaveAsync();
 
             var apartCollectionToReturn = _mapper.Map<IEnumerable<ApartmentDto>>(apartEntities);
             var ids = string.Join(",", apartCollectionToReturn.Select(x => x.Id));
@@ -87,30 +87,31 @@ namespace Service
             return (apartCollectionToReturn, ids);
         }
 
-        public void DeleteApartment(Guid id, bool trackChanges)
+        public async Task DeleteApartmentAsync(Guid id, bool trackChanges)
         {
-            var apartment = _repository.Apartment.GetApartmentById(id, trackChanges);
+            var apartment = await _repository.Apartment.GetApartmentByIdAsync(id, trackChanges);
             if (apartment is null)
                 throw new ApartmentNotFoundException(id);
 
             _repository.Apartment.DeleteApartment(apartment);
-            _repository.Save();
+            await _repository.SaveAsync();
         }
 
-        public void UpdateApartment(Guid id, ApartmentForUpdateDto apartmentForUpdate, bool trackChanges)
+        public async Task UpdateApartmentAsync(Guid id, ApartmentForUpdateDto apartmentForUpdate, 
+            bool trackChanges)
         {
-            var apartment = _repository.Apartment.GetApartmentById(id, trackChanges);
+            var apartment = await _repository.Apartment.GetApartmentByIdAsync(id, trackChanges);
             if (apartment is null)
                 throw new ApartmentNotFoundException(id);
 
             _mapper.Map(apartmentForUpdate, apartment);
-            _repository.Save();
+            await _repository.SaveAsync();
         }
 
-        public (ApartmentForUpdateDto apartmentToPatch, Apartment apartmentEntity) GetApartmentForPatch(
-            Guid id, bool trackChanges)
+        public async Task<(ApartmentForUpdateDto apartmentToPatch, Apartment apartmentEntity)> 
+            GetApartmentForPatchAsync(Guid id, bool trackChanges)
         {
-            var apartmentEntity = _repository.Apartment.GetApartmentById(id, trackChanges);
+            var apartmentEntity = await _repository.Apartment.GetApartmentByIdAsync(id, trackChanges);
             if (apartmentEntity is null)
                 throw new ApartmentNotFoundException(id);
 
@@ -119,10 +120,11 @@ namespace Service
             return (apartmentToPatch, apartmentEntity);
         }
 
-        public void SaveChangesForPatch(ApartmentForUpdateDto apartmentToPatch, Apartment apartmentEntity)
+        public async Task SaveChangesForPatchAsync(ApartmentForUpdateDto apartmentToPatch, 
+            Apartment apartmentEntity)
         {
             _mapper.Map(apartmentToPatch, apartmentEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
         }
     }
 }
