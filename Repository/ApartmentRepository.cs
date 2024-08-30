@@ -16,6 +16,9 @@ namespace Repository
             bool trackChanges)
         {
             var apartments = await FindAll(trackChanges)
+                .Filter(apartmentParameters)
+                .Search(apartmentParameters.SearchTerm)
+                .Sort(apartmentParameters.OrderBy)
                 .ToListAsync();
 
             var count = apartments.Count();

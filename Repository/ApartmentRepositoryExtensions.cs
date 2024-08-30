@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using Repository.Utility;
 using Shared.RequestFeatures;
 using System.Linq.Dynamic.Core;
 using System.Reflection;
@@ -59,29 +60,7 @@ namespace Repository
             if (string.IsNullOrWhiteSpace(orderByQueryString))
                 return apartments;
 
-            var orderParams = orderByQueryString.Trim().Split(',');
-            var propertyInfos = typeof(Apartment).GetProperties(BindingFlags.Public |
-                BindingFlags.Instance);
-            var orderQueryBuilder = new StringBuilder();
-
-            foreach (var param in orderParams)
-            {
-                if (string.IsNullOrWhiteSpace(param))
-                    continue;
-
-                var propertyFromQueryName = param.Split(',')[0];
-                var objectProperty = propertyInfos.FirstOrDefault(pi =>
-                    pi.Name.Equals(propertyFromQueryName, StringComparison.InvariantCultureIgnoreCase));
-
-                if (objectProperty is null)
-                    continue;
-
-                var direction = param.EndsWith(" desc") ? "descending" : "ascending";
-
-                orderQueryBuilder.Append($"{objectProperty.Name.ToString()} {direction},");
-            }
-
-            var orderQuery = orderQueryBuilder.ToString().TrimEnd(',', ' ');
+            var orderQuery = OrderQueryBuilder.CreateOrderQuery<Apartment>(orderByQueryString);
 
             if (string.IsNullOrWhiteSpace(orderQuery))
                 return apartments.OrderBy(a => a.Rate)
