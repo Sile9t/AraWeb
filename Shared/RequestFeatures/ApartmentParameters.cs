@@ -13,12 +13,12 @@
         public bool ValidGuestsRange => MaxGuestsCount > MinGuestsCount;
 
         public uint MinBedsCount { get; set; }
-        public uint MaxBedsCount { get; set; } = uint.MaxValue
+        public uint MaxBedsCount { get; set; } = uint.MaxValue;
 
         public bool ValidBedsRange => MaxBedsCount > MinBedsCount;
 
         public uint MinRoomsCount { get; set; }
-        public uint MaxRoomsCount { get; set; } = uint.MaxValue
+        public uint MaxRoomsCount { get; set; } = uint.MaxValue;
 
         public bool ValidRoomsRange => MaxRoomsCount > MinRoomsCount;
 
