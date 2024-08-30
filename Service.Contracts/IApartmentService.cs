@@ -1,11 +1,13 @@
 ﻿using Entities.Models;
 using Shared.Dtos;
+using Shared.RequestFeatures;
 
 namespace Service.Contracts
 {
     public interface IApartmentService
     {
-        Task<IEnumerable<ApartmentDto>> GetAllApartmentsAsync(bool trackChanges);
+        Task<IEnumerable<ApartmentDto>> GetAllApartmentsAsync(ApartmentParameters apartmentParameters,
+            bool trackChanges);
         Task<IEnumerable<ApartmentDto>> GetApartmentsByIdsAsync(IEnumerable<Guid> ids, 
             bool trackChanges);
         Task<ApartmentDto> GetApartmentByIdAsync(Guid id, bool trackChanges);

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.Dtos;
+using Shared.RequestFeatures;
 
 namespace AraWeb.Presentation
 {
@@ -18,10 +19,10 @@ namespace AraWeb.Presentation
             => _service = service;
 
         [HttpGet(Name = "GetApartments")]
-        public async Task<IActionResult> GetApartments()
+        public async Task<IActionResult> GetApartments([FromQuery] ApartmentParameters apartmentParameters)
         {
             var apartments = await _service.ApartmentService
-                .GetAllApartmentsAsync(trackChanges: false);
+                .GetAllApartmentsAsync(apartmentParameters, trackChanges: false);
 
             return Ok(apartments);
         }

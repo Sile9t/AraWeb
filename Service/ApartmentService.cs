@@ -4,6 +4,7 @@ using Entities.Exceptions;
 using Entities.Models;
 using Service.Contracts;
 using Shared.Dtos;
+using Shared.RequestFeatures;
 
 namespace Service
 {
@@ -21,9 +22,11 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<ApartmentDto>> GetAllApartmentsAsync(bool trackChanges)
+        public async Task<IEnumerable<ApartmentDto>> GetAllApartmentsAsync(
+            ApartmentParameters apartmentParameters, bool trackChanges)
         {
-            var apartments = await _repository.Apartment.GetAllApartmentsAsync(trackChanges);
+            var apartments = await _repository.Apartment.GetAllApartmentsAsync(apartmentParameters, 
+                trackChanges);
             if (apartments is null)
                 throw new Exception();
 

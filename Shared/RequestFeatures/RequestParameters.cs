@@ -15,4 +15,12 @@
             }
         }
     }
+
+    public static class Paging
+    {
+        public static IQueryable<T> Paginate<T>(this IQueryable<T> query,
+            RequestParameters requestParameters) where T : class =>
+            query.Skip((requestParameters.PageNumber - 1) * requestParameters.PageSize)
+            .Take(requestParameters.PageSize);
+    }
 }
