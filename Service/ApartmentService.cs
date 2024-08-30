@@ -22,17 +22,15 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<ApartmentDto>> GetAllApartmentsAsync(
+        public async Task<(IEnumerable<ApartmentDto> apartments, MetaData metaData)> GetAllApartmentsAsync(
             ApartmentParameters apartmentParameters, bool trackChanges)
         {
-            var apartments = await _repository.Apartment.GetAllApartmentsAsync(apartmentParameters, 
+            var apartmentsWithMetaData = await _repository.Apartment.GetAllApartmentsAsync(apartmentParameters, 
                 trackChanges);
-            if (apartments is null)
-                throw new Exception();
+            
+            var apartmentsDto = _mapper.Map<IEnumerable<ApartmentDto>>(apartmentsWithMetaData);
 
-            var apartmentsDto = _mapper.Map<IEnumerable<ApartmentDto>>(apartments);
-
-            return apartmentsDto;
+            return (apartments: apartmentsDto, metaData: apartmentsWithMetaData.MetaData);
         }
 
         public async Task<IEnumerable<ApartmentDto>> GetApartmentsByIdsAsync(IEnumerable<Guid> ids, 

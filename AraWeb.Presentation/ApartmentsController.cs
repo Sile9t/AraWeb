@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.Dtos;
 using Shared.RequestFeatures;
+using System.Text.Json;
 
 namespace AraWeb.Presentation
 {
@@ -21,10 +22,13 @@ namespace AraWeb.Presentation
         [HttpGet(Name = "GetApartments")]
         public async Task<IActionResult> GetApartments([FromQuery] ApartmentParameters apartmentParameters)
         {
-            var apartments = await _service.ApartmentService
+            var pagedResult = await _service.ApartmentService
                 .GetAllApartmentsAsync(apartmentParameters, trackChanges: false);
 
-            return Ok(apartments);
+            Response.Headers.Add("X-Pagination",
+                JsonSerializer.Serialize(pagedResult.metaData));
+
+            return Ok(pagedResult.apartments);
         }
 
         [HttpGet("collection/{ids}", Name = "ApartmentCollection")]

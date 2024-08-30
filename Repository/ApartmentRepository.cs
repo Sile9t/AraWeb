@@ -12,15 +12,21 @@ namespace Repository
         {
         }
 
-        public async Task<IEnumerable<Apartment>> GetAllApartmentsAsync(ApartmentParameters apartmentParameters,
+        public async Task<PagedList<Apartment>> GetAllApartmentsAsync(ApartmentParameters apartmentParameters,
             bool trackChanges)
         {
             var apartments = await FindAll(trackChanges)
+                .ToListAsync();
+
+            var count = apartments.Count();
+
+            var apartmentsForPage = await FindAll(trackChanges)
                 .OrderBy(a => a.Name)
                 .Paginate(apartmentParameters)
                 .ToListAsync();
 
-            return apartments;
+            return new PagedList<Apartment>(apartmentsForPage, count, apartmentParameters.PageNumber,
+                apartmentParameters.PageSize);
         }
 
         public async Task<IEnumerable<Apartment>> GetApartmentsByIdsAsync(IEnumerable<Guid> ids,
