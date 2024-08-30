@@ -46,7 +46,11 @@ namespace AraWeb
             })
                 .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
 
-            builder.Services.AddScoped<AsyncValidationFilterAttribute>();
+            builder.Services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
+            builder.Services.AddScoped<ValidationFilterAttribute>();
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(s =>
