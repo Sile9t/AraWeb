@@ -83,7 +83,7 @@ namespace AraWeb.Presentation
             return NoContent();
         }
 
-        [HttpPut("{id:guid}")]
+        [HttpPut("{id:guid}", Name = "UpdateApartment")]
         [ServiceFilter(typeof(AsyncValidationFilterAttribute))]
         public async Task<IActionResult> UpdateApartment(Guid id, [FromBody] ApartmentForUpdateDto apartment)
         {
