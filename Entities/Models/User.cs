@@ -1,17 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Entities.Models
 {
-    public class User
+    public class User : IdentityUser
     {
-        public Guid Id { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
 
-        public string? Name { get; set; }
-        [Required(ErrorMessage = "Phone number is required!")]
-        [DataType(DataType.PhoneNumber)]
-        public string? PhoneNumber { get; set; }
-
-        public ICollection<Apartment>? Apartments { get; set; }
-        public ICollection<Occupancy>? Occupancies { get; set; }
+        public virtual ICollection<Apartment>? Apartments { get; set; }
+        public virtual ICollection<Occupancy>? Occupancies { get; set; }
     }
 }

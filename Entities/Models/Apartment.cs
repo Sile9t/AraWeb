@@ -16,7 +16,7 @@ namespace Entities.Models
         public string? Address { get; set; }
 
         [Required(ErrorMessage = "Capacity square field is required!")]
-        public double CapacitySquare { get; set; }
+        public double Square { get; set; }
 
         [Required(ErrorMessage = "Guests count field is required!")]
         public int GuestsCount { get; set; }
@@ -31,9 +31,9 @@ namespace Entities.Models
         public long ReviewsCount { get; set; }
 
         [ForeignKey(nameof(User))]
-        public Guid OwnerId { get; set; }
-        public User? Owner { get; set; }
-        public ICollection<Occupancy>? Occupancies { get; set; }
-        public ICollection<ReservationDate>? ReservationDates { get; set; }
+        public string OwnerId { get; set; }
+        public virtual User? Owner { get; set; }
+        public virtual ICollection<Occupancy>? Occupancies { get; set; }
+        public virtual ICollection<ReservationDate>? ReservationDates { get; set; }
     }
 }

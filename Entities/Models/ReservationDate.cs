@@ -1,23 +1,21 @@
-﻿using Entities.Models;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Entities
+namespace Entities.Models
 {
     public class ReservationDate
     {
+        [DataType(DataType.Date)]
         public DateTime Date { get; set; }
+        public Guid ApartmentId { get; set; }
 
         public decimal Cost { get; set; }
         public decimal ExtraCharge { get; set; }
+        public DateStateId DateStateId { get; set; }
+        public DateState DateState { get; set; }
 
-        [ForeignKey(nameof(Apartment))]
-        public Guid ApartmentId { get; set; }
-        public Apartment? Apartment { get; set; }
-        [ForeignKey(nameof(User))]
-        public Guid? ReservedById { get; set; }
-        public User? ReservedBy { get; set; }
         [ForeignKey(nameof(Occupancy))]
         public Guid? OccupancyId { get; set; }
-        public Occupancy? Occupancy { get; set; }
+        public virtual Occupancy? Occupancy { get; set; }
     }
 }

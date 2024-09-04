@@ -12,6 +12,7 @@ namespace Service.Contracts
         Task<IEnumerable<ApartmentDto>> GetApartmentsByIdsAsync(IEnumerable<Guid> ids, 
             bool trackChanges);
         Task<ApartmentDto> GetApartmentByIdAsync(Guid id, bool trackChanges);
+        Task<IEnumerable<ApartmentDto>> GetApartmentsForOwnerAsync(Guid id, bool trackChanges);
         Task<ApartmentDto> CreateApartmentAsync(ApartmentForCreationDto apartmentForCreation);
         Task<(IEnumerable<ApartmentDto> apartments, string ids)> CreateApartmentCollectionAsync(
             IEnumerable<ApartmentForCreationDto> apartmentCollection);

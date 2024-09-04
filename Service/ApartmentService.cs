@@ -53,6 +53,14 @@ namespace Service
             return apartsToReturn;
         }
 
+        public async Task<IEnumerable<ApartmentDto>> GetApartmentsForOwnerAsync(Guid id, bool trackChanges)
+        {
+            var apartments = await _repository.Apartment.GetApartmentsForOwnerAsync(id, trackChanges);
+
+            var apartmentsDto = _mapper.Map<IEnumerable<ApartmentDto>>(apartments);
+            return apartmentsDto;
+        }
+
         public async Task<ApartmentDto> GetApartmentByIdAsync(Guid id, bool trackChanges)
         {
             var apartment = await _repository.Apartment.GetApartmentByIdAsync(id, trackChanges);

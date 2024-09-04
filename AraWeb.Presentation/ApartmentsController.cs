@@ -87,8 +87,8 @@ namespace AraWeb.Presentation
         [ServiceFilter(typeof(AsyncValidationFilterAttribute))]
         public async Task<IActionResult> UpdateApartment(Guid id, [FromBody] ApartmentForUpdateDto apartment)
         {
-            //if (apartment is null)
-            //    return BadRequest("ApartmentForUpdateDto object is null");
+            if (apartment is null)
+                return BadRequest("ApartmentForUpdateDto object is null");
 
             await _service.ApartmentService.UpdateApartmentAsync(id, apartment, trackChanges: true);
 

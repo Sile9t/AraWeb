@@ -14,13 +14,15 @@ namespace Entities.Models
         public DateTime EvictionDate { get; set; }
 
         public decimal TotalCost { get; set; }
+        public OccupStateId OccupStateId { get; set; }
+        public virtual OccupState? State { get; set; }
 
         [ForeignKey(nameof(User))]
-        public Guid ReservedById { get; set; }
-        public User? ReservedBy {  get; set; }
+        public string? ReservedById { get; set; }
+        public virtual User? ReservedBy {  get; set; }
         [ForeignKey(nameof(Apartment))]
-        public Guid ApartmentId { get; set; }
-        public Apartment Apartment { get; set; }
+        public Guid? ApartmentId { get; set; }
+        public virtual Apartment? Apartment { get; set; }
         public ICollection<ReservationDate>? ReservedDates { get; set; }
     }
 }

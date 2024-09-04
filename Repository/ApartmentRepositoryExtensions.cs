@@ -20,7 +20,7 @@ namespace Repository
 
         public static IQueryable<Apartment> FilterBySquare(this IQueryable<Apartment> apartments,
             double minSquare, double maxSquare) =>
-            apartments.Where(a => (a.CapacitySquare >= minSquare && a.CapacitySquare <= maxSquare));
+            apartments.Where(a => (a.Square >= minSquare && a.Square <= maxSquare));
 
         public static IQueryable<Apartment> FilterByGuestsCount(this IQueryable<Apartment> apartments,
             uint minGuestsCount, uint maxGuestsCount) =>
