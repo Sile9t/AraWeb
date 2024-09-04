@@ -2,7 +2,7 @@
 
 namespace Shared.Dtos
 {
-    public record UserForManipulationDto
+    public abstract record UserForManipulationDto
     {
         public string? FirstName { get; init; }
         public string? LastName { get; init; }
