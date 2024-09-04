@@ -8,6 +8,9 @@ namespace AraWeb
     {
         public MappingProfile()
         {
+            CreateMap<UserForRegistrationDto, User>();
+            CreateMap<UserForUpdateDto, User>();
+
             CreateMap<Apartment, ApartmentDto>();
             CreateMap<ApartmentForCreationDto, Apartment>();
             CreateMap<ApartmentForUpdateDto, Apartment>().ReverseMap();
