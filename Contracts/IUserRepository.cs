@@ -5,13 +5,11 @@ namespace Contracts
 {
     public interface IUserRepository
     {
-        Task<PagedList<User>> GetAllUsersAsync(
+        Task<PagedList<User>> GetAllUsersAsync(RequestParameters requestParameters,
             bool trackChanges);
-        Task<IEnumerable<User>> GetUsersByIdsAsync(IEnumerable<Guid> ids,
+        Task<IEnumerable<User>> GetUsersByIdsAsync(IEnumerable<string> ids,
             bool trackChanges);
-        Task<User> GetUserByIdAsync(Guid id, bool trackChanges);
-        Task<User> GetUsersByPhoneNumberAsync(string phoneNumber, bool trackChanges);
-        void CreateUser(User user);
-        void DeleteUser(User user);
+        Task<User> GetUserByIdAsync(string id, bool trackChanges);
+        Task<User> GetUserByPhoneNumberAsync(string phoneNumber, bool trackChanges);
     }
 }
