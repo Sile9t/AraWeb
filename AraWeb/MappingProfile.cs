@@ -8,6 +8,7 @@ namespace AraWeb
     {
         public MappingProfile()
         {
+            CreateMap<User, UserDto>();
             CreateMap<UserForRegistrationDto, User>();
             CreateMap<UserForUpdateDto, User>();
 

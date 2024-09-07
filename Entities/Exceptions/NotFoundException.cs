@@ -13,4 +13,17 @@
         {
         }
     }
+
+    public sealed class UserNotFoundException : NotFoundException
+    {
+        public UserNotFoundException() :
+            base($"User doesn't exist in the database.")
+        {
+        }
+
+        public UserNotFoundException(string id) :
+            base($"User with id: {id} doesn't exist in the database.")
+        {
+        }
+    }
 }

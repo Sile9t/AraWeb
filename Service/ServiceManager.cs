@@ -22,7 +22,7 @@ namespace Service
             IConfiguration configuration)
         {
             _userService = new Lazy<IUserService>(() => 
-                new UserService(repositoryManager, logger));
+                new UserService(repositoryManager, logger, mapper));
             _authenticationService= new Lazy<IAuthenticationService>(() =>
                 new AuthenticationService(logger, mapper, userManager, configuration));
             _apartmentService = new Lazy<IApartmentService>(() => 
