@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AraWeb.ActionFilters;
+using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.Dtos;
 
@@ -14,6 +15,7 @@ namespace AraWeb.Presentation
             => _service = service;
 
         [HttpPost("register")]
+        [ServiceFilter(typeof(AsyncValidationFilterAttribute))]
         public async Task<IActionResult> RegisterUser([FromBody] 
             UserForRegistrationDto userForRegistration)
         {
