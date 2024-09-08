@@ -8,6 +8,9 @@ namespace Entities.Models
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
 
+        public string? RefreshToken { get; set; }
+        public DateTime RefreshTokenExperyTime { get; set; }
+
         public virtual ICollection<Apartment>? Apartments { get; set; }
         public virtual ICollection<Occupancy>? Occupancies { get; set; }
     }
