@@ -55,7 +55,7 @@ namespace AraWeb
             builder.Services.AddScoped<IDataShaper<ApartmentDto>, DataShaper<ApartmentDto>>();
             builder.Services.AddScoped<IApartmentLinks, ApartmentLinks>();
 
-            builder.Services.AddCustomMediTypes();
+            builder.Services.AddCustomMediaTypes();
 
             builder.Services.Configure<ApiBehaviorOptions>(options =>
             {
@@ -70,6 +70,9 @@ namespace AraWeb
                 s.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Ara Web", 
                     Version = "v1" });
             });
+
+            builder.Services.AddAuthentication();
+            builder.Services.ConfigureJWT(builder.Configuration);
 
             var app = builder.Build();
 
