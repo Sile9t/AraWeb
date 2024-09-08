@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Contracts;
+using Entities.Exceptions;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -72,7 +73,7 @@ namespace Service
 
             var accessToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
-            return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+            return new TokenDto(accessToken, refreshToken);
         }
 
         private SigningCredentials GetSigningCredentials()
@@ -151,6 +152,20 @@ namespace Service
                 throw new SecurityTokenException("Invalid token");
 
             return principal;
+        }
+
+        public async Task<TokenDto> RefreshToken(TokenDto tokenDto)
+        {
+            var principal = GetPrincipalFromExpiredToken(tokenDto.AccessToken);
+
+            var user = await _userManager.FindByNameAsync(principal!.Identity!.Name!);
+            if (user is null || user.RefreshToken != tokenDto.RefreshToken ||
+                user.RefreshTokenExperyTime <= DateTime.Now)
+                throw new RefreshTokenBadRequest();
+
+            _user = user;
+
+            return await CreateToken(populateExp: false);
         }
     }
 }

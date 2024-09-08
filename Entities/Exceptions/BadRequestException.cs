@@ -7,6 +7,15 @@
         { }
     }
 
+    public class RefreshTokenBadRequest : BadRequestException
+    {
+        public RefreshTokenBadRequest() 
+            : base("Invalid client request. The tokenDto has some invalid values.")
+        {
+            
+        }
+    }
+
     public sealed class IdParametersBadRequestException : BadRequestException
     {
         public IdParametersBadRequestException()
