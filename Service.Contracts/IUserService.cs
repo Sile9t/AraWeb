@@ -13,5 +13,7 @@ namespace Service.Contracts
             bool trackChanges);
         Task<UserDto> GetUserByIdAsync(Guid id, bool trackChanges);
         Task<UserDto> GetUserByPhoneNumberAsync(string phoneNumber, bool trackChanges);
+        Task DeleteUserAsync(Guid id, bool trackChanges);
+        Task UpdateUserAsync(Guid id, UserForUpdateDto userForUpdate, bool trackChanges);
     }
 }

@@ -42,20 +42,5 @@ namespace AraWeb.Presentation
 
             return Ok(tokenDto);
         }
-
-        [HttpPut]
-        [ServiceFilter(typeof(AsyncValidationFilterAttribute))]
-        public async Task<IActionResult> UpdateUser([FromBody] UserForUpdateDto user)
-        {
-            var result = await _service.AuthenticationService.UpdateUser(user);
-            if (!result.Succeeded)
-            {
-                foreach (var error in result.Errors)
-                    ModelState.TryAddModelError(error.Code, error.Description);
-                return BadRequest(ModelState);
-            }
-
-            return StatusCode(201);
-        }
     }
 }

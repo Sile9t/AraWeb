@@ -42,5 +42,11 @@ namespace Repository
         public async Task<User> GetUserByIdAsync(string id, bool trackChanges) =>
             await FindByCondition(u => u.Id.Equals(id), trackChanges)
                 .FirstOrDefaultAsync();
+
+        public void DeleteUser(User user) =>
+            Delete(user);
+
+        public void UpdateUser(User user) =>
+            Update(user);
     }
 }

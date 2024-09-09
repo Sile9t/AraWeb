@@ -69,5 +69,25 @@ namespace Service
 
             return userDtos;
         }
+
+        public async Task DeleteUserAsync(Guid id, bool trackChanges)
+        {
+            var user = await _repository.User.GetUserByIdAsync(id.ToString(), trackChanges);
+            if (user is null)
+                throw new UserNotFoundException(id);
+
+            _repository.User.DeleteUser(user);
+            await _repository.SaveAsync();
+        }
+
+        public async Task UpdateUser(Guid id, UserForUpdateDto userForUpdate, bool trackChanges)
+        {
+            var user = await _repository.User.GetUserByIdAsync(id.ToString(), trackChanges);
+            if (user is null)
+                throw new UserNotFoundException(id);
+
+            _mapper.Map(userForUpdate, user);
+            await _repository.SaveAsync();
+        }
     }
 }

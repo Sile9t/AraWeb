@@ -11,5 +11,6 @@ namespace Contracts
             bool trackChanges);
         Task<User> GetUserByIdAsync(string id, bool trackChanges);
         Task<User> GetUserByPhoneNumberAsync(string phoneNumber, bool trackChanges);
+        void DeleteUser(User user);
     }
 }

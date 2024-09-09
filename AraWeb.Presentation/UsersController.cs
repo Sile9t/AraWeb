@@ -4,6 +4,7 @@ using AraWeb.Presentation.ModelBinder;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
+using Shared.Dtos;
 using Shared.RequestFeatures;
 using System.Text.Json;
 
@@ -20,9 +21,9 @@ namespace AraWeb.Presentation
 
         [HttpGet(Name = "GetAllUsers")]
         [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
-        public async Task<IActionResult> GetAllUsers([FromQuery]UserParameters userParameters)
+        public async Task<IActionResult> GetAllUsers([FromQuery] UserParameters userParameters)
         {
-            var users = await _service.UserService.GetAllUsersAsync(userParameters, 
+            var users = await _service.UserService.GetAllUsersAsync(userParameters,
                 trackChanges: false);
 
             Response.Headers.Add("X-Pagination",
@@ -32,7 +33,7 @@ namespace AraWeb.Presentation
         }
 
         [HttpGet("collection")]
-        public async Task<IActionResult> GetUserCollection([ModelBinder(BinderType 
+        public async Task<IActionResult> GetUserCollection([ModelBinder(BinderType
             = typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
         {
             var users = await _service.UserService
@@ -48,6 +49,26 @@ namespace AraWeb.Presentation
                 .GetUserByIdAsync(id, trackChanges: false);
 
             return Ok(user);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteUser(Guid id)
+        {
+            await _service.UserService.DeleteUserAsync(id, trackChanges: false);
+
+            return NoContent();
+        }
+
+        [HttpPut("{id:guid}")]
+        [ServiceFilter(typeof(AsyncValidationFilterAttribute))]
+        public async Task<IActionResult> UpdateUser(Guid id, [FromBody] UserForUpdateDto user)
+        {
+            if (user is null)
+                return BadRequest("UserForUpdateDto object is null.");
+
+            await _service.UserService.UpdateUserAsync(id, user, trackChanges: true);
+            
+            return StatusCode(201);
         }
     }
 }
