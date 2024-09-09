@@ -5,7 +5,7 @@ namespace Contracts
 {
     public interface IUserRepository
     {
-        Task<PagedList<User>> GetAllUsersAsync(RequestParameters requestParameters,
+        Task<PagedList<User>> GetAllUsersAsync(UserParameters userParameters,
             bool trackChanges);
         Task<IEnumerable<User>> GetUsersByIdsAsync(IEnumerable<string> ids,
             bool trackChanges);

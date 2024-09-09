@@ -56,6 +56,17 @@ namespace Service
             return result;
         }
 
+        public async Task<IdentityResult> UpdateUser(UserForUpdateDto userForUpdate)
+        {
+            _user = _mapper.Map<User>(userForUpdate);
+
+            var result = await _userManager.UpdateAsync(_user);
+            if (result.Succeeded)
+                await _userManager.AddToRolesAsync(_user, userForUpdate.Roles!);
+            
+            return result;
+        }
+
         public async Task<TokenDto> CreateToken(bool populateExp)
         {
             var signingCredentials = GetSigningCredentials();

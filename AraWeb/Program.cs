@@ -106,7 +106,7 @@ namespace AraWeb
             app.UseCors("CorsPolicy");
 
             app.UseAuthorization();
-
+            app.UseAuthentication();
 
             app.MapControllers();
 

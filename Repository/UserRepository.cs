@@ -14,7 +14,7 @@ namespace Repository
             
         }
 
-        public async Task<PagedList<User>> GetAllUsersAsync(RequestParameters requestParameters, bool trackChanges)
+        public async Task<PagedList<User>> GetAllUsersAsync(UserParameters userParameters, bool trackChanges)
         {
             var users = await FindAll(trackChanges)
                 .ToListAsync();
@@ -23,11 +23,11 @@ namespace Repository
 
             var usersForPage = await FindAll(trackChanges)
                 .OrderBy(a => a.UserName)
-                .Paginate(requestParameters)
+                .Paginate(userParameters)
                 .ToListAsync();
 
-            return new PagedList<User>(usersForPage, count, requestParameters.PageNumber,
-                requestParameters.PageSize);
+            return new PagedList<User>(usersForPage, count, userParameters.PageNumber,
+                userParameters.PageSize);
         }
 
         public async Task<IEnumerable<User>> GetUsersByIdsAsync(IEnumerable<string> ids, 

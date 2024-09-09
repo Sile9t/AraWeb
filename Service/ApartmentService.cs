@@ -34,7 +34,7 @@ namespace Service
             
             var apartmentsDto = _mapper.Map<IEnumerable<ApartmentDto>>(apartmentsWithMetaData);
             var links = _apartmentLinks.TryGenerateLinks(apartmentsDto,
-                linkParameters.ApartmentParameters.Fields, linkParameters.HttpContext);
+                linkParameters.ApartmentParameters.Fields!, linkParameters.HttpContext);
             return (apartments: links, metaData: apartmentsWithMetaData.MetaData);
         }
 

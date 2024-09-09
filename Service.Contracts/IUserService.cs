@@ -7,11 +7,11 @@ namespace Service.Contracts
 {
     public interface IUserService
     {
-        Task<MetaData> GetAllUsersAsync(RequestParameters requestParameters,
+        Task<(IEnumerable<UserDto> users, MetaData metaData)> GetAllUsersAsync(UserParameters userParameters,
             bool trackChanges);
-        Task<IEnumerable<UserDto>> GetUsersByIdsAsync(IEnumerable<string> ids,
+        Task<IEnumerable<UserDto>> GetUsersByIdsAsync(IEnumerable<Guid> ids,
             bool trackChanges);
-        Task<UserDto> GetUserByIdAsync(string id, bool trackChanges);
+        Task<UserDto> GetUserByIdAsync(Guid id, bool trackChanges);
         Task<UserDto> GetUserByPhoneNumberAsync(string phoneNumber, bool trackChanges);
     }
 }
