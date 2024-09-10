@@ -12,7 +12,7 @@ namespace Repository
 
         }
 
-        public async Task<IEnumerable<ReservationDate>> GetAllAsync(bool trackChanges)
+        public async Task<IEnumerable<ReservationDate>> GetAllDatesAsync(bool trackChanges)
         {
             var dates = await FindAll(trackChanges)
                 .ToListAsync();
@@ -28,10 +28,20 @@ namespace Repository
             return dates;
         }
 
-        void Create(ReservationDate reservationDate) =>
+        public async Task<IEnumerable<ReservationDate>> GetDatesForUserAsync(string userId,
+            bool trackChanges) =>
+            await FindByCondition(d => d.Occupancy!.ReservedById!.Equals(userId), trackChanges)
+                .ToListAsync();
+
+        public async Task<ReservationDate?> GetDate(DateTime date, Guid apartId, bool trackChanges) =>
+            await FindByCondition(d => d.Date.Date.Equals(date) 
+                && d.ApartmentId.Equals(apartId), trackChanges)
+                .FirstOrDefaultAsync();
+
+        public void CreateDate(ReservationDate reservationDate) =>
             Create(reservationDate);
 
-        void Delete(ReservationDate reservationDate) =>
+        public void DeleteDate(ReservationDate reservationDate) =>
             Delete(reservationDate);
     }
 }

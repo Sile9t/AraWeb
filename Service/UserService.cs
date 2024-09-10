@@ -80,7 +80,7 @@ namespace Service
             await _repository.SaveAsync();
         }
 
-        public async Task UpdateUser(Guid id, UserForUpdateDto userForUpdate, bool trackChanges)
+        public async Task UpdateUserAsync(Guid id, UserForUpdateDto userForUpdate, bool trackChanges)
         {
             var user = await _repository.User.GetUserByIdAsync(id.ToString(), trackChanges);
             if (user is null)

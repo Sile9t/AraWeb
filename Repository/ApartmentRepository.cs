@@ -17,8 +17,8 @@ namespace Repository
         {
             var apartments = await FindAll(trackChanges)
                 .Filter(apartmentParameters)
-                .Search(apartmentParameters.SearchTerm)
-                .Sort(apartmentParameters.OrderBy)
+                .Search(apartmentParameters.SearchTerm!)
+                .Sort(apartmentParameters.OrderBy!)
                 .ToListAsync();
 
             var count = apartments.Count();
@@ -45,9 +45,9 @@ namespace Repository
             return apartments;
         }
 
-        public async Task<Apartment> GetApartmentByIdAsync(Guid id, bool trackChanges) =>
+        public async Task<Apartment?> GetApartmentByIdAsync(Guid id, bool trackChanges) =>
             await FindByCondition(a => a.Id.Equals(id), trackChanges)
-            .SingleOrDefaultAsync();
+                .SingleOrDefaultAsync();
 
         public void CreateApartment(Apartment apartment) =>
             Create(apartment);

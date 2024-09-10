@@ -18,7 +18,7 @@ namespace Service
 
         public async Task<IEnumerable<ReservationDate>> GetAllDatesAsync(bool trackChanges)
         {
-            var dates = await _repository.ReservationDate.GetAllAsync(trackChanges);
+            var dates = await _repository.ReservationDate.GetAllDatesAsync(trackChanges);
 
             return dates;
         }
@@ -34,24 +34,79 @@ namespace Service
             return dates;
         }
 
-        public Task<ReservationDate> CreateDateAsync(ReservationDate reservationDate)
+        public async Task<IEnumerable<ReservationDate>> GetDatesForUserAsync(Guid userId,
+            bool trackChanges)
         {
-            throw new NotImplementedException();
+            var dates = await _repository.ReservationDate.GetDatesForUserAsync(userId.ToString(),
+                trackChanges);
+
+            return dates;
         }
 
-        public Task<IEnumerable<ReservationDate>> CreateDateCollectionAsync(IEnumerable<ReservationDate> datesCollection)
+        public async Task<ReservationDate> GetDate(DateTime date, Guid apartId, 
+            bool apartTrackChanges, bool dateTrackChanges)
         {
-            throw new NotImplementedException();
+            var apart = GetApartIfExist(apartId, apartTrackChanges);
+
+            var reservationDate = await _repository.ReservationDate
+                .GetDate(date, apartId, dateTrackChanges);
+            if (reservationDate is null)
+                reservationDate = _repository.ReservationDate
+                    .CreateDate(date, apartId);
+
+            return reservationDate;
         }
 
-        public Task UpdateAsync(ReservationDate reservationDate)
+        public async Task CreateDateAsync(ReservationDate reservationDate)
         {
-            throw new NotImplementedException();
+            _repository.ReservationDate.CreateDate(reservationDate);
+
+            await _repository.SaveAsync();
         }
 
-        public Task DeleteAsync(ReservationDate reservationDate)
+        public async Task CreateDateCollectionAsync(
+            IEnumerable<ReservationDate> datesCollection)
         {
-            throw new NotImplementedException();
+            foreach (var date in datesCollection)
+                _repository.ReservationDate.CreateDate(date);
+
+            await _repository.SaveAsync();
+        }
+
+        public async Task UpdateAsync(DateTime date, Guid apartId, ReservationDate reservationDate,
+            bool apartTrackChanges, bool dateTrackChanges)
+        {
+            var apart = await _repository.Apartment.GetApartmentByIdAsync(apartId, 
+                apartTrackChanges);
+            if (apart is null)
+                throw new ApartmentNotFoundException(apartId);
+
+            var reservDate = await _repository.ReservationDate.GetDate(date, apartId, 
+                dateTrackChanges);
+            if (reservDate is null)
+            {
+                var newDate = new ReservationDate(date, apartId);
+                _repository.ReservationDate.CreateDate(newDate);
+            }
+
+            await _repository.SaveAsync();
+        }
+
+        public async Task DeleteAsync(ReservationDate reservationDate)
+        {
+            _repository.ReservationDate.DeleteDate(reservationDate);
+
+            await _repository.SaveAsync();
+        }
+
+        private async Task<Apartment> GetApartIfExist(Guid apartId, bool trackChanges)
+        {
+            var apart = await _repository.Apartment
+                .GetApartmentByIdAsync(apartId, trackChanges);
+            if (apart is null)
+                throw new ApartmentNotFoundException(apartId);
+
+            return apart;
         }
     }
 }

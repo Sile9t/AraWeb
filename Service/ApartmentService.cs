@@ -71,8 +71,13 @@ namespace Service
             return apartmentDto;
         }
 
-        public async Task<ApartmentDto> CreateApartmentAsync(ApartmentForCreationDto apartment)
+        public async Task<ApartmentDto> CreateApartmentForUserAsync(Guid userId, 
+            ApartmentForCreationDto apartment, bool trackChanges)
         {
+            var user = _repository.User.GetUserByIdAsync(userId.ToString(), trackChanges);
+            if (user is null)
+                throw new UserNotFoundException(userId);
+
             var apartEntity = _mapper.Map<Apartment>(apartment);
 
             _repository.Apartment.CreateApartment(apartEntity);
@@ -112,9 +117,9 @@ namespace Service
         }
 
         public async Task UpdateApartmentAsync(Guid id, ApartmentForUpdateDto apartmentForUpdate, 
-            bool trackChanges)
+            bool apartTrackChanges)
         {
-            var apartment = await _repository.Apartment.GetApartmentByIdAsync(id, trackChanges);
+            var apartment = await _repository.Apartment.GetApartmentByIdAsync(id, apartTrackChanges);
             if (apartment is null)
                 throw new ApartmentNotFoundException(id);
 
