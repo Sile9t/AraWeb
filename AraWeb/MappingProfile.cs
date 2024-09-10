@@ -15,6 +15,10 @@ namespace AraWeb
             CreateMap<Apartment, ApartmentDto>();
             CreateMap<ApartmentForCreationDto, Apartment>();
             CreateMap<ApartmentForUpdateDto, Apartment>().ReverseMap();
+
+            CreateMap<ReservationDate, ReservationDateDto>();
+            CreateMap<ReservationDateForCreationDto, ReservationDate>();
+            CreateMap<ReservationDateForUpdateDto, ReservationDate>();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
+using Shared.Dtos;
 
 namespace AraWeb.Presentation
 {
@@ -24,10 +25,19 @@ namespace AraWeb.Presentation
             return Ok(dates);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateDate([FromBody]ReservationDate reservationDate)
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> GetDatesForUserApartments(Guid userId)
         {
-            await _service.ReservationDateService.CreateDateAsync(reservationDate);
+            var dates = await _service.ReservationDateService
+                .GetDatesForUserAsync(userId, trackChanges: false);
+
+            return Ok(dates);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateDate([FromBody]ReservationDateForCreationDto dateDto)
+        {
+            await _service.ReservationDateService.CreateDateAsync(dateDto);
 
             return NoContent();
         }

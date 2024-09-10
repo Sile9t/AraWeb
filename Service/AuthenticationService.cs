@@ -56,6 +56,11 @@ namespace Service
             return result;
         }
 
+        public UserDto GetUserProfile()
+        {
+            return _mapper.Map<UserDto>(_user);
+        }
+
         public async Task<TokenDto> CreateToken(bool populateExp)
         {
             var signingCredentials = GetSigningCredentials();

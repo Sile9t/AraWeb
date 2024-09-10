@@ -11,9 +11,9 @@ namespace Entities.Models
 
         public decimal Cost { get; set; }
         public decimal ExtraCharge { get; set; }
-        public int DateStateId { get; set; }
-        public DateState DateState { get; set; }
-        
+        public DateStateId DateStateId { get; set; }
+        public DateState? DateState { get; set; }
+
         [ForeignKey(nameof(Occupancy))]
         public Guid? OccupancyId { get; set; }
         public virtual Occupancy? Occupancy { get; set; }
@@ -22,7 +22,7 @@ namespace Entities.Models
         {
             Date = date;
             ApartmentId = apartId;
-            DateState = Models.DateState.Empty;
+            DateStateId = DateStateId.Empty;
         }
     }
 }

@@ -30,7 +30,7 @@ namespace Repository
             {
                 entity.HasKey(e => new { e.Date, e.ApartmentId});
 
-                entity.Property(rd => rd.DateState)
+                entity.Property(rd => rd.DateStateId)
                     .HasConversion<int>();
 
                 entity.HasOne(rd => rd.DateState)
@@ -38,13 +38,13 @@ namespace Repository
                     .HasForeignKey(rd => rd.DateStateId);
             });
 
-            modelBuilder.Entity<DateStateList>(entity =>
+            modelBuilder.Entity<DateState>(entity =>
             {
                 entity.Property(ds => ds.DateStateId)
                     .HasConversion<int>();
 
-                entity.HasData(Enum.GetValues(typeof(DateState)).Cast<DateState>()
-                    .Select(dsi => new DateStateList() { DateStateId = dsi, Name = dsi.ToString() }));
+                entity.HasData(Enum.GetValues(typeof(DateStateId)).Cast<DateStateId>()
+                    .Select(dsi => new DateState() { DateStateId = dsi, Name = dsi.ToString() }));
             });
 
             modelBuilder.Entity<Occupancy>(entity =>

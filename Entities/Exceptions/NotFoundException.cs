@@ -26,4 +26,12 @@
         {
         }
     }
+
+    public sealed class DateNotFoundException : NotFoundException
+    {
+        public DateNotFoundException(DateTime date, Guid apartId)
+            : base($"Date record for: {date.Date} to apartment with id: {apartId} doesn't exist in the database.")
+        {
+        }
+    }
 }
