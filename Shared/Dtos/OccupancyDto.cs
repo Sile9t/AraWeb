@@ -1,22 +1,21 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Shared.Dtos
 {
     public record OccupancyDto
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; init; }
 
-        public DateTime CreatedOn { get; set; } = DateTime.Now;
+        public DateTime CreatedOn { get; init; }
         [DataType(DataType.Date)]
-        public DateTime OccupancyDate { get; set; }
+        public DateTime OccupancyDate { get; init; }
         [DataType(DataType.Date)]
-        public DateTime EvictionDate { get; set; }
+        public DateTime EvictionDate { get; init; }
 
-        public decimal TotalCost { get; set; }
-        public int OccupStateId { get; set; } = 0;
+        public decimal TotalCost { get; init; }
+        public int OccupStateId { get; init; } = 0;
         
-        public string? ReservedById { get; set; }
-        public Guid? ApartmentId { get; set; }
+        public string? ReservedById { get; init; }
+        public Guid? ApartmentId { get; init; }
     }
 }

@@ -1,12 +1,16 @@
-﻿namespace Contracts
+﻿using Entities.Models;
+
+namespace Contracts
 {
     public interface IOccupancyRepository
     {
-        Task<IEnumerable<OccupancyDto>> GetAllOccupanciesAsync(bool trackChanges);
-        Task<IEnumerable<OccupancyDto>> GetOccupanciesForUserAsync(string userId, 
+        Task<IEnumerable<Occupancy>> GetAllOccupanciesAsync(bool trackChanges);
+        Task<IEnumerable<Occupancy>> GetOccupanciesForUserAsync(string userId, 
             bool trackChanges);
-        Task<IEnumerable<OccupancyDto>> GetOccupanciesForApartmentAsync(string userId,
+        Task<IEnumerable<Occupancy>> GetOccupanciesForApartmentAsync(Guid apartId,
             bool trackChanges);
-        Task<OccupancyDto> GetOccupancyById(int id, trackChanges)
+        Task<Occupancy> GetOccupancyById(int id, bool trackChanges);
+        void CreateOccupancy(Guid apartId, Occupancy occupancy);
+        void DeleteOccupancy(Guid id, bool trackChanges);
     }
 }
