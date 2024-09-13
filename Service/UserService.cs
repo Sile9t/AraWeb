@@ -32,7 +32,7 @@ namespace Service
             return (users: usersDto, metaData: usersPage.MetaData);
         }
 
-        public async Task<UserDto> GetUserByIdAsync(Guid id, bool trackChanges)
+        public async Task<UserDto> GetUserByIdAsync(string id, bool trackChanges)
         {
             var user = await _repository.User.GetUserByIdAsync(id.ToString(), trackChanges);
             if (user is null)
@@ -54,14 +54,12 @@ namespace Service
             return userDto;
         }
 
-        public async Task<IEnumerable<UserDto>> GetUsersByIdsAsync(IEnumerable<Guid> ids, bool trackChanges)
+        public async Task<IEnumerable<UserDto>> GetUsersByIdsAsync(IEnumerable<string> ids, bool trackChanges)
         {
             if (ids is null)
                 throw new IdParametersBadRequestException();
 
-            var idsList = ids.Select(id => id.ToString());
-
-            var users = await _repository.User.GetUsersByIdsAsync(idsList, trackChanges);
+            var users = await _repository.User.GetUsersByIdsAsync(ids, trackChanges);
             if (!ids.Count().Equals(users.Count()))
                 throw new CollectionByIdsBadRequestException();
 
@@ -70,9 +68,9 @@ namespace Service
             return userDtos;
         }
 
-        public async Task DeleteUserAsync(Guid id, bool trackChanges)
+        public async Task DeleteUserAsync(string id, bool trackChanges)
         {
-            var user = await _repository.User.GetUserByIdAsync(id.ToString(), trackChanges);
+            var user = await _repository.User.GetUserByIdAsync(id, trackChanges);
             if (user is null)
                 throw new UserNotFoundException(id);
 
@@ -80,9 +78,9 @@ namespace Service
             await _repository.SaveAsync();
         }
 
-        public async Task UpdateUserAsync(Guid id, UserForUpdateDto userForUpdate, bool trackChanges)
+        public async Task UpdateUserAsync(string id, UserForUpdateDto userForUpdate, bool trackChanges)
         {
-            var user = await _repository.User.GetUserByIdAsync(id.ToString(), trackChanges);
+            var user = await _repository.User.GetUserByIdAsync(id, trackChanges);
             if (user is null)
                 throw new UserNotFoundException(id);
 

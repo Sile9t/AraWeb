@@ -37,7 +37,7 @@ namespace AraWeb.Presentation
             = typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
         {
             var users = await _service.UserService
-                .GetUsersByIdsAsync(ids, trackChanges: false);
+                .GetUsersByIdsAsync(ids.Select(id => id.ToString()), trackChanges: false);
 
             return Ok(users);
         }
@@ -46,7 +46,7 @@ namespace AraWeb.Presentation
         public async Task<IActionResult> GetUserById(Guid id)
         {
             var user = await _service.UserService
-                .GetUserByIdAsync(id, trackChanges: false);
+                .GetUserByIdAsync(id.ToString(), trackChanges: false);
 
             return Ok(user);
         }
@@ -54,7 +54,7 @@ namespace AraWeb.Presentation
         [HttpDelete]
         public async Task<IActionResult> DeleteUser(Guid id)
         {
-            await _service.UserService.DeleteUserAsync(id, trackChanges: false);
+            await _service.UserService.DeleteUserAsync(id.ToString(), trackChanges: false);
 
             return NoContent();
         }
@@ -66,7 +66,7 @@ namespace AraWeb.Presentation
             if (user is null)
                 return BadRequest("UserForUpdateDto object is null.");
 
-            await _service.UserService.UpdateUserAsync(id, user, trackChanges: true);
+            await _service.UserService.UpdateUserAsync(id.ToString(), user, trackChanges: true);
             
             return StatusCode(201);
         }

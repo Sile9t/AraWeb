@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.Dtos;
 
@@ -6,6 +7,7 @@ namespace AraWeb.Presentation
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize]
     public class ProfileController : ControllerBase
     {
         private readonly IServiceManager _service;
@@ -25,7 +27,7 @@ namespace AraWeb.Presentation
             return Ok(_user);
         }
 
-        [HttpGet]
+        [HttpGet("apartments")]
         public async Task<IActionResult> MyApartments()
         {
             var aparts = await _service.ApartmentService
@@ -34,21 +36,25 @@ namespace AraWeb.Presentation
             return Ok(aparts);
         }
 
-        [HttpGet]
+        [HttpGet("calendar")]
         public async Task<IActionResult> MyCalendar()
         {
             var aparts = await _service.ApartmentService
                 .GetApartmentsForOwnerAsync(_user.Id, trackChanges: false);
 
             var dates = await _service.ReservationDateService
-                .GetDatesForApartmentsAsync(aparts.Select(a => a.Id), trackChages: false);
+                .GetDatesForApartmentsAsync(aparts.Select(a => a.Id), trackChanges: false);
 
-            return Ok(aparts, dates);
+            return Ok((aparts, dates));
         }
 
-        [HttpGet]
+        [HttpGet("occupancies")]
         public async Task<IActionResult> MyOccupancies()
         {
+            var occups = await _service.OccupancyService
+                .GetOccupanciesForUserAsync(_user.Id, trackChanges: false);
+
+            return Ok(occups);
         }
     }
 }

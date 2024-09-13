@@ -50,7 +50,7 @@ namespace AraWeb.Presentation
         [HttpGet("userApartments", Name = "GetApartmentsForOwner")]
         public async Task<IActionResult> GetApartmentsForOwner(Guid userId)
         {
-            var aparts = await _service.ApartmentService.GetApartmentsForOwnerAsync(userId, 
+            var aparts = await _service.ApartmentService.GetApartmentsForOwnerAsync(userId.ToString(), 
                 trackChanges: false);
 
             return Ok(aparts);
@@ -70,7 +70,7 @@ namespace AraWeb.Presentation
         public async Task<IActionResult> CreateApartment(Guid userId, [FromBody] ApartmentForCreationDto apartment)
         {
             var createdApart = await _service.ApartmentService
-                .CreateApartmentForUserAsync(userId, apartment, trackChanges: false);
+                .CreateApartmentForUserAsync(userId.ToString(), apartment, trackChanges: false);
 
             return CreatedAtRoute("GetApartmentById", new { id = createdApart.Id }, createdApart);
         }

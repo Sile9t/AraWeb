@@ -30,7 +30,7 @@ namespace Repository
             return occupancies;
         }
 
-        public async Task<Occupancy> GetOccupancyById(int id, bool trackChanges) =>
+        public async Task<Occupancy> GetOccupancyByIdAsync(Guid id, bool trackChanges) =>
             await FindByCondition(o => o.Id.Equals(id), trackChanges)
                 .SingleOrDefaultAsync();
 

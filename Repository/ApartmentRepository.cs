@@ -37,7 +37,7 @@ namespace Repository
             await FindByCondition(a => ids.Contains(a.Id), trackChanges)
             .ToListAsync();
 
-        public async Task<IEnumerable<Apartment>> GetApartmentsForOwnerAsync(Guid ownerId, bool trackChanges)
+        public async Task<IEnumerable<Apartment>> GetApartmentsForOwnerAsync(string ownerId, bool trackChanges)
         {
             var apartments = await FindByCondition(a => a.OwnerId.Equals(ownerId), trackChanges)
                 .ToListAsync();

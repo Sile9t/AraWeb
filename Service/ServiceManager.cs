@@ -30,7 +30,7 @@ namespace Service
             _reservationDateService = new Lazy<IReservationDateService>(() => 
                 new ReservationDateService(repositoryManager, logger, mapper));
             _occupancyService = new Lazy<IOccupancyService>(() => 
-                new OccupancyService(repositoryManager, logger));
+                new OccupancyService(repositoryManager, logger, mapper));
         }
 
         public IUserService UserService => _userService.Value;
