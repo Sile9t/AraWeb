@@ -11,12 +11,21 @@ namespace Repository
     {
         public static IQueryable<Apartment> Filter(this IQueryable<Apartment> apartment,
             ApartmentParameters parameters) =>
-            apartment.FilterBySquare(parameters.MinSquare, parameters.MaxSquare)
+            apartment
+                .FilterByDates(parameters.ValidDates, parameters.OccupDate, parameters.EvicDate)
+                .FilterBySquare(parameters.MinSquare, parameters.MaxSquare)
                 .FilterByGuestsCount(parameters.MinGuestsCount, parameters.MaxGuestsCount)
                 .FilterByBedsCount(parameters.MinBedsCount, parameters.MaxBedsCount)
                 .FilterByRoomsCount(parameters.MinRoomsCount, parameters.MaxRoomsCount)
                 .FilterByRate(parameters.MinRate, parameters.MaxRate)
                 .FilterByReviewsCount(parameters.MinReviewsCount, parameters.MaxReviewsCount);
+
+        public static IQueryable<Apartment> FilterByDates(this IQueryable<Apartment> apartments,
+            bool areDatesValid, DateTime occupDate, DateTime evicDate) =>
+            areDatesValid ?
+                apartments.Where(a => a.ReservationDates!.ToList().Where(d => d.Date >= occupDate 
+                    && d.Date <= evicDate).All(d => d.DateStateId == DateStateId.Empty))
+                : throw new Exception("Occured dates are invalid");
 
         public static IQueryable<Apartment> FilterBySquare(this IQueryable<Apartment> apartments,
             double minSquare, double maxSquare) =>
@@ -50,8 +59,8 @@ namespace Repository
 
             var lowerCaseTerm = searchTerm.Trim().ToLower();
 
-            return apartments.Where(a => a.Name.ToLower().Contains(lowerCaseTerm)
-                && a.Address.ToLower().Contains(lowerCaseTerm));
+            return apartments.Where(a => a.Name!.ToLower().Contains(lowerCaseTerm)
+                && a.Address!.ToLower().Contains(lowerCaseTerm));
         }
 
         public static IQueryable<Apartment> Sort(this IQueryable<Apartment> apartments, 

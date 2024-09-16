@@ -4,6 +4,11 @@
     {
         public ApartmentParameters() => OrderBy = "rate, reviewsCount";
 
+        public DateTime OccupDate { get; set; } = DateTime.Now;
+        public DateTime EvicDate { get; set; } = DateTime.Now.AddDays(1);
+
+        public bool ValidDates => (EvicDate - OccupDate).TotalDays > 0;
+
         public double MinSquare { get; set; }
         public double MaxSquare { get; set; } = uint.MaxValue;
 

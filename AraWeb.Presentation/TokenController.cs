@@ -15,7 +15,7 @@ namespace AraWeb.Presentation
             _service = service;
 
         [HttpPost("refresh")]
-        [ServiceFilter(typeof(AsyncValidationFilterAttribute))]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Refresh([FromBody]TokenDto tokenDto)
         {
             var tokenDtoToReturn = await _service.AuthenticationService

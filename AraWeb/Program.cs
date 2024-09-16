@@ -61,7 +61,7 @@ namespace AraWeb
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
-            builder.Services.AddScoped<AsyncValidationFilterAttribute>();
+            builder.Services.AddScoped<ValidationFilterAttribute>();
             builder.Services.AddScoped<ValidateMediaTypeAttribute>();
 
             builder.Services.AddEndpointsApiExplorer();
@@ -105,8 +105,8 @@ namespace AraWeb
 
             app.UseCors("CorsPolicy");
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.MapControllers();
 

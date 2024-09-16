@@ -5,8 +5,8 @@ using Shared.Dtos;
 
 namespace AraWeb.Presentation
 {
-    [ApiController]
     [Route("[controller]")]
+    [ApiController]
     public class AuthenticationController : ControllerBase
     {
         private readonly IServiceManager _service;
@@ -15,7 +15,7 @@ namespace AraWeb.Presentation
             => _service = service;
 
         [HttpPost("register")]
-        [ServiceFilter(typeof(AsyncValidationFilterAttribute))]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> RegisterUser([FromBody] 
             UserForRegistrationDto userForRegistration)
         {
@@ -31,7 +31,7 @@ namespace AraWeb.Presentation
         }
 
         [HttpPost("login")]
-        [ServiceFilter(typeof(AsyncValidationFilterAttribute))]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto user)
         {
             if (!await _service.AuthenticationService.ValidateUser(user))

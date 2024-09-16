@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.Dtos;
+using Shared.RequestFeatures;
+using System.Security.Claims;
 
 namespace AraWeb.Presentation
 {
@@ -34,15 +37,23 @@ namespace AraWeb.Presentation
         }
 
         [HttpPost("id:guid", Name = "CreateOccupancyForApartment")]
+        [Authorize]
         public async Task<IActionResult> CreateOccupancyForApartment(Guid apartId, 
-            [FromQuery]OccupancyForCreationDto occupancyDto)
+            [FromQuery] ApartmentParameters apartParameters)
         {
-            var user = _service.AuthenticationService.GetUserProfile();
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+            var occupDto = CreateOccupancyDtoFromApartParameters(apartId, userId, apartParameters);
             var occup = await _service.OccupancyService
-                .CreateOccupancyForApartmentAsync(user.Id,apartId, occupancyDto, 
+                .CreateOccupancyForApartmentAsync(userId, apartId, occupDto, 
                     userTrackChanges: true, apartTrackChanges: true, occupTrackChanges: false);
 
             return Ok(occup);
+        }
+
+        private OccupancyForCreationDto CreateOccupancyDtoFromApartParameters(Guid apartId,
+            string userId, ApartmentParameters apartmentParameters)
+        {
+            throw new NotImplementedException();
         }
     }
 }

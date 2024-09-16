@@ -35,7 +35,8 @@ namespace AraWeb.Extensions
 
             });
 
-        public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration) =>
+        public static void ConfigureSqlContext(this IServiceCollection services, 
+            IConfiguration configuration) =>
             services.AddSqlServer<RepositoryContext>(configuration.GetConnectionString("sqlConnection"));
 
         public static void ConfigureRepositoryManager(this IServiceCollection services) =>
@@ -105,7 +106,7 @@ namespace AraWeb.Extensions
 
                     ValidIssuer = jwtSettings["validIssuer"],
                     ValidAudience = jwtSettings["validAudience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey!))
                 };
             });
         }

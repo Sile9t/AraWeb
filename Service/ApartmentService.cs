@@ -26,7 +26,7 @@ namespace Service
             _apartmentLinks = apartmentLinks;
         }
 
-        public async Task<(LinkResponse linkResponse, MetaData metaData)> GetAllApartmentsAsync(
+        public async Task<(LinkResponse apartments, MetaData metaData)> GetAllApartmentsAsync(
             LinkParameters linkParameters, bool trackChanges)
         {
             var apartmentsWithMetaData = await _repository.Apartment.GetAllApartmentsAsync(

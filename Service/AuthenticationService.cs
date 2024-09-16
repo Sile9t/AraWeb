@@ -36,7 +36,7 @@ namespace Service
         {
             var user = _mapper.Map<User>(userForRegistration);
 
-            var result = await _userManager.CreateAsync(user);
+            var result = await _userManager.CreateAsync(user, userForRegistration.Password!);
 
             if (result.Succeeded)
                 await _userManager.AddToRolesAsync(user, userForRegistration.Roles!);
@@ -48,17 +48,12 @@ namespace Service
         {
             _user = await _userManager.FindByNameAsync(userForAuth.UserName!);
 
-            var result = (_user is not null && await _userManager.CheckPasswordAsync(_user,
+            var result = (_user != null && await _userManager.CheckPasswordAsync(_user,
                 userForAuth.Password!));
             if (!result)
                 _logger.LogWarn($"{nameof(ValidateUser)}: Authentication failed. Wrong user name or password.");
 
             return result;
-        }
-
-        public UserDto GetUserProfile()
-        {
-            return _mapper.Map<UserDto>(_user);
         }
 
         public async Task<TokenDto> CreateToken(bool populateExp)
@@ -93,7 +88,8 @@ namespace Service
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, _user.UserName!)
+                new Claim(ClaimTypes.NameIdentifier, _user!.Id),
+                new Claim(ClaimTypes.Name, _user!.UserName!)
             };
 
             var roles = await _userManager.GetRolesAsync(_user);
@@ -108,7 +104,7 @@ namespace Service
         private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials,
             List<Claim> claims)
         {
-            var jwtSettings = _configuration.GetSection("jwtSettings");
+            var jwtSettings = _configuration.GetSection("JwtSettings");
 
             var tokenOptions = new JwtSecurityToken(
                 issuer: jwtSettings["validIssuer"],
@@ -117,6 +113,7 @@ namespace Service
                 expires: DateTime.Now.AddMinutes(Convert.ToDouble(jwtSettings["expires"])),
                 signingCredentials: signingCredentials
             );
+
             return tokenOptions;
         }
 

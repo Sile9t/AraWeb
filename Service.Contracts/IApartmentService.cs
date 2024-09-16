@@ -7,7 +7,7 @@ namespace Service.Contracts
 {
     public interface IApartmentService
     {
-        Task<(LinkResponse linkResponse, MetaData metaData)> GetAllApartmentsAsync(
+        Task<(LinkResponse apartments, MetaData metaData)> GetAllApartmentsAsync(
             LinkParameters linkParameters, bool trackChanges);
         Task<IEnumerable<ApartmentDto>> GetApartmentsByIdsAsync(IEnumerable<Guid> ids, 
             bool trackChanges);

@@ -3,6 +3,7 @@ using AraWeb.ActionFilters;
 using AraWeb.Presentation.ModelBinder;
 using Entities.Exceptions;
 using Entities.LinkModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
@@ -33,8 +34,8 @@ namespace AraWeb.Presentation
             Response.Headers.Add("X-Pagination",
                 JsonSerializer.Serialize(result.metaData));
 
-            return result.linkResponse.HasLinks ? Ok(result.linkResponse.LinkedEntities) :
-                Ok(result.linkResponse.ShapedEntities);
+            return result.apartments.HasLinks ? Ok(result.apartments.LinkedEntities) :
+                Ok(result.apartments.ShapedEntities);
         }
 
         [HttpGet("collection/{ids}", Name = "ApartmentCollection")]
@@ -57,6 +58,7 @@ namespace AraWeb.Presentation
         }
 
         [HttpGet("{id:guid}", Name = "GetApartmentById")]
+        [Authorize]
         public async Task<IActionResult> GetApartmentById(Guid id)
         {
             var apartment = await _service.ApartmentService
@@ -66,7 +68,7 @@ namespace AraWeb.Presentation
         }
 
         [HttpPost(Name = "CreateApartment")]
-        [ServiceFilter(typeof(AsyncValidationFilterAttribute))]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateApartment(Guid userId, [FromBody] ApartmentForCreationDto apartment)
         {
             var createdApart = await _service.ApartmentService
@@ -76,7 +78,7 @@ namespace AraWeb.Presentation
         }
 
         [HttpPost("collection", Name = "CreateApartmentCollection")]
-        [ServiceFilter(typeof(AsyncValidationFilterAttribute))]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateApartmentCollection(
             IEnumerable<ApartmentForCreationDto> apartments)
         {
@@ -94,7 +96,7 @@ namespace AraWeb.Presentation
         }
 
         [HttpPut("{id:guid}", Name = "UpdateApartment")]
-        [ServiceFilter(typeof(AsyncValidationFilterAttribute))]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateApartment(Guid id, [FromBody] ApartmentForUpdateDto apartment)
         {
             if (apartment is null)
@@ -106,7 +108,7 @@ namespace AraWeb.Presentation
         }
 
         [HttpPatch("{id:guid}", Name = "ParticallyUpdateApartment")]
-        [ServiceFilter(typeof(AsyncValidationFilterAttribute))]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> ParticallyUpdateApartment(Guid id, 
             [FromBody] JsonPatchDocument<ApartmentForUpdateDto> patchDoc)
         {
@@ -121,6 +123,15 @@ namespace AraWeb.Presentation
                 result.apartmentEntity);
 
             return NoContent();
+        }
+
+        [HttpPost("{id:guid}")]
+        [Authorize]
+        public IActionResult ReserveApartment(Guid id, 
+            [FromQuery] ApartmentParameters apartPameters)
+        {
+            return RedirectToAction("CreateOccupancyForApartment", "Occupancies", 
+                (id, apartPameters));
         }
     }
 }

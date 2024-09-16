@@ -3,14 +3,13 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace AraWeb.ActionFilters
 {
-    public class AsyncValidationFilterAttribute : IAsyncActionFilter
+    public class ValidationFilterAttribute : IActionFilter
     {
-        public AsyncValidationFilterAttribute()
+        public ValidationFilterAttribute()
         {
         }
 
-        public async Task OnActionExecutionAsync(ActionExecutingContext context,
-            ActionExecutionDelegate next)
+        public void OnActionExecuting(ActionExecutingContext context)
         {
             var action = context.RouteData.Values["action"];
             var controller = context.RouteData.Values["controller"];
@@ -27,5 +26,7 @@ namespace AraWeb.ActionFilters
             if (!context.ModelState.IsValid)
                 context.Result = new UnprocessableEntityObjectResult(context.ModelState);
         }
+
+        public void OnActionExecuted(ActionExecutedContext context) { }
     }
 }

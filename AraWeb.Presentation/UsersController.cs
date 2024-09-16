@@ -60,7 +60,7 @@ namespace AraWeb.Presentation
         }
 
         [HttpPut("{id:guid}")]
-        [ServiceFilter(typeof(AsyncValidationFilterAttribute))]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateUser(Guid id, [FromBody] UserForUpdateDto user)
         {
             if (user is null)
