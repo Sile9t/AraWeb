@@ -33,7 +33,8 @@ namespace Repository
             await FindByCondition(d => d.Occupancy!.ReservedById!.Equals(userId), trackChanges)
                 .ToListAsync();
 
-        public async Task<ReservationDate?> GetDate(DateTime date, Guid apartId, bool trackChanges) =>
+        public async Task<ReservationDate?> GetDateForApartmentAsync(DateTime date, Guid apartId, 
+            bool trackChanges) =>
             await FindByCondition(d => d.Date.Date.Equals(date) 
                 && d.ApartmentId.Equals(apartId), trackChanges)
                 .FirstOrDefaultAsync();

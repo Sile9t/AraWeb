@@ -48,17 +48,7 @@ namespace AraWeb.Presentation
             return Ok(apartments);
         }
 
-        [HttpGet("userApartments", Name = "GetApartmentsForOwner")]
-        public async Task<IActionResult> GetApartmentsForOwner(Guid userId)
-        {
-            var aparts = await _service.ApartmentService.GetApartmentsForOwnerAsync(userId, 
-                trackChanges: false);
-
-            return Ok(aparts);
-        }
-
         [HttpGet("{id:guid}", Name = "GetApartmentById")]
-        [Authorize]
         public async Task<IActionResult> GetApartmentById(Guid id)
         {
             var apartment = await _service.ApartmentService
@@ -67,12 +57,24 @@ namespace AraWeb.Presentation
             return Ok(apartment);
         }
 
+        [HttpPost("{id:guid}")]
+        [Authorize]
+        public IActionResult ReserveApartment(Guid id, 
+            [FromQuery] ApartmentParameters apartPameters)
+        {
+            return RedirectToAction("CreateOccupancyForApartment", "Occupancies", 
+                (id, apartPameters));
+        }
+
         [HttpPost(Name = "CreateApartment")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateApartment(Guid userId, [FromBody] ApartmentForCreationDto apartment)
         {
             var createdApart = await _service.ApartmentService
                 .CreateApartmentForUserAsync(userId, apartment, trackChanges: false);
+
+            await _service.ReservationDateService.GenerateEmptyDatesForApartmentAsync(createdApart.Id,
+                trackChanges: false);
 
             return CreatedAtRoute("GetApartmentById", new { id = createdApart.Id }, createdApart);
         }
@@ -123,15 +125,6 @@ namespace AraWeb.Presentation
                 result.apartmentEntity);
 
             return NoContent();
-        }
-
-        [HttpPost("{id:guid}")]
-        [Authorize]
-        public IActionResult ReserveApartment(Guid id, 
-            [FromQuery] ApartmentParameters apartPameters)
-        {
-            return RedirectToAction("CreateOccupancyForApartment", "Occupancies", 
-                (id, apartPameters));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.Dtos;
@@ -7,6 +8,7 @@ namespace AraWeb.Presentation
 {
     [Route("calendar")]
     [ApiController]
+    [Authorize]
     public class DatesController : ControllerBase
     {
         private readonly IServiceManager _service;
@@ -26,7 +28,7 @@ namespace AraWeb.Presentation
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetDatesForUserApartments(Guid userId)
+        public async Task<IActionResult> GetDatesForUser(Guid userId)
         {
             var dates = await _service.ReservationDateService
                 .GetDatesForUserAsync(userId, trackChanges: false);
@@ -35,11 +37,16 @@ namespace AraWeb.Presentation
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateDate([FromBody]ReservationDateForCreationDto dateDto)
+        public async Task<IActionResult> CreateDate(Guid apartId, 
+            [FromBody]ReservationDateForCreationDto dateDto)
         {
-            await _service.ReservationDateService.CreateDateAsync(dateDto);
+            await _service.ReservationDateService.CreateDateForApartmentAsync(apartId, dateDto,
+                trackChanges: false);
 
             return NoContent();
         }
+
+        //To do: GetDatesForUserApartments(Guid userId),
+        //PartiallyUpdateDateCollection(Guid apartId, ICollection<ReservationDateForUpdate)
     }
 }

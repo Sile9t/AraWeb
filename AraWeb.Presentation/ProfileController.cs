@@ -6,7 +6,7 @@ using System.Security.Claims;
 
 namespace AraWeb.Presentation
 {
-    [Route("[controller]")]
+    [Route("[controller]/{id:guid}")]
     [ApiController]
     [Authorize]
     public class ProfileController : ControllerBase
@@ -18,7 +18,7 @@ namespace AraWeb.Presentation
             _service = service;
         }
 
-        [HttpGet("{id:guid}")]
+        [HttpGet]
         public async Task<IActionResult> MyProfile()
         {
             bool hasId = TryGetLoggedUserId(out var userId);
@@ -30,7 +30,7 @@ namespace AraWeb.Presentation
             return Ok(user);
         }
 
-        [HttpGet("{id:guid}/apartments")]
+        [HttpGet("apartments")]
         public async Task<IActionResult> MyApartments()
         {
             bool hasId = TryGetLoggedUserId(out var userId);
@@ -70,6 +70,12 @@ namespace AraWeb.Presentation
                 .GetOccupanciesForUserAsync(userId!, trackChanges: false);
 
             return Ok(occups);
+        }
+
+        [HttpPost("{id:guid}/occupancies")]
+        public async Task<IActionResult> CreateOccupancy()
+        {
+            return NotFound();
         }
 
         private bool TryGetLoggedUserId(out Guid userId) =>

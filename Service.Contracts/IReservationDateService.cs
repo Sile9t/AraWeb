@@ -11,10 +11,13 @@ namespace Service.Contracts
         Task<IEnumerable<ReservationDateDto>> GetDatesForUserAsync(Guid userId, bool trackChanges);
         Task<IEnumerable<ReservationDateDto>> GetDatesForApartmentsAsync(IEnumerable<Guid> apartIds, 
             bool trackChanges);
-        Task<ReservationDateDto> GetDate(DateTime date, Guid apartId, 
+        Task<ReservationDateDto> GetDateForApartmentAsync(DateTime date, Guid apartId, 
             bool apartTrackChanges, bool dateTrackChanges);
-        Task CreateDateAsync(ReservationDateForCreationDto reservationDate);
-        Task CreateDateCollectionAsync(IEnumerable<ReservationDateForCreationDto> datesCollection);
+        Task CreateDateForApartmentAsync(Guid apartId, 
+            ReservationDateForCreationDto reservationDate, bool trackChanges);
+        Task CreateDateCollectionForApartmentAsync(Guid apartId,
+            IEnumerable<ReservationDateForCreationDto> datesCollection, bool trackChanges);
+        Task GenerateEmptyDatesForApartmentAsync(Guid apartId, bool trackChanges);
         Task UpdateDateAsync(ReservationDateForUpdateDto reservationDate, bool apartTrackChanges,
             bool dateTrackChanges);
         Task DeleteDateAsync(DateTime date, Guid apartId, bool apartTrackChanges,

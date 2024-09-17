@@ -12,6 +12,7 @@ namespace AraWeb.Presentation
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize(Roles = "Manager, Administrator")]
     public class UsersController : ControllerBase
     {
         private readonly IServiceManager _service;

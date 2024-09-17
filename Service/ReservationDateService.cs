@@ -29,13 +29,13 @@ namespace Service
             return datesDto;
         }
 
-        public async Task<IEnumerable<ReservationDateDto>> GetDatesForApartmentAsync(Guid apartId, bool trackChanges)
+        public async Task<IEnumerable<ReservationDateDto>> GetDatesForApartmentAsync(Guid apartId, 
+            bool trackChanges)
         {
-            var apart = await _repository.Apartment.GetApartmentByIdAsync(apartId, trackChanges);
-            if (apart is null)
-                throw new ApartmentNotFoundException(apartId);
+            var apart = GetApartIfExistAsync(apartId, trackChanges);
 
-            var dates = await _repository.ReservationDate.GetDatesForApartmentAsync(apartId, trackChanges);
+            var dates = await _repository.ReservationDate.GetDatesForApartmentAsync(apartId, 
+                trackChanges);
             var datesDto = _mapper.Map<IEnumerable<ReservationDateDto>>(dates);
 
             return datesDto;
@@ -73,13 +73,13 @@ namespace Service
             return dates;
         }
 
-        public async Task<ReservationDateDto> GetDate(DateTime date, Guid apartId, 
+        public async Task<ReservationDateDto> GetDateForApartmentAsync(DateTime date, Guid apartId, 
             bool apartTrackChanges, bool dateTrackChanges)
         {
-            var apart = GetApartIfExist(apartId, apartTrackChanges);
+            var apart = GetApartIfExistAsync(apartId, apartTrackChanges);
 
             var reservationDate = await _repository.ReservationDate
-                .GetDate(date, apartId, dateTrackChanges);
+                .GetDateForApartmentAsync(date, apartId, dateTrackChanges);
             if (reservationDate is null)
                 throw new DateNotFoundException(date, apartId);
 
@@ -88,8 +88,11 @@ namespace Service
             return dateDto;
         }
 
-        public async Task CreateDateAsync(ReservationDateForCreationDto dateDto)
+        public async Task CreateDateForApartmentAsync(Guid apartId, 
+            ReservationDateForCreationDto dateDto, bool trackChanges)
         {
+            var apart = GetApartIfExistAsync(apartId, trackChanges);
+
             var date = _mapper.Map<ReservationDate>(dateDto);
 
             _repository.ReservationDate.CreateDate(date);
@@ -97,15 +100,32 @@ namespace Service
             await _repository.SaveAsync();
         }
 
-        public async Task CreateDateCollectionAsync(
-            IEnumerable<ReservationDateForCreationDto> dateCollection)
+        public async Task CreateDateCollectionForApartmentAsync(Guid apartId,
+            IEnumerable<ReservationDateForCreationDto> dateCollection, bool trackChanges)
         {
+            var apart = GetApartIfExistAsync(apartId, trackChanges);
+
             var dateDtoCollection = _mapper.Map<IEnumerable<ReservationDate>>(dateCollection);
 
             foreach (var date in dateDtoCollection)
                 _repository.ReservationDate.CreateDate(date);
 
             await _repository.SaveAsync();
+        }
+
+        public async Task GenerateEmptyDatesForApartmentAsync(Guid apartId, bool trackChanges)
+        {
+            var apart = await GetApartIfExistAsync(apartId, trackChanges);
+            
+            var datesRange = Enumerable.Range(0, DateTime.DaysInMonth(DateTime.Now.Year,
+                DateTime.Now.Month) - DateTime.Now.Day)
+                .Select(x => DateTime.Now.AddDays(1.0 * x)).ToList();
+            datesRange = datesRange.Select(d => d.Date.Equals(DateTime.Now.Date) ? d
+                : d.AddMicroseconds((-1) * d.TimeOfDay.TotalMicroseconds)).ToList();
+            var dates = datesRange.Select(d => 
+                new ReservationDateForCreationDto { Date = d, ApartmentId = apartId });
+
+            await CreateDateCollectionForApartmentAsync(apartId, dates, trackChanges);
         }
 
         public async Task UpdateDateAsync(ReservationDateForUpdateDto dateDto,
@@ -118,7 +138,7 @@ namespace Service
                 throw new ApartmentNotFoundException(apartId);
 
             var dateEntity = await _repository.ReservationDate
-                .GetDate(dateDto.Date, apartId, dateTrackChanges);
+                .GetDateForApartmentAsync(dateDto.Date, apartId, dateTrackChanges);
             _mapper.Map(dateDto, dateEntity);
 
             await _repository.SaveAsync();
@@ -127,10 +147,10 @@ namespace Service
         public async Task DeleteDateAsync(DateTime date, Guid apartId, bool apartTrackChages,
             bool dateTrackChanges)
         {
-            await GetApartIfExist(apartId, apartTrackChages);
+            await GetApartIfExistAsync(apartId, apartTrackChages);
 
             var dateEntity = await _repository.ReservationDate
-                .GetDate(date, apartId, dateTrackChanges);
+                .GetDateForApartmentAsync(date, apartId, dateTrackChanges);
             if (dateEntity is null)
                 throw new DateNotFoundException(date, apartId);
 
@@ -139,7 +159,7 @@ namespace Service
             await _repository.SaveAsync();
         }
 
-        private async Task<Apartment> GetApartIfExist(Guid apartId, bool trackChanges)
+        private async Task<Apartment> GetApartIfExistAsync(Guid apartId, bool trackChanges)
         {
             var apart = await _repository.Apartment
                 .GetApartmentByIdAsync(apartId, trackChanges);

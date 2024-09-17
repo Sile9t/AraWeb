@@ -28,15 +28,6 @@ namespace AraWeb.Presentation
             return Ok(occups);
         }
 
-        [HttpGet("profile/{id:guid}", Name = "GetOccupanciesForUser")]
-        public async Task<IActionResult> GetOccupaciesForUser(Guid userId)
-        {
-            var occups = await _service.OccupancyService
-                .GetOccupanciesForUserAsync(userId, trackChanges: false);
-
-            return Ok(occups);
-        }
-
         [HttpPost("{id:guid}", Name = "CreateOccupancyForApartment")]
         public async Task<IActionResult> CreateOccupancyForApartment(Guid apartId, 
             [FromQuery] ApartmentParameters apartParameters)

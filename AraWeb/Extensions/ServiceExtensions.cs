@@ -79,7 +79,6 @@ namespace AraWeb.Extensions
                 opt.Password.RequireUppercase = false;
                 opt.Password.RequireNonAlphanumeric = false;
                 opt.Password.RequiredLength = 10;
-                opt.User.RequireUniqueEmail = true;
             })
                 .AddEntityFrameworkStores<RepositoryContext>()
                 .AddDefaultTokenProviders();
