@@ -4,28 +4,32 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Repository.Configuration
 {
-    public class RoleConfiguration : IEntityTypeConfiguration<IdentityRole>
+    public class RoleConfiguration : IEntityTypeConfiguration<IdentityRole<Guid>>
     {
-        public void Configure(EntityTypeBuilder<IdentityRole> builder)
+        public void Configure(EntityTypeBuilder<IdentityRole<Guid>> builder)
         {
             builder.HasData(
-                new IdentityRole
+                new IdentityRole<Guid>
                 {
+                    Id = Guid.NewGuid(),
                     Name = "User",
                     NormalizedName = "USER"
                 },
-                new IdentityRole
+                new IdentityRole<Guid>
                 {
+                    Id = Guid.NewGuid(),
                     Name = "ApartmentOwner",
                     NormalizedName = "APARTMENT_OWNER"
                 },
-                new IdentityRole
+                new IdentityRole<Guid>
                 {
+                    Id = Guid.NewGuid(),
                     Name = "Manager",
                     NormalizedName = "MANAGER"
                 },
-                new IdentityRole
+                new IdentityRole<Guid>
                 {
+                    Id = Guid.NewGuid(),
                     Name = "Administrator",
                     NormalizedName = "ADMINISTRATOR"
                 }

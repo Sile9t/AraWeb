@@ -30,7 +30,7 @@ namespace Repository
                 userParameters.PageSize);
         }
 
-        public async Task<IEnumerable<User>> GetUsersByIdsAsync(IEnumerable<string> ids, 
+        public async Task<IEnumerable<User>> GetUsersByIdsAsync(IEnumerable<Guid> ids, 
             bool trackChanges) =>
             await FindByCondition(u => ids.Contains(u.Id), trackChanges)
                 .ToListAsync();
@@ -39,7 +39,7 @@ namespace Repository
             await FindByCondition(u => u.PhoneNumber.Equals(phoneNumber), trackChanges)
                 .FirstOrDefaultAsync();
 
-        public async Task<User> GetUserByIdAsync(string id, bool trackChanges) =>
+        public async Task<User> GetUserByIdAsync(Guid id, bool trackChanges) =>
             await FindByCondition(u => u.Id.Equals(id), trackChanges)
                 .FirstOrDefaultAsync();
 

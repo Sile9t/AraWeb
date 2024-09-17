@@ -8,6 +8,7 @@ namespace AraWeb.Presentation
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize]
     public class ProfileController : ControllerBase
     {
         private readonly IServiceManager _service;
@@ -17,8 +18,7 @@ namespace AraWeb.Presentation
             _service = service;
         }
 
-        [HttpGet]
-        [Authorize]
+        [HttpGet("{id:guid}")]
         public async Task<IActionResult> MyProfile()
         {
             bool hasId = TryGetLoggedUserId(out var userId);
@@ -30,7 +30,7 @@ namespace AraWeb.Presentation
             return Ok(user);
         }
 
-        [HttpGet("apartments")]
+        [HttpGet("{id:guid}/apartments")]
         public async Task<IActionResult> MyApartments()
         {
             bool hasId = TryGetLoggedUserId(out var userId);
@@ -72,11 +72,7 @@ namespace AraWeb.Presentation
             return Ok(occups);
         }
 
-        private bool TryGetLoggedUserId(out string? userId)
-        {
-            userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-            return userId != null;
-        }
+        private bool TryGetLoggedUserId(out Guid userId) =>
+            Guid.TryParse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value, out userId);
     }
 }

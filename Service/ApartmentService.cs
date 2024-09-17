@@ -53,7 +53,7 @@ namespace Service
             return apartsToReturn;
         }
 
-        public async Task<IEnumerable<ApartmentDto>> GetApartmentsForOwnerAsync(string ownerId, bool trackChanges)
+        public async Task<IEnumerable<ApartmentDto>> GetApartmentsForOwnerAsync(Guid ownerId, bool trackChanges)
         {
             var apartments = await _repository.Apartment.GetApartmentsForOwnerAsync(ownerId, trackChanges);
 
@@ -71,10 +71,10 @@ namespace Service
             return apartmentDto;
         }
 
-        public async Task<ApartmentDto> CreateApartmentForUserAsync(string userId, 
+        public async Task<ApartmentDto> CreateApartmentForUserAsync(Guid userId, 
             ApartmentForCreationDto apartment, bool trackChanges)
         {
-            var user = _repository.User.GetUserByIdAsync(userId.ToString(), trackChanges);
+            var user = _repository.User.GetUserByIdAsync(userId, trackChanges);
             if (user is null)
                 throw new UserNotFoundException(userId);
 

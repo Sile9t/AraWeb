@@ -31,7 +31,7 @@ namespace Entities.Models
         public long ReviewsCount { get; set; }
 
         [ForeignKey(nameof(User))]
-        public string OwnerId { get; set; }
+        public Guid OwnerId { get; set; }
         public virtual User? Owner { get; set; }
         public virtual ICollection<Occupancy>? Occupancies { get; set; }
         public virtual ICollection<ReservationDate>? ReservationDates { get; set; }

@@ -41,11 +41,11 @@ namespace Service
             return occupDtos;
         }
 
-        public async Task<IEnumerable<OccupancyDto>> GetOccupanciesForUserAsync(string userId, 
+        public async Task<IEnumerable<OccupancyDto>> GetOccupanciesForUserAsync(Guid userId, 
             bool trackChanges)
         {
             var occups = await _repository.Occupancy
-                .GetOccupanciesForUserAsync(userId.ToString(), trackChanges);
+                .GetOccupanciesForUserAsync(userId, trackChanges);
 
             var occupDtos = _mapper.Map<IEnumerable<OccupancyDto>>(occups);
 
@@ -64,7 +64,7 @@ namespace Service
             await _repository.SaveAsync();
         }
 
-        public async Task<OccupancyDto> CreateOccupancyForApartmentAsync(string userId, Guid apartId, 
+        public async Task<OccupancyDto> CreateOccupancyForUserAndApartmentAsync(Guid userId, Guid apartId, 
             OccupancyForCreationDto occupancyDto, bool userTrackChanges, bool apartTrackChanges,
             bool occupTrackChanges)
         {
@@ -80,7 +80,7 @@ namespace Service
             return occupDto;
         }
 
-        public async Task DeleteOccupancy(string userId, Guid apartId, Guid id, 
+        public async Task DeleteOccupancy(Guid userId, Guid apartId, Guid id, 
             bool trackChanges)
         {
             var user = await GetUserIfExist(userId, trackChanges);
@@ -103,10 +103,10 @@ namespace Service
             return _mapper.Map<ApartmentDto>(apart);
         }
 
-        private async Task<User> GetUserIfExist(string userId, bool trackChanges)
+        private async Task<User> GetUserIfExist(Guid userId, bool trackChanges)
         {
             var user = await _repository.User
-                .GetUserByIdAsync(userId.ToString(), trackChanges);
+                .GetUserByIdAsync(userId, trackChanges);
             if (user is null)
                 throw new UserNotFoundException(userId);
 

@@ -72,7 +72,7 @@ namespace AraWeb.Extensions
 
         public static void ConfigureIdentity(this IServiceCollection services)
         {
-            var builder = services.AddIdentity<User, IdentityRole>(opt =>
+            var builder = services.AddIdentity<User, IdentityRole<Guid>>(opt =>
             {
                 opt.Password.RequireDigit = true;
                 opt.Password.RequireLowercase = false;

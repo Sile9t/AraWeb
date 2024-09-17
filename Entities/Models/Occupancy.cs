@@ -13,12 +13,12 @@ namespace Entities.Models
         [DataType(DataType.Date)]
         public DateTime EvictionDate { get; set; }
 
-        public decimal TotalCost { get; set; }
+        public double TotalCost { get; set; }
         public OccupStateId OccupStateId { get; set; }
         public virtual OccupState? State { get; set; }
 
         [ForeignKey(nameof(User))]
-        public string? ReservedById { get; set; }
+        public Guid? ReservedById { get; set; }
         public virtual User? ReservedBy {  get; set; }
         [ForeignKey(nameof(Apartment))]
         public Guid? ApartmentId { get; set; }

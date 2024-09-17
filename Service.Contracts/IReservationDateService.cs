@@ -8,7 +8,7 @@ namespace Service.Contracts
         Task<IEnumerable<ReservationDateDto>> GetAllDatesAsync(bool trackChanges);
         Task<IEnumerable<ReservationDateDto>> GetDatesForApartmentAsync(Guid apartId, 
             bool trackChanges);
-        Task<IEnumerable<ReservationDateDto>> GetDatesForUserAsync(string userId, bool trackChanges);
+        Task<IEnumerable<ReservationDateDto>> GetDatesForUserAsync(Guid userId, bool trackChanges);
         Task<IEnumerable<ReservationDateDto>> GetDatesForApartmentsAsync(IEnumerable<Guid> apartIds, 
             bool trackChanges);
         Task<ReservationDateDto> GetDate(DateTime date, Guid apartId, 

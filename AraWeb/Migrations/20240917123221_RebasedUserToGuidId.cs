@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AraWeb.Migrations
 {
     /// <inheritdoc />
-    public partial class AddedIdentityUser : Migration
+    public partial class RebasedUserToGuidId : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,7 +17,7 @@ namespace AraWeb.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -31,9 +31,11 @@ namespace AraWeb.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RefreshTokenExperyTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -86,7 +88,7 @@ namespace AraWeb.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -114,7 +116,7 @@ namespace AraWeb.Migrations
                     RoomsCount = table.Column<int>(type: "int", nullable: false),
                     Rate = table.Column<double>(type: "float", nullable: false),
                     ReviewsCount = table.Column<long>(type: "bigint", nullable: false),
-                    OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    OwnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -133,7 +135,7 @@ namespace AraWeb.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -155,7 +157,7 @@ namespace AraWeb.Migrations
                     LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -172,8 +174,8 @@ namespace AraWeb.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -196,7 +198,7 @@ namespace AraWeb.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -220,9 +222,9 @@ namespace AraWeb.Migrations
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     OccupancyDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EvictionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TotalCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalCost = table.Column<double>(type: "float", nullable: false),
                     OccupStateId = table.Column<int>(type: "int", nullable: false),
-                    ReservedById = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ReservedById = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ApartmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
@@ -254,8 +256,8 @@ namespace AraWeb.Migrations
                 {
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ApartmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Cost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    ExtraCharge = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Cost = table.Column<double>(type: "float", nullable: false),
+                    ExtraCharge = table.Column<double>(type: "float", nullable: false),
                     DateStateId = table.Column<int>(type: "int", nullable: false),
                     OccupancyId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
@@ -287,27 +289,27 @@ namespace AraWeb.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0cea8b97-1d44-4abc-88c2-0a01a180349c", null, "Manager", "MANAGER" },
-                    { "2e28c02e-f094-40df-8eec-8ce9c550c7ca", null, "ApartmentOwner", "APARTMENT_OWNER" },
-                    { "56365493-aa14-4bda-a617-f839fb5401b3", null, "User", "USER" },
-                    { "5e35e787-0820-4524-bd32-1b99cabf3654", null, "Administrator", "ADMINISTRATOR" }
+                    { new Guid("2f2397b2-c6f8-403d-882e-ca5657e9aafc"), null, "User", "USER" },
+                    { new Guid("70cd7fc4-44cd-42af-8ec6-91ef7917d805"), null, "ApartmentOwner", "APARTMENT_OWNER" },
+                    { new Guid("8bfdd6f2-6491-45e2-80d9-f0c03af41cf1"), null, "Manager", "MANAGER" },
+                    { new Guid("e4bb7cef-b30c-4827-8a89-cb38c1c6310d"), null, "Administrator", "ADMINISTRATOR" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RefreshToken", "RefreshTokenExperyTime", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "04fe9541-cfc0-4951-93fc-caf65c17c1db", 0, "fba07b89-28e8-480f-a4b8-aa107bd294d1", null, false, "Buster", "Olson", false, null, null, null, null, "1-312-320-1559", false, "0a4119ec-3ad8-4793-a0d7-bf329dafcc53", false, null },
-                    { "1185d9f0-b511-4d3c-8b37-d9de82c4db39", 0, "c3b42fb4-3a0e-4356-a0a0-be79fd011492", null, false, "Clotilde", "Wisozk", false, null, null, null, null, "572-730-7974", false, "42b234b9-2992-48c1-b948-93ee069c4bf8", false, null },
-                    { "16e81a02-08a8-4ecc-9b55-80ee5f4fb4dc", 0, "62e38839-56c8-486a-93dd-03e265320fef", null, false, "Boris", "Crooks", false, null, null, null, null, "(790) 214-0596 x77977", false, "70e859ff-3781-478f-a960-dcfe9220309f", false, null },
-                    { "321420ce-3d16-4c79-ae3a-7614a67812d1", 0, "a742fb51-4b28-4095-af06-f642e6bf1f37", null, false, "Micah", "Sauer", false, null, null, null, null, "218.232.7266 x6289", false, "01253c51-b7cd-44e3-975d-1bbfa7b821e0", false, null },
-                    { "54d12ad0-b4da-488d-9a1a-ad6e32098177", 0, "e272805c-2696-419d-a828-9b95691248eb", null, false, "Isidro", "Parker", false, null, null, null, null, "1-613-568-2334", false, "9752dd0d-ae14-4adf-a8ef-792c5df8b695", false, null },
-                    { "5507f4df-2fac-4428-92fb-8c5da18a6976", 0, "1b99cdc1-c20f-4bd4-9937-87388ac55730", null, false, "Pauline", "McClure", false, null, null, null, null, "1-793-428-6042", false, "441bf689-ff11-4be8-ae37-936fe55a597b", false, null },
-                    { "6d173c0b-14fb-4f8e-bcbd-cbac0c0cc87e", 0, "17a2f6a5-650f-40ea-8ee8-db51d0a26cb9", null, false, "Rhiannon", "Batz", false, null, null, null, null, "237.818.1548 x247", false, "e8316e72-2b0f-44db-8866-daaf23fca1a1", false, null },
-                    { "98fa0699-d564-4c26-88b5-3d990951537a", 0, "ec725f61-7158-45c9-80e2-05bf78b0d58c", null, false, "Cordia", "Gibson", false, null, null, null, null, "290.743.1619 x8094", false, "9ca1a074-1bed-40e2-9101-3290f6028f96", false, null },
-                    { "cefa5530-8d8d-4431-b551-67d75eebb313", 0, "b070a333-05a2-4437-9d3d-810a8ec486ad", null, false, "Damaris", "Corwin", false, null, null, null, null, "278-214-7417 x435", false, "b3d00e12-d0c1-4df9-9389-37857805d2cd", false, null },
-                    { "fba14356-5a90-4756-b8f4-5e0d375630b8", 0, "f9e65e8d-b160-41ff-b3ab-16f4bdb1b426", null, false, "Schuyler", "Roberts", false, null, null, null, null, "883-689-0174", false, "43421ed0-97ce-4649-be4d-eeec5582e126", false, null }
+                    { new Guid("0672a2cd-45c5-410c-bf4c-b78847be080b"), 0, "2781583a-02ff-4891-b4a5-f99348e50d0b", null, false, "Lazaro", "O'Reilly", false, null, null, null, null, "663-275-4207 x504", false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null },
+                    { new Guid("06936d4d-7c6c-48a9-8157-91e58277121e"), 0, "e3ff0b18-59a1-46bc-a323-eba08c62a7e7", null, false, "Jazlyn", "Carter", false, null, null, null, null, "(427) 521-9482", false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null },
+                    { new Guid("07775568-8345-49ac-87bf-29b93c867f01"), 0, "2bee5d88-ca3c-42df-ac8c-f27f6f95937d", null, false, "Tillman", "Torp", false, null, null, null, null, "(215) 379-6532 x7094", false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null },
+                    { new Guid("3cc3e5fc-d7d9-40e9-91fe-9d28dd5e6094"), 0, "e0a5ad29-4d5e-465d-9ee4-e0a3619e456e", null, false, "Theresia", "Sanford", false, null, null, null, null, "835.981.4306", false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null },
+                    { new Guid("b827da64-682e-437a-9ff5-622f82da7eca"), 0, "49556839-f378-4f8b-b2ce-4b9e884b4853", null, false, "Rick", "Daniel", false, null, null, null, null, "276.428.0371", false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null },
+                    { new Guid("bd6d34d8-3bd7-4bbe-9995-a6bc8803a61e"), 0, "3e720e03-9f28-408d-97e0-bbc55daa7eb2", null, false, "Rocio", "Howe", false, null, null, null, null, "(865) 300-0246 x36018", false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null },
+                    { new Guid("c4585018-984a-4a38-a998-e98eb0566350"), 0, "5e41efdb-e483-44c7-979b-34ef93d419d7", null, false, "Sadye", "MacGyver", false, null, null, null, null, "310.493.6064", false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null },
+                    { new Guid("c84d9279-27bf-4db2-ba30-6367911677b8"), 0, "a3ba5840-a4ea-42f7-a86e-94ea98a0ce84", null, false, "Conner", "Satterfield", false, null, null, null, null, "1-200-629-1455 x00463", false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null },
+                    { new Guid("df48d3cf-95fd-4ee9-a94e-0e00fb265d2c"), 0, "45e3b430-ae3d-442e-941a-5c468d7ca282", null, false, "Blake", "Crona", false, null, null, null, null, "776.810.1225 x39649", false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null },
+                    { new Guid("f377b36a-fc9a-42dd-8ac1-f2a72688b033"), 0, "8a60a7d8-576b-4c5e-a820-5af0709c93ff", null, false, "Shawna", "Abshire", false, null, null, null, null, "504.279.6319 x9527", false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, null }
                 });
 
             migrationBuilder.InsertData(
@@ -337,26 +339,26 @@ namespace AraWeb.Migrations
                 columns: new[] { "ApartmentId", "Address", "BedsCount", "GuestsCount", "Name", "OwnerId", "Rate", "ReviewsCount", "RoomsCount", "Square" },
                 values: new object[,]
                 {
-                    { new Guid("13dc134a-3f9c-4a0c-adfb-8e2f24932529"), "07119 Shaniya Island, Hermistonstad, Kyrgyz Republic", 2, 11, "띢⤗鎞᯻漬ݴ釫瞬", "cefa5530-8d8d-4431-b551-67d75eebb313", 0.039374453656426285, 758685472L, 3, 0.41466016972059089 },
-                    { new Guid("16782832-5b96-401c-b9a6-c0eb47c879f4"), "6797 Jakubowski Burgs, Hassanmouth, Congo", 2, 11, "椈㌔�鼨菁찎꽩ꍪ퓧౵", "98fa0699-d564-4c26-88b5-3d990951537a", 0.0973245722610626, 1427562338L, 1, 0.76408841991331156 },
-                    { new Guid("1dbeeffd-4e8b-40f6-9f2b-d9471513b606"), "0167 Elena Springs, Volkmanborough, Pakistan", 6, 1, "쏳얠爥墭눱�妄疥猋霰", "04fe9541-cfc0-4951-93fc-caf65c17c1db", 0.065019609528503608, 1441739267L, 1, 0.73698411247231976 },
-                    { new Guid("2e8cd2b7-9f36-44fc-b39c-2acfb6c1fc8a"), "09583 Clemens Plain, Wilbermouth, Ireland", 3, 10, "假⽻털ꎱﯢ초휩ⷬꏮ韨", "321420ce-3d16-4c79-ae3a-7614a67812d1", 0.072125256690444089, 921275470L, 1, 0.60050631080302341 },
-                    { new Guid("38fd0bd3-3ffc-43ee-862d-12349d08a596"), "200 Marvin Knolls, West Irving, Turkmenistan", 5, 11, "蓙猓硺䉹�ـꐬ㬌", "04fe9541-cfc0-4951-93fc-caf65c17c1db", 0.040516370175228827, 1681220667L, 4, 0.15406867528471244 },
-                    { new Guid("45268d30-fa8b-4fec-8067-b08db2a25a60"), "77755 Mann Landing, Lake Jerelport, Eritrea", 3, 11, "㡁农擜馽뤷ꌅㅑ惩㖫", "5507f4df-2fac-4428-92fb-8c5da18a6976", 0.004389061677205798, 1745338022L, 4, 0.99136779752850945 },
-                    { new Guid("49eec6a0-7d95-41f3-aae2-bed91c7062c8"), "10132 Becker Well, Prudencemouth, Peru", 3, 11, "匩빋�씐㈒㏊嬩詇", "16e81a02-08a8-4ecc-9b55-80ee5f4fb4dc", 0.086084672697905068, 526744234L, 2, 0.33234321178941711 },
-                    { new Guid("4cb56703-b3f3-4160-9ed1-ea3b1884aab3"), "15104 Addie Overpass, Tiastad, Indonesia", 4, 12, "邓躞Ꞣ䁴覠﩮ꧦ粄�", "16e81a02-08a8-4ecc-9b55-80ee5f4fb4dc", 0.095205159972546194, 586076518L, 1, 0.37306226112969604 },
-                    { new Guid("68dbc805-f4f3-4605-94d0-6eb6abf8520c"), "016 Melyssa Club, South Hansmouth, Panama", 2, 10, "祫Ჸ垿睇窆羅䷀�", "98fa0699-d564-4c26-88b5-3d990951537a", 0.040875162869217163, 159198858L, 2, 0.81186010871622249 },
-                    { new Guid("7567e886-2032-42d2-839f-ef0492c4f927"), "652 Larson Prairie, Forestport, Kyrgyz Republic", 1, 5, "ᨚ쥺衤෸⠇輗蓓钂《�", "54d12ad0-b4da-488d-9a1a-ad6e32098177", 0.026731343023977307, 160694619L, 3, 0.84901921385082457 },
-                    { new Guid("8bc0b6cc-6c48-4b4b-87c8-938d6d326718"), "154 Javier Highway, North Goldenstad, Bermuda", 8, 3, "㋴藴윬罰揚㧚折᫇�", "6d173c0b-14fb-4f8e-bcbd-cbac0c0cc87e", 0.039160907396088122, 893414872L, 4, 0.23023719493163816 },
-                    { new Guid("933f5dfa-b8ea-44bf-8045-bc62bd51524a"), "9120 Simone Harbor, Lake Alizeberg, Venezuela", 7, 8, "볼伮㝛莵簟뒻긟肧ᗬ䘳", "cefa5530-8d8d-4431-b551-67d75eebb313", 0.01935986145582368, 437151648L, 4, 0.94087338105029694 },
-                    { new Guid("a24b2e56-1ec6-486a-8033-bf84239858eb"), "87522 Stokes Coves, South Cleve, Dominica", 3, 1, "쳞輧贡撔昋驅ᴒ证蝐", "6d173c0b-14fb-4f8e-bcbd-cbac0c0cc87e", 0.0041568771843824431, 1807573545L, 4, 0.88592323607411017 },
-                    { new Guid("ad8efa22-3113-4dd4-aa79-cc37d97466e8"), "73353 Beahan Lane, Kreigershire, South Georgia and the South Sandwich Islands", 8, 3, "‘䒝ﯰý῎㽫쉛偕k", "54d12ad0-b4da-488d-9a1a-ad6e32098177", 0.077126147313868992, 984073980L, 2, 0.98876125801219061 },
-                    { new Guid("b44eea52-4cd8-4788-904b-c0c4c41d6d36"), "781 Kurtis Creek, Hicklefurt, Saint Helena", 8, 4, "ִ躭ư甐ᖚ煮ഝ", "fba14356-5a90-4756-b8f4-5e0d375630b8", 0.033142839721575709, 1693513771L, 1, 0.80001382055134607 },
-                    { new Guid("bfdbf68c-f4e8-4003-9354-e870fb96d27e"), "7300 Juana Stravenue, South Gerhardborough, Ethiopia", 6, 7, "꘨스䏩枿⹾；侉䫣嵑�", "1185d9f0-b511-4d3c-8b37-d9de82c4db39", 0.068443370411677959, 548121382L, 4, 0.37841684916962576 },
-                    { new Guid("c200fa81-cd98-4fe7-8a7f-5b3f555551db"), "90380 Benedict Lock, Kertzmannbury, Colombia", 6, 12, "ᅓ꯹�ٽ⎳ㆥ鴫筞Ｙ", "321420ce-3d16-4c79-ae3a-7614a67812d1", 0.0042753090014248894, 201129124L, 2, 0.7748539275515024 },
-                    { new Guid("cbd009ee-9024-42cc-b459-976777989bf7"), "505 Metz Ports, Lake Luna, South Africa", 4, 9, "㺞瀩ⵥ஠�팟⓸ᗓ날쥖", "5507f4df-2fac-4428-92fb-8c5da18a6976", 0.03480128512865345, 115416269L, 1, 0.72704874314556223 },
-                    { new Guid("d250e216-13ee-4b1c-8250-57229417ffb6"), "8132 Dominique Courts, Lake Allisonfort, Libyan Arab Jamahiriya", 3, 9, "꼛죰욑ﯡ䣶࿝◄鐎", "fba14356-5a90-4756-b8f4-5e0d375630b8", 0.043783132969357819, 966366500L, 1, 0.15565815762644733 },
-                    { new Guid("e96538c0-c854-4a1a-8b39-9ec6fbadcdcb"), "694 Ledner Ports, North Kristoffer, Niger", 4, 6, "ꋶٖ覅蟎ꬤ⌉飗蛀ﮤ", "1185d9f0-b511-4d3c-8b37-d9de82c4db39", 0.088313964846845353, 889358515L, 3, 0.42293483819530553 }
+                    { new Guid("10f45add-a8c9-4f2b-b36c-64192b04b5fa"), "4022 Tracey Branch, Port Alexa, Azerbaijan", 6, 11, "Exercitationem sint repellat.", new Guid("b827da64-682e-437a-9ff5-622f82da7eca"), 1.8, 33L, 3, 88.049999999999997 },
+                    { new Guid("1d884ee4-fad7-4036-85f3-cb7d77128cfa"), "27091 Rath Corner, Lake Everett, Antigua and Barbuda", 1, 3, "Eligendi mollitia libero.", new Guid("3cc3e5fc-d7d9-40e9-91fe-9d28dd5e6094"), 9.6999999999999993, 38L, 4, 32.859999999999999 },
+                    { new Guid("2227f501-86bb-44d7-955e-7520b4f20ab0"), "33074 Helene Forges, Lake Frederique, Papua New Guinea", 8, 5, "Sed illo mollitia.", new Guid("bd6d34d8-3bd7-4bbe-9995-a6bc8803a61e"), 1.6000000000000001, 86L, 1, 31.98 },
+                    { new Guid("32e912fb-43ad-43f4-950b-f512485c63e0"), "799 Stehr Station, South Don, Kyrgyz Republic", 8, 5, "Et voluptatem ex.", new Guid("f377b36a-fc9a-42dd-8ac1-f2a72688b033"), 3.2000000000000002, 50L, 2, 9.3900000000000006 },
+                    { new Guid("382f795a-4bca-493b-929a-d92fc69d009e"), "7486 Rosina Plains, Bernitaberg, Tuvalu", 8, 10, "Ratione in distinctio.", new Guid("0672a2cd-45c5-410c-bf4c-b78847be080b"), 4.5, 39L, 4, 76.489999999999995 },
+                    { new Guid("5293c09c-0b37-4dd9-b274-ecefcf20471f"), "332 Morgan Avenue, West Ulises, Bermuda", 2, 12, "Cumque non quod.", new Guid("f377b36a-fc9a-42dd-8ac1-f2a72688b033"), 8.5, 45L, 3, 47.789999999999999 },
+                    { new Guid("5b4bf18f-b3bd-49be-970c-c18701971045"), "0689 Peter Neck, McDermottfurt, Guam", 8, 6, "Pariatur autem placeat.", new Guid("bd6d34d8-3bd7-4bbe-9995-a6bc8803a61e"), 6.9000000000000004, 60L, 2, 70.769999999999996 },
+                    { new Guid("5f10b441-ac22-41d1-b855-ce8292fa035a"), "370 Celine Manors, West Daphneemouth, Northern Mariana Islands", 4, 5, "Eveniet dolores quia.", new Guid("c84d9279-27bf-4db2-ba30-6367911677b8"), 3.8999999999999999, 38L, 3, 94.829999999999998 },
+                    { new Guid("7444033b-4884-4b97-9273-4871a587f0f6"), "855 Schuster Valleys, North Jettieland, Saint Kitts and Nevis", 2, 12, "Ullam repellendus ipsa.", new Guid("df48d3cf-95fd-4ee9-a94e-0e00fb265d2c"), 5.2000000000000002, 63L, 4, 38.880000000000003 },
+                    { new Guid("768bb65e-35b6-4a9d-9c9f-0e625049fd73"), "48728 Savanna Stravenue, Quintonville, Turkey", 3, 7, "Alias qui dolor.", new Guid("b827da64-682e-437a-9ff5-622f82da7eca"), 5.5999999999999996, 63L, 1, 22.620000000000001 },
+                    { new Guid("793ca25e-fb8a-465b-9b0b-ed7f7374e0ef"), "73721 Goldner Fords, Kirlinmouth, Wallis and Futuna", 6, 1, "Temporibus exercitationem sit.", new Guid("06936d4d-7c6c-48a9-8157-91e58277121e"), 8.1999999999999993, 41L, 1, 70.689999999999998 },
+                    { new Guid("8844ae44-308f-4a51-aadf-4b0eefd40321"), "24048 Goodwin Mountain, West Maximus, Dominican Republic", 6, 12, "Ea quia similique.", new Guid("06936d4d-7c6c-48a9-8157-91e58277121e"), 1.2, 65L, 1, 21.199999999999999 },
+                    { new Guid("98eadb3c-e378-4436-a4bb-a9aef9eec82b"), "8598 Jovany Hills, North Dean, Paraguay", 2, 12, "Inventore cupiditate ut.", new Guid("c4585018-984a-4a38-a998-e98eb0566350"), 9.4000000000000004, 36L, 2, 94.450000000000003 },
+                    { new Guid("9b02d999-93be-47a4-a782-59ef4b88d3d6"), "08223 Glenda Forest, Kertzmannton, Uzbekistan", 3, 4, "Et est error.", new Guid("3cc3e5fc-d7d9-40e9-91fe-9d28dd5e6094"), 6.2000000000000002, 61L, 4, 0.56999999999999995 },
+                    { new Guid("a3f0b07d-9053-4543-a0ce-ce97df9620bf"), "743 Cassin Point, South Eveline, Samoa", 7, 5, "Saepe quos incidunt.", new Guid("c4585018-984a-4a38-a998-e98eb0566350"), 2.8999999999999999, 93L, 3, 53.539999999999999 },
+                    { new Guid("bbbbe96c-e52e-4ea8-9513-a3ca7df7b8f3"), "654 Tanner Curve, Kyliefurt, Lao People's Democratic Republic", 2, 8, "Praesentium enim aut.", new Guid("07775568-8345-49ac-87bf-29b93c867f01"), 1.0, 28L, 3, 61.93 },
+                    { new Guid("f1c7b408-4f08-48d9-a59a-d97bb31c15b6"), "1266 Antonetta Ridges, Lake Otha, Western Sahara", 1, 10, "Temporibus laborum ea.", new Guid("0672a2cd-45c5-410c-bf4c-b78847be080b"), 3.1000000000000001, 90L, 4, 30.140000000000001 },
+                    { new Guid("f47eb9a8-082b-42ea-96f8-abdcb3acff1a"), "339 Abner Springs, O'Connerburgh, Philippines", 6, 12, "Nesciunt et praesentium.", new Guid("07775568-8345-49ac-87bf-29b93c867f01"), 0.29999999999999999, 43L, 3, 19.239999999999998 },
+                    { new Guid("f8d831bf-16a4-445c-8149-ee4a40fa0a4c"), "1527 Becker Forges, Lewshire, Colombia", 1, 8, "Laudantium amet corporis.", new Guid("c84d9279-27bf-4db2-ba30-6367911677b8"), 8.8000000000000007, 82L, 2, 25.890000000000001 },
+                    { new Guid("fd9c4e82-8a6c-4ba8-8276-288719fd000b"), "642 Geoffrey Squares, Wittingfort, Cameroon", 6, 4, "Consequuntur quo doloremque.", new Guid("df48d3cf-95fd-4ee9-a94e-0e00fb265d2c"), 1.3, 37L, 2, 80.709999999999994 }
                 });
 
             migrationBuilder.CreateIndex(

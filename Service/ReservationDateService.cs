@@ -41,14 +41,14 @@ namespace Service
             return datesDto;
         }
 
-        public async Task<IEnumerable<ReservationDateDto>> GetDatesForUserAsync(string userId,
+        public async Task<IEnumerable<ReservationDateDto>> GetDatesForUserAsync(Guid userId,
             bool trackChanges)
         {
             var user = _repository.User.GetUserByIdAsync(userId, trackChanges);
             if (user is null)
                 throw new UserNotFoundException(userId);
 
-            var dates = await _repository.ReservationDate.GetDatesForUserAsync(userId.ToString(),
+            var dates = await _repository.ReservationDate.GetDatesForUserAsync(userId,
                 trackChanges);
 
             var datesDto = _mapper.Map<IEnumerable<ReservationDateDto>>(dates);

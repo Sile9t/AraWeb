@@ -21,7 +21,7 @@
         {
         }
 
-        public UserNotFoundException(string id) :
+        public UserNotFoundException(Guid id) :
             base($"User with id: {id} doesn't exist in the database.")
         {
         }

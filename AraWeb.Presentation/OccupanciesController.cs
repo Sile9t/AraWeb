@@ -9,6 +9,7 @@ namespace AraWeb.Presentation
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize]
     public class OccupanciesController : ControllerBase
     {
         private readonly IServiceManager _service;
@@ -31,27 +32,26 @@ namespace AraWeb.Presentation
         public async Task<IActionResult> GetOccupaciesForUser(Guid userId)
         {
             var occups = await _service.OccupancyService
-                .GetOccupanciesForUserAsync(userId.ToString(), trackChanges: false);
+                .GetOccupanciesForUserAsync(userId, trackChanges: false);
 
             return Ok(occups);
         }
 
-        [HttpPost("id:guid", Name = "CreateOccupancyForApartment")]
-        [Authorize]
+        [HttpPost("{id:guid}", Name = "CreateOccupancyForApartment")]
         public async Task<IActionResult> CreateOccupancyForApartment(Guid apartId, 
             [FromQuery] ApartmentParameters apartParameters)
         {
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+            Guid.TryParse(this.User.FindFirst(ClaimTypes.NameIdentifier)!.Value, out Guid userId);
             var occupDto = CreateOccupancyDtoFromApartParameters(apartId, userId, apartParameters);
             var occup = await _service.OccupancyService
-                .CreateOccupancyForApartmentAsync(userId, apartId, occupDto, 
+                .CreateOccupancyForUserAndApartmentAsync(userId, apartId, occupDto, 
                     userTrackChanges: true, apartTrackChanges: true, occupTrackChanges: false);
 
             return Ok(occup);
         }
 
         private OccupancyForCreationDto CreateOccupancyDtoFromApartParameters(Guid apartId,
-            string userId, ApartmentParameters apartmentParameters)
+            Guid userId, ApartmentParameters apartmentParameters)
         {
             throw new NotImplementedException();
         }

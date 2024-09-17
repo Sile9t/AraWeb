@@ -43,9 +43,8 @@ namespace AraWeb.Migrations
                         .HasMaxLength(80)
                         .HasColumnType("nvarchar(80)");
 
-                    b.Property<string>("OwnerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<double>("Rate")
                         .HasColumnType("float");
@@ -68,263 +67,263 @@ namespace AraWeb.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("3688429c-47b0-4e23-9e57-33ee98f588b5"),
-                            Address = "368 Bernie Meadows, Eloisemouth, Pakistan",
-                            BedsCount = 2,
+                            Id = new Guid("f8d831bf-16a4-445c-8149-ee4a40fa0a4c"),
+                            Address = "1527 Becker Forges, Lewshire, Colombia",
+                            BedsCount = 1,
                             GuestsCount = 8,
-                            Name = "Qui hic quia.",
-                            OwnerId = "b9cd9883-962a-4142-b293-1c9f10416063",
-                            Rate = 0.0033373327577701506,
-                            ReviewsCount = 92L,
-                            RoomsCount = 4,
-                            Square = 0.6319639063966318
+                            Name = "Laudantium amet corporis.",
+                            OwnerId = new Guid("c84d9279-27bf-4db2-ba30-6367911677b8"),
+                            Rate = 8.8000000000000007,
+                            ReviewsCount = 82L,
+                            RoomsCount = 2,
+                            Square = 25.890000000000001
                         },
                         new
                         {
-                            Id = new Guid("c1f6bd65-7d25-4db6-94c1-39599c081f66"),
-                            Address = "97804 Kristoffer Loop, East Isabella, Reunion",
-                            BedsCount = 2,
-                            GuestsCount = 10,
-                            Name = "Quas error soluta.",
-                            OwnerId = "b9cd9883-962a-4142-b293-1c9f10416063",
-                            Rate = 0.045628183308208059,
-                            ReviewsCount = 501L,
-                            RoomsCount = 1,
-                            Square = 0.028801835965608716
+                            Id = new Guid("5f10b441-ac22-41d1-b855-ce8292fa035a"),
+                            Address = "370 Celine Manors, West Daphneemouth, Northern Mariana Islands",
+                            BedsCount = 4,
+                            GuestsCount = 5,
+                            Name = "Eveniet dolores quia.",
+                            OwnerId = new Guid("c84d9279-27bf-4db2-ba30-6367911677b8"),
+                            Rate = 3.8999999999999999,
+                            ReviewsCount = 38L,
+                            RoomsCount = 3,
+                            Square = 94.829999999999998
                         },
                         new
                         {
-                            Id = new Guid("bf64fa9a-774d-4e99-b17d-a579efe2a25e"),
-                            Address = "59491 Green Neck, South Barneyville, Peru",
-                            BedsCount = 5,
-                            GuestsCount = 4,
-                            Name = "Amet quae ut.",
-                            OwnerId = "0323fbbf-53bd-47d6-a440-53ac523cf4d8",
-                            Rate = 0.075392219673554986,
-                            ReviewsCount = 327L,
-                            RoomsCount = 4,
-                            Square = 0.86381195879573558
-                        },
-                        new
-                        {
-                            Id = new Guid("1e86879d-14a8-4820-a39a-647d60b94b2e"),
-                            Address = "224 Hoppe Road, West Blaise, Benin",
+                            Id = new Guid("a3f0b07d-9053-4543-a0ce-ce97df9620bf"),
+                            Address = "743 Cassin Point, South Eveline, Samoa",
                             BedsCount = 7,
-                            GuestsCount = 4,
-                            Name = "Excepturi dicta expedita.",
-                            OwnerId = "0323fbbf-53bd-47d6-a440-53ac523cf4d8",
-                            Rate = 0.047790940867059789,
-                            ReviewsCount = 405L,
-                            RoomsCount = 1,
-                            Square = 0.58705321458708981
-                        },
-                        new
-                        {
-                            Id = new Guid("e4f9a37b-aacb-4418-845f-d64dd5f2d5cf"),
-                            Address = "36348 Lesly Summit, South Eliane, Guatemala",
-                            BedsCount = 2,
-                            GuestsCount = 1,
-                            Name = "Nisi animi ut.",
-                            OwnerId = "d3948b32-992b-4165-acb1-1912bd51d3f7",
-                            Rate = 0.032361017141493038,
-                            ReviewsCount = 370L,
-                            RoomsCount = 2,
-                            Square = 0.24518564579344895
-                        },
-                        new
-                        {
-                            Id = new Guid("1ae934f5-137c-4f51-bc01-20b02eecfe0b"),
-                            Address = "066 Wendy Lane, Schoentown, Niue",
-                            BedsCount = 5,
                             GuestsCount = 5,
-                            Name = "Repellendus id aut.",
-                            OwnerId = "d3948b32-992b-4165-acb1-1912bd51d3f7",
-                            Rate = 0.018625203199539014,
-                            ReviewsCount = 335L,
+                            Name = "Saepe quos incidunt.",
+                            OwnerId = new Guid("c4585018-984a-4a38-a998-e98eb0566350"),
+                            Rate = 2.8999999999999999,
+                            ReviewsCount = 93L,
                             RoomsCount = 3,
-                            Square = 0.042302550387608891
+                            Square = 53.539999999999999
                         },
                         new
                         {
-                            Id = new Guid("243b0c6a-bd37-4f7b-b29f-9983392ef867"),
-                            Address = "1520 Ariane Cliffs, Tedland, Saint Martin",
-                            BedsCount = 5,
-                            GuestsCount = 7,
-                            Name = "Voluptate quo fuga.",
-                            OwnerId = "ba8a57b0-95e2-4064-9bdb-ebe5ddf8044e",
-                            Rate = 0.012128251761911787,
-                            ReviewsCount = 125L,
-                            RoomsCount = 3,
-                            Square = 0.60368847567483053
-                        },
-                        new
-                        {
-                            Id = new Guid("d9483c88-149c-4208-b698-a178e46ede7c"),
-                            Address = "4373 Gerlach Track, Trompview, Nigeria",
-                            BedsCount = 3,
-                            GuestsCount = 5,
-                            Name = "Eos quisquam eos.",
-                            OwnerId = "ba8a57b0-95e2-4064-9bdb-ebe5ddf8044e",
-                            Rate = 0.053241091315546288,
-                            ReviewsCount = 96L,
-                            RoomsCount = 2,
-                            Square = 0.095819201799158926
-                        },
-                        new
-                        {
-                            Id = new Guid("a8d7a7f0-6561-43fc-83f2-9bbeeed97121"),
-                            Address = "51632 Christopher Trace, Morarmouth, Oman",
-                            BedsCount = 8,
-                            GuestsCount = 7,
-                            Name = "Voluptates non pariatur.",
-                            OwnerId = "ef52febd-2ea8-4a36-8164-606fedd5bdcd",
-                            Rate = 0.052979433639450124,
-                            ReviewsCount = 80L,
-                            RoomsCount = 4,
-                            Square = 0.59513722996450169
-                        },
-                        new
-                        {
-                            Id = new Guid("493f2dad-957f-4834-9def-e518316bce7c"),
-                            Address = "8799 Janelle Land, Imanimouth, Nicaragua",
-                            BedsCount = 2,
-                            GuestsCount = 5,
-                            Name = "Laboriosam quod saepe.",
-                            OwnerId = "ef52febd-2ea8-4a36-8164-606fedd5bdcd",
-                            Rate = 0.027210807946348742,
-                            ReviewsCount = 588L,
-                            RoomsCount = 4,
-                            Square = 0.32506895770983751
-                        },
-                        new
-                        {
-                            Id = new Guid("49d54290-1d66-444d-ac93-d315d4d06778"),
-                            Address = "3310 Wyman Extensions, Jonberg, Congo",
+                            Id = new Guid("98eadb3c-e378-4436-a4bb-a9aef9eec82b"),
+                            Address = "8598 Jovany Hills, North Dean, Paraguay",
                             BedsCount = 2,
                             GuestsCount = 12,
-                            Name = "Totam aut quod.",
-                            OwnerId = "f7b3312d-ac3e-482a-82c1-24b3f0df84ae",
-                            Rate = 0.049683043378912439,
-                            ReviewsCount = 418L,
+                            Name = "Inventore cupiditate ut.",
+                            OwnerId = new Guid("c4585018-984a-4a38-a998-e98eb0566350"),
+                            Rate = 9.4000000000000004,
+                            ReviewsCount = 36L,
                             RoomsCount = 2,
-                            Square = 0.15261330193068398
+                            Square = 94.450000000000003
                         },
                         new
                         {
-                            Id = new Guid("1fe8bce1-27a9-4749-814e-e48363601123"),
-                            Address = "571 West Meadows, Donniemouth, Peru",
-                            BedsCount = 3,
-                            GuestsCount = 8,
-                            Name = "Earum doloribus et.",
-                            OwnerId = "f7b3312d-ac3e-482a-82c1-24b3f0df84ae",
-                            Rate = 0.082817630568003231,
-                            ReviewsCount = 619L,
-                            RoomsCount = 3,
-                            Square = 0.82432238364765487
-                        },
-                        new
-                        {
-                            Id = new Guid("32b60fc7-5fdb-4036-ab5d-1ba10eaade6c"),
-                            Address = "1141 Leannon Run, Schambergerport, French Polynesia",
+                            Id = new Guid("32e912fb-43ad-43f4-950b-f512485c63e0"),
+                            Address = "799 Stehr Station, South Don, Kyrgyz Republic",
                             BedsCount = 8,
-                            GuestsCount = 6,
-                            Name = "Aut eveniet architecto.",
-                            OwnerId = "b93c1225-e090-4cf6-9bdf-ee22e647a9f3",
-                            Rate = 0.08623942645767177,
-                            ReviewsCount = 397L,
+                            GuestsCount = 5,
+                            Name = "Et voluptatem ex.",
+                            OwnerId = new Guid("f377b36a-fc9a-42dd-8ac1-f2a72688b033"),
+                            Rate = 3.2000000000000002,
+                            ReviewsCount = 50L,
                             RoomsCount = 2,
-                            Square = 0.37959326280839584
+                            Square = 9.3900000000000006
                         },
                         new
                         {
-                            Id = new Guid("ec35aa06-45e0-4515-a9d1-1c1c834337dc"),
-                            Address = "342 Johnston Locks, New Brentchester, Lithuania",
+                            Id = new Guid("5293c09c-0b37-4dd9-b274-ecefcf20471f"),
+                            Address = "332 Morgan Avenue, West Ulises, Bermuda",
+                            BedsCount = 2,
+                            GuestsCount = 12,
+                            Name = "Cumque non quod.",
+                            OwnerId = new Guid("f377b36a-fc9a-42dd-8ac1-f2a72688b033"),
+                            Rate = 8.5,
+                            ReviewsCount = 45L,
+                            RoomsCount = 3,
+                            Square = 47.789999999999999
+                        },
+                        new
+                        {
+                            Id = new Guid("fd9c4e82-8a6c-4ba8-8276-288719fd000b"),
+                            Address = "642 Geoffrey Squares, Wittingfort, Cameroon",
+                            BedsCount = 6,
+                            GuestsCount = 4,
+                            Name = "Consequuntur quo doloremque.",
+                            OwnerId = new Guid("df48d3cf-95fd-4ee9-a94e-0e00fb265d2c"),
+                            Rate = 1.3,
+                            ReviewsCount = 37L,
+                            RoomsCount = 2,
+                            Square = 80.709999999999994
+                        },
+                        new
+                        {
+                            Id = new Guid("7444033b-4884-4b97-9273-4871a587f0f6"),
+                            Address = "855 Schuster Valleys, North Jettieland, Saint Kitts and Nevis",
+                            BedsCount = 2,
+                            GuestsCount = 12,
+                            Name = "Ullam repellendus ipsa.",
+                            OwnerId = new Guid("df48d3cf-95fd-4ee9-a94e-0e00fb265d2c"),
+                            Rate = 5.2000000000000002,
+                            ReviewsCount = 63L,
+                            RoomsCount = 4,
+                            Square = 38.880000000000003
+                        },
+                        new
+                        {
+                            Id = new Guid("10f45add-a8c9-4f2b-b36c-64192b04b5fa"),
+                            Address = "4022 Tracey Branch, Port Alexa, Azerbaijan",
+                            BedsCount = 6,
+                            GuestsCount = 11,
+                            Name = "Exercitationem sint repellat.",
+                            OwnerId = new Guid("b827da64-682e-437a-9ff5-622f82da7eca"),
+                            Rate = 1.8,
+                            ReviewsCount = 33L,
+                            RoomsCount = 3,
+                            Square = 88.049999999999997
+                        },
+                        new
+                        {
+                            Id = new Guid("768bb65e-35b6-4a9d-9c9f-0e625049fd73"),
+                            Address = "48728 Savanna Stravenue, Quintonville, Turkey",
+                            BedsCount = 3,
+                            GuestsCount = 7,
+                            Name = "Alias qui dolor.",
+                            OwnerId = new Guid("b827da64-682e-437a-9ff5-622f82da7eca"),
+                            Rate = 5.5999999999999996,
+                            ReviewsCount = 63L,
+                            RoomsCount = 1,
+                            Square = 22.620000000000001
+                        },
+                        new
+                        {
+                            Id = new Guid("1d884ee4-fad7-4036-85f3-cb7d77128cfa"),
+                            Address = "27091 Rath Corner, Lake Everett, Antigua and Barbuda",
+                            BedsCount = 1,
+                            GuestsCount = 3,
+                            Name = "Eligendi mollitia libero.",
+                            OwnerId = new Guid("3cc3e5fc-d7d9-40e9-91fe-9d28dd5e6094"),
+                            Rate = 9.6999999999999993,
+                            ReviewsCount = 38L,
+                            RoomsCount = 4,
+                            Square = 32.859999999999999
+                        },
+                        new
+                        {
+                            Id = new Guid("9b02d999-93be-47a4-a782-59ef4b88d3d6"),
+                            Address = "08223 Glenda Forest, Kertzmannton, Uzbekistan",
                             BedsCount = 3,
                             GuestsCount = 4,
-                            Name = "Perspiciatis in modi.",
-                            OwnerId = "b93c1225-e090-4cf6-9bdf-ee22e647a9f3",
-                            Rate = 0.049712483782661021,
-                            ReviewsCount = 381L,
-                            RoomsCount = 1,
-                            Square = 0.78516409839881618
-                        },
-                        new
-                        {
-                            Id = new Guid("f18a0ff1-d3f6-49f7-99d3-b0e1d2df7951"),
-                            Address = "21396 Obie Isle, Bradtkechester, Cuba",
-                            BedsCount = 8,
-                            GuestsCount = 2,
-                            Name = "Consectetur ut aut.",
-                            OwnerId = "40d54930-899b-491e-a73e-e7359cbecced",
-                            Rate = 0.038001055553054039,
-                            ReviewsCount = 477L,
-                            RoomsCount = 1,
-                            Square = 0.65945249940529227
-                        },
-                        new
-                        {
-                            Id = new Guid("2e9ebc73-1f2b-47ae-983f-a05521419269"),
-                            Address = "9329 Grimes Forest, New Bryon, Central African Republic",
-                            BedsCount = 4,
-                            GuestsCount = 3,
-                            Name = "Velit tempora maxime.",
-                            OwnerId = "40d54930-899b-491e-a73e-e7359cbecced",
-                            Rate = 0.039654651854748209,
-                            ReviewsCount = 994L,
-                            RoomsCount = 1,
-                            Square = 0.37106119541311844
-                        },
-                        new
-                        {
-                            Id = new Guid("bdcc55d8-0cd0-4361-a983-4ef285503695"),
-                            Address = "832 Mike Causeway, North Brennontown, Mali",
-                            BedsCount = 2,
-                            GuestsCount = 2,
-                            Name = "Et qui in.",
-                            OwnerId = "2d2a54a4-56a8-44e9-83c2-f5804b317261",
-                            Rate = 0.061606619807367896,
-                            ReviewsCount = 977L,
-                            RoomsCount = 3,
-                            Square = 0.34586976155600091
-                        },
-                        new
-                        {
-                            Id = new Guid("9635f2ff-5e40-4be8-865d-e77b086720e6"),
-                            Address = "59593 Annalise Ranch, Port Westonstad, Kiribati",
-                            BedsCount = 3,
-                            GuestsCount = 2,
-                            Name = "Aut iste ea.",
-                            OwnerId = "2d2a54a4-56a8-44e9-83c2-f5804b317261",
-                            Rate = 0.010194210894706093,
-                            ReviewsCount = 926L,
+                            Name = "Et est error.",
+                            OwnerId = new Guid("3cc3e5fc-d7d9-40e9-91fe-9d28dd5e6094"),
+                            Rate = 6.2000000000000002,
+                            ReviewsCount = 61L,
                             RoomsCount = 4,
-                            Square = 0.13832967362221241
+                            Square = 0.56999999999999995
                         },
                         new
                         {
-                            Id = new Guid("ed61a9ab-2a76-4ee9-bd4f-1c60841d1b71"),
-                            Address = "23537 O'Hara Key, Spencerbury, Seychelles",
-                            BedsCount = 6,
-                            GuestsCount = 3,
-                            Name = "Illum accusantium debitis.",
-                            OwnerId = "0a967d8d-d2e4-41e2-baba-50b6aa96f781",
-                            Rate = 0.034315606397801887,
-                            ReviewsCount = 737L,
-                            RoomsCount = 3,
-                            Square = 0.75160945537587065
+                            Id = new Guid("382f795a-4bca-493b-929a-d92fc69d009e"),
+                            Address = "7486 Rosina Plains, Bernitaberg, Tuvalu",
+                            BedsCount = 8,
+                            GuestsCount = 10,
+                            Name = "Ratione in distinctio.",
+                            OwnerId = new Guid("0672a2cd-45c5-410c-bf4c-b78847be080b"),
+                            Rate = 4.5,
+                            ReviewsCount = 39L,
+                            RoomsCount = 4,
+                            Square = 76.489999999999995
                         },
                         new
                         {
-                            Id = new Guid("c177a782-6004-4013-80a4-531f6d7a3c0b"),
-                            Address = "06102 Stoltenberg Burg, Lake Miketown, Belarus",
-                            BedsCount = 7,
+                            Id = new Guid("f1c7b408-4f08-48d9-a59a-d97bb31c15b6"),
+                            Address = "1266 Antonetta Ridges, Lake Otha, Western Sahara",
+                            BedsCount = 1,
+                            GuestsCount = 10,
+                            Name = "Temporibus laborum ea.",
+                            OwnerId = new Guid("0672a2cd-45c5-410c-bf4c-b78847be080b"),
+                            Rate = 3.1000000000000001,
+                            ReviewsCount = 90L,
+                            RoomsCount = 4,
+                            Square = 30.140000000000001
+                        },
+                        new
+                        {
+                            Id = new Guid("5b4bf18f-b3bd-49be-970c-c18701971045"),
+                            Address = "0689 Peter Neck, McDermottfurt, Guam",
+                            BedsCount = 8,
+                            GuestsCount = 6,
+                            Name = "Pariatur autem placeat.",
+                            OwnerId = new Guid("bd6d34d8-3bd7-4bbe-9995-a6bc8803a61e"),
+                            Rate = 6.9000000000000004,
+                            ReviewsCount = 60L,
+                            RoomsCount = 2,
+                            Square = 70.769999999999996
+                        },
+                        new
+                        {
+                            Id = new Guid("2227f501-86bb-44d7-955e-7520b4f20ab0"),
+                            Address = "33074 Helene Forges, Lake Frederique, Papua New Guinea",
+                            BedsCount = 8,
                             GuestsCount = 5,
-                            Name = "Magnam illo quibusdam.",
-                            OwnerId = "0a967d8d-d2e4-41e2-baba-50b6aa96f781",
-                            Rate = 0.091011207418321527,
-                            ReviewsCount = 283L,
+                            Name = "Sed illo mollitia.",
+                            OwnerId = new Guid("bd6d34d8-3bd7-4bbe-9995-a6bc8803a61e"),
+                            Rate = 1.6000000000000001,
+                            ReviewsCount = 86L,
+                            RoomsCount = 1,
+                            Square = 31.98
+                        },
+                        new
+                        {
+                            Id = new Guid("8844ae44-308f-4a51-aadf-4b0eefd40321"),
+                            Address = "24048 Goodwin Mountain, West Maximus, Dominican Republic",
+                            BedsCount = 6,
+                            GuestsCount = 12,
+                            Name = "Ea quia similique.",
+                            OwnerId = new Guid("06936d4d-7c6c-48a9-8157-91e58277121e"),
+                            Rate = 1.2,
+                            ReviewsCount = 65L,
+                            RoomsCount = 1,
+                            Square = 21.199999999999999
+                        },
+                        new
+                        {
+                            Id = new Guid("793ca25e-fb8a-465b-9b0b-ed7f7374e0ef"),
+                            Address = "73721 Goldner Fords, Kirlinmouth, Wallis and Futuna",
+                            BedsCount = 6,
+                            GuestsCount = 1,
+                            Name = "Temporibus exercitationem sit.",
+                            OwnerId = new Guid("06936d4d-7c6c-48a9-8157-91e58277121e"),
+                            Rate = 8.1999999999999993,
+                            ReviewsCount = 41L,
+                            RoomsCount = 1,
+                            Square = 70.689999999999998
+                        },
+                        new
+                        {
+                            Id = new Guid("bbbbe96c-e52e-4ea8-9513-a3ca7df7b8f3"),
+                            Address = "654 Tanner Curve, Kyliefurt, Lao People's Democratic Republic",
+                            BedsCount = 2,
+                            GuestsCount = 8,
+                            Name = "Praesentium enim aut.",
+                            OwnerId = new Guid("07775568-8345-49ac-87bf-29b93c867f01"),
+                            Rate = 1.0,
+                            ReviewsCount = 28L,
                             RoomsCount = 3,
-                            Square = 0.39778635187132355
+                            Square = 61.93
+                        },
+                        new
+                        {
+                            Id = new Guid("f47eb9a8-082b-42ea-96f8-abdcb3acff1a"),
+                            Address = "339 Abner Springs, O'Connerburgh, Philippines",
+                            BedsCount = 6,
+                            GuestsCount = 12,
+                            Name = "Nesciunt et praesentium.",
+                            OwnerId = new Guid("07775568-8345-49ac-87bf-29b93c867f01"),
+                            Rate = 0.29999999999999999,
+                            ReviewsCount = 43L,
+                            RoomsCount = 3,
+                            Square = 19.239999999999998
                         });
                 });
 
@@ -427,11 +426,11 @@ namespace AraWeb.Migrations
                     b.Property<DateTime>("OccupancyDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ReservedById")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid?>("ReservedById")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("TotalCost")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("TotalCost")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -452,14 +451,14 @@ namespace AraWeb.Migrations
                     b.Property<Guid>("ApartmentId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("Cost")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Cost")
+                        .HasColumnType("float");
 
                     b.Property<int>("DateStateId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("ExtraCharge")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("ExtraCharge")
+                        .HasColumnType("float");
 
                     b.Property<Guid?>("OccupancyId")
                         .HasColumnType("uniqueidentifier");
@@ -477,8 +476,9 @@ namespace AraWeb.Migrations
 
             modelBuilder.Entity("Entities.Models.User", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -555,160 +555,151 @@ namespace AraWeb.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b9cd9883-962a-4142-b293-1c9f10416063",
+                            Id = new Guid("c84d9279-27bf-4db2-ba30-6367911677b8"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "37d92fb8-0ad4-47ad-a402-3ce8e3b2e9ca",
+                            ConcurrencyStamp = "a3ba5840-a4ea-42f7-a86e-94ea98a0ce84",
                             EmailConfirmed = false,
-                            FirstName = "Robin",
-                            LastName = "Okuneva",
+                            FirstName = "Conner",
+                            LastName = "Satterfield",
                             LockoutEnabled = false,
-                            PhoneNumber = "(353) 325-8241 x43499",
+                            PhoneNumber = "1-200-629-1455 x00463",
                             PhoneNumberConfirmed = false,
                             RefreshTokenExperyTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "0abbc8da-ed28-4305-846d-4463d26f0e8e",
                             TwoFactorEnabled = false
                         },
                         new
                         {
-                            Id = "0323fbbf-53bd-47d6-a440-53ac523cf4d8",
+                            Id = new Guid("c4585018-984a-4a38-a998-e98eb0566350"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "370000e9-34e0-4d19-a1d2-503d64193c81",
+                            ConcurrencyStamp = "5e41efdb-e483-44c7-979b-34ef93d419d7",
                             EmailConfirmed = false,
-                            FirstName = "Aubrey",
-                            LastName = "Wunsch",
+                            FirstName = "Sadye",
+                            LastName = "MacGyver",
                             LockoutEnabled = false,
-                            PhoneNumber = "458-309-6849 x814",
+                            PhoneNumber = "310.493.6064",
                             PhoneNumberConfirmed = false,
                             RefreshTokenExperyTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "51a443f3-bb1c-4c6c-abc8-75ec201f5fd9",
                             TwoFactorEnabled = false
                         },
                         new
                         {
-                            Id = "d3948b32-992b-4165-acb1-1912bd51d3f7",
+                            Id = new Guid("f377b36a-fc9a-42dd-8ac1-f2a72688b033"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5ff798a0-31e3-417b-a900-66c23690d0ad",
+                            ConcurrencyStamp = "8a60a7d8-576b-4c5e-a820-5af0709c93ff",
                             EmailConfirmed = false,
-                            FirstName = "Rex",
-                            LastName = "Langosh",
-                            LockoutEnabled = false,
-                            PhoneNumber = "206.344.8223",
-                            PhoneNumberConfirmed = false,
-                            RefreshTokenExperyTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "6e08da98-1543-492a-b52e-22a0fdbf5106",
-                            TwoFactorEnabled = false
-                        },
-                        new
-                        {
-                            Id = "ba8a57b0-95e2-4064-9bdb-ebe5ddf8044e",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "da63b836-a056-4ef2-a3d8-67c72ff41f66",
-                            EmailConfirmed = false,
-                            FirstName = "Brooklyn",
-                            LastName = "Lueilwitz",
-                            LockoutEnabled = false,
-                            PhoneNumber = "687-257-2220 x777",
-                            PhoneNumberConfirmed = false,
-                            RefreshTokenExperyTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "ac5a3c31-e32a-48b0-9760-26a3f63ca1f7",
-                            TwoFactorEnabled = false
-                        },
-                        new
-                        {
-                            Id = "ef52febd-2ea8-4a36-8164-606fedd5bdcd",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "d905446a-634b-4b81-a967-e57f4f66138e",
-                            EmailConfirmed = false,
-                            FirstName = "Asha",
-                            LastName = "Kertzmann",
-                            LockoutEnabled = false,
-                            PhoneNumber = "361.595.0493 x678",
-                            PhoneNumberConfirmed = false,
-                            RefreshTokenExperyTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "c89710c1-39b2-4d09-a2a2-6453a0878ebb",
-                            TwoFactorEnabled = false
-                        },
-                        new
-                        {
-                            Id = "f7b3312d-ac3e-482a-82c1-24b3f0df84ae",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "75337130-b50d-4810-b006-be6ca577b402",
-                            EmailConfirmed = false,
-                            FirstName = "Ibrahim",
-                            LastName = "VonRueden",
-                            LockoutEnabled = false,
-                            PhoneNumber = "392.402.6659 x97696",
-                            PhoneNumberConfirmed = false,
-                            RefreshTokenExperyTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "7e35a739-99c0-4b9e-8a22-34b6063dca9f",
-                            TwoFactorEnabled = false
-                        },
-                        new
-                        {
-                            Id = "b93c1225-e090-4cf6-9bdf-ee22e647a9f3",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "9007c65f-92b4-487d-9ead-5a8efec66b32",
-                            EmailConfirmed = false,
-                            FirstName = "Deven",
+                            FirstName = "Shawna",
                             LastName = "Abshire",
                             LockoutEnabled = false,
-                            PhoneNumber = "(292) 785-3086 x3152",
+                            PhoneNumber = "504.279.6319 x9527",
                             PhoneNumberConfirmed = false,
                             RefreshTokenExperyTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "a9efd623-8c29-4ca5-8804-37b18b3bd48a",
                             TwoFactorEnabled = false
                         },
                         new
                         {
-                            Id = "40d54930-899b-491e-a73e-e7359cbecced",
+                            Id = new Guid("df48d3cf-95fd-4ee9-a94e-0e00fb265d2c"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6bf8b093-3d21-4ded-94e1-836509c5ae24",
+                            ConcurrencyStamp = "45e3b430-ae3d-442e-941a-5c468d7ca282",
                             EmailConfirmed = false,
-                            FirstName = "Lilian",
-                            LastName = "Gibson",
+                            FirstName = "Blake",
+                            LastName = "Crona",
                             LockoutEnabled = false,
-                            PhoneNumber = "617-381-4379",
+                            PhoneNumber = "776.810.1225 x39649",
                             PhoneNumberConfirmed = false,
                             RefreshTokenExperyTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "3aa1ad1b-7416-4f12-9a9d-6b972d310784",
                             TwoFactorEnabled = false
                         },
                         new
                         {
-                            Id = "2d2a54a4-56a8-44e9-83c2-f5804b317261",
+                            Id = new Guid("b827da64-682e-437a-9ff5-622f82da7eca"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d9f5fe32-94e9-42f6-bdf8-24a90ba88300",
+                            ConcurrencyStamp = "49556839-f378-4f8b-b2ce-4b9e884b4853",
                             EmailConfirmed = false,
-                            FirstName = "Hollis",
-                            LastName = "Beer",
+                            FirstName = "Rick",
+                            LastName = "Daniel",
                             LockoutEnabled = false,
-                            PhoneNumber = "400.490.9701",
+                            PhoneNumber = "276.428.0371",
                             PhoneNumberConfirmed = false,
                             RefreshTokenExperyTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "ffb438e6-a899-467a-8574-068efb0c0225",
                             TwoFactorEnabled = false
                         },
                         new
                         {
-                            Id = "0a967d8d-d2e4-41e2-baba-50b6aa96f781",
+                            Id = new Guid("3cc3e5fc-d7d9-40e9-91fe-9d28dd5e6094"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "38440c12-9f84-4f27-9ea7-d5b9d95eb1c7",
+                            ConcurrencyStamp = "e0a5ad29-4d5e-465d-9ee4-e0a3619e456e",
                             EmailConfirmed = false,
-                            FirstName = "Selina",
-                            LastName = "Pfannerstill",
+                            FirstName = "Theresia",
+                            LastName = "Sanford",
                             LockoutEnabled = false,
-                            PhoneNumber = "634.849.5232 x105",
+                            PhoneNumber = "835.981.4306",
                             PhoneNumberConfirmed = false,
                             RefreshTokenExperyTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "ef99b558-9330-4511-bc10-2d402824566d",
+                            TwoFactorEnabled = false
+                        },
+                        new
+                        {
+                            Id = new Guid("0672a2cd-45c5-410c-bf4c-b78847be080b"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "2781583a-02ff-4891-b4a5-f99348e50d0b",
+                            EmailConfirmed = false,
+                            FirstName = "Lazaro",
+                            LastName = "O'Reilly",
+                            LockoutEnabled = false,
+                            PhoneNumber = "663-275-4207 x504",
+                            PhoneNumberConfirmed = false,
+                            RefreshTokenExperyTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TwoFactorEnabled = false
+                        },
+                        new
+                        {
+                            Id = new Guid("bd6d34d8-3bd7-4bbe-9995-a6bc8803a61e"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "3e720e03-9f28-408d-97e0-bbc55daa7eb2",
+                            EmailConfirmed = false,
+                            FirstName = "Rocio",
+                            LastName = "Howe",
+                            LockoutEnabled = false,
+                            PhoneNumber = "(865) 300-0246 x36018",
+                            PhoneNumberConfirmed = false,
+                            RefreshTokenExperyTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TwoFactorEnabled = false
+                        },
+                        new
+                        {
+                            Id = new Guid("06936d4d-7c6c-48a9-8157-91e58277121e"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "e3ff0b18-59a1-46bc-a323-eba08c62a7e7",
+                            EmailConfirmed = false,
+                            FirstName = "Jazlyn",
+                            LastName = "Carter",
+                            LockoutEnabled = false,
+                            PhoneNumber = "(427) 521-9482",
+                            PhoneNumberConfirmed = false,
+                            RefreshTokenExperyTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TwoFactorEnabled = false
+                        },
+                        new
+                        {
+                            Id = new Guid("07775568-8345-49ac-87bf-29b93c867f01"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "2bee5d88-ca3c-42df-ac8c-f27f6f95937d",
+                            EmailConfirmed = false,
+                            FirstName = "Tillman",
+                            LastName = "Torp",
+                            LockoutEnabled = false,
+                            PhoneNumber = "(215) 379-6532 x7094",
+                            PhoneNumberConfirmed = false,
+                            RefreshTokenExperyTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             TwoFactorEnabled = false
                         });
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -734,31 +725,31 @@ namespace AraWeb.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3f06c0f8-0a17-457a-9550-3a24bc574200",
+                            Id = new Guid("2f2397b2-c6f8-403d-882e-ca5657e9aafc"),
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "e09ca7ef-b41f-42a5-aa40-24a947e3cdb6",
+                            Id = new Guid("70cd7fc4-44cd-42af-8ec6-91ef7917d805"),
                             Name = "ApartmentOwner",
                             NormalizedName = "APARTMENT_OWNER"
                         },
                         new
                         {
-                            Id = "48f067fb-4f7b-4fc7-bd2e-b7e32aab0e6e",
+                            Id = new Guid("8bfdd6f2-6491-45e2-80d9-f0c03af41cf1"),
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "dd33f26b-ecf7-46dc-81b4-72a20ac57040",
+                            Id = new Guid("e4bb7cef-b30c-4827-8a89-cb38c1c6310d"),
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -772,9 +763,8 @@ namespace AraWeb.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -783,7 +773,7 @@ namespace AraWeb.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -797,9 +787,8 @@ namespace AraWeb.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -808,7 +797,7 @@ namespace AraWeb.Migrations
                     b.ToTable("AspNetUserClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(450)");
@@ -819,9 +808,8 @@ namespace AraWeb.Migrations
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -830,13 +818,13 @@ namespace AraWeb.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -845,10 +833,10 @@ namespace AraWeb.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(450)");
@@ -924,16 +912,16 @@ namespace AraWeb.Migrations
                     b.Navigation("Occupancy");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
                     b.HasOne("Entities.Models.User", null)
                         .WithMany()
@@ -942,7 +930,7 @@ namespace AraWeb.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.HasOne("Entities.Models.User", null)
                         .WithMany()
@@ -951,9 +939,9 @@ namespace AraWeb.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -966,7 +954,7 @@ namespace AraWeb.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
                     b.HasOne("Entities.Models.User", null)
                         .WithMany()

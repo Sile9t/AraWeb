@@ -28,7 +28,7 @@ namespace Repository
             return dates;
         }
 
-        public async Task<IEnumerable<ReservationDate>> GetDatesForUserAsync(string userId,
+        public async Task<IEnumerable<ReservationDate>> GetDatesForUserAsync(Guid userId,
             bool trackChanges) =>
             await FindByCondition(d => d.Occupancy!.ReservedById!.Equals(userId), trackChanges)
                 .ToListAsync();

@@ -5,7 +5,7 @@ namespace Contracts
     public interface IOccupancyRepository
     {
         Task<IEnumerable<Occupancy>> GetAllOccupanciesAsync(bool trackChanges);
-        Task<IEnumerable<Occupancy>> GetOccupanciesForUserAsync(string userId, 
+        Task<IEnumerable<Occupancy>> GetOccupanciesForUserAsync(Guid userId, 
             bool trackChanges);
         Task<IEnumerable<Occupancy>> GetOccupanciesForApartmentAsync(Guid apartId,
             bool trackChanges);

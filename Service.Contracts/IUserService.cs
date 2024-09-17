@@ -9,11 +9,11 @@ namespace Service.Contracts
     {
         Task<(IEnumerable<UserDto> users, MetaData metaData)> GetAllUsersAsync(UserParameters userParameters,
             bool trackChanges);
-        Task<IEnumerable<UserDto>> GetUsersByIdsAsync(IEnumerable<string> ids,
+        Task<IEnumerable<UserDto>> GetUsersByIdsAsync(IEnumerable<Guid> ids,
             bool trackChanges);
-        Task<UserDto> GetUserByIdAsync(string id, bool trackChanges);
+        Task<UserDto> GetUserByIdAsync(Guid id, bool trackChanges);
         Task<UserDto> GetUserByPhoneNumberAsync(string phoneNumber, bool trackChanges);
-        Task DeleteUserAsync(string id, bool trackChanges);
-        Task UpdateUserAsync(string id, UserForUpdateDto userForUpdate, bool trackChanges);
+        Task DeleteUserAsync(Guid id, bool trackChanges);
+        Task UpdateUserAsync(Guid id, UserForUpdateDto userForUpdate, bool trackChanges);
     }
 }

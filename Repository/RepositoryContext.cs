@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Repository.Bogus;
@@ -6,7 +7,7 @@ using Repository.Configuration;
 
 namespace Repository
 {
-    public class RepositoryContext : IdentityDbContext<User>
+    public class RepositoryContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
         public RepositoryContext()
         {

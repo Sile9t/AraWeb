@@ -9,8 +9,8 @@ namespace Entities.Models
         public DateTime Date { get; set; }
         public Guid ApartmentId { get; set; }
 
-        public decimal Cost { get; set; }
-        public decimal ExtraCharge { get; set; }
+        public double Cost { get; set; }
+        public double ExtraCharge { get; set; }
         public DateStateId DateStateId { get; set; }
         public DateState? DateState { get; set; }
 

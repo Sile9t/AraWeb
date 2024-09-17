@@ -29,7 +29,7 @@ namespace AraWeb.Presentation
         public async Task<IActionResult> GetDatesForUserApartments(Guid userId)
         {
             var dates = await _service.ReservationDateService
-                .GetDatesForUserAsync(userId.ToString(), trackChanges: false);
+                .GetDatesForUserAsync(userId, trackChanges: false);
 
             return Ok(dates);
         }

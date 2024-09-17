@@ -22,7 +22,7 @@ namespace Repository
             return occupancies;
         }
 
-        public async Task<IEnumerable<Occupancy>> GetOccupanciesForUserAsync(string userId, bool trackChanges)
+        public async Task<IEnumerable<Occupancy>> GetOccupanciesForUserAsync(Guid userId, bool trackChanges)
         {
             var occupancies = await FindByCondition(o => o.ReservedById!.Equals(userId),
                 trackChanges).ToListAsync();
