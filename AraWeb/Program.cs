@@ -13,6 +13,7 @@ using Shared.Dtos;
 using Contracts.Links;
 using AraWeb.Utility;
 using ActionFilter;
+using Repository.Utility;
 
 namespace AraWeb
 {
@@ -43,6 +44,12 @@ namespace AraWeb
 
             builder.Services.ConfigureRepositoryManager();
             builder.Services.ConfigureServiceManager();
+            builder.Services.AddTransient<IPeriodicTimer, FiveMinutePeriodicTimer>();
+            builder.Services.Configure<HostOptions>(options =>
+            {
+                options.ServicesStartConcurrently = true;
+            });
+            builder.Services.AddHostedService<DateGenerator>();
 
             builder.Services.AddControllers(config =>
             {
@@ -83,7 +90,7 @@ namespace AraWeb
             // Configure the HTTP request pipeline.
 
             //Note: Exception handler wouldn't work with swagger.
-            if (app.Environment.IsDevelopment() & false)
+            if (app.Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
 

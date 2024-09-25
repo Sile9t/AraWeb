@@ -15,6 +15,7 @@ namespace AraWeb.Presentation
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize]
     public class ApartmentsController : ControllerBase
     {
         private readonly IServiceManager _service;
@@ -24,12 +25,24 @@ namespace AraWeb.Presentation
 
         [HttpGet(Name = "GetApartments")]
         [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+        [AllowAnonymous]
         public async Task<IActionResult> GetApartments([FromQuery] ApartmentParameters apartmentParameters)
         {
             var linkParams = new LinkParameters(apartmentParameters, HttpContext);
 
+            //var tokenSource = new CancellationTokenSource();
+            //try
+            //{
+            //    var dateGeneration = _service.ReservationDateService
+            //        .CheckAllApartmentsForDatesAndGenerateThemIfNotEnough(trackChanges: false,
+            //            apartmentParameters.OccupDate, apartmentParameters.EvicDate)
+            //        .WaitAsync(tokenSource.Token);
+            //    await Task.WhenAll(dateGeneration);
+            //}
+            //finally { tokenSource.Cancel(); }
+
             var result = await _service.ApartmentService
-                .GetAllApartmentsAsync(linkParams, trackChanges: false);
+                .GetAllApartmentsAsync(linkParams, trackChanges: true);
 
             Response.Headers.Add("X-Pagination",
                 JsonSerializer.Serialize(result.metaData));
@@ -39,6 +52,7 @@ namespace AraWeb.Presentation
         }
 
         [HttpGet("collection/{ids}", Name = "ApartmentCollection")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetApartmentCollection([ModelBinder(BinderType = 
             typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
         {
@@ -49,6 +63,7 @@ namespace AraWeb.Presentation
         }
 
         [HttpGet("{id:guid}", Name = "GetApartmentById")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetApartmentById(Guid id)
         {
             var apartment = await _service.ApartmentService
@@ -58,7 +73,6 @@ namespace AraWeb.Presentation
         }
 
         [HttpPost("{id:guid}")]
-        [Authorize]
         public IActionResult ReserveApartment(Guid id, 
             [FromQuery] ApartmentParameters apartPameters)
         {
@@ -73,8 +87,8 @@ namespace AraWeb.Presentation
             var createdApart = await _service.ApartmentService
                 .CreateApartmentForUserAsync(userId, apartment, trackChanges: false);
 
-            await _service.ReservationDateService.GenerateEmptyDatesForApartmentAsync(createdApart.Id,
-                trackChanges: false);
+            await _service.ReservationDateService.GenerateEmptyDatesForNewApartmentAsync(createdApart.Id,
+                trackChanges: true, DateTime.Now, DateTime.Now.AddMonths(6));
 
             return CreatedAtRoute("GetApartmentById", new { id = createdApart.Id }, createdApart);
         }

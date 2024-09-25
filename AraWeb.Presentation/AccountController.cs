@@ -9,11 +9,11 @@ namespace AraWeb.Presentation
     [Route("[controller]/{id:guid}")]
     [ApiController]
     [Authorize]
-    public class ProfileController : ControllerBase
+    public class AccountController : ControllerBase
     {
         private readonly IServiceManager _service;
         
-        public ProfileController(IServiceManager service)
+        public AccountController(IServiceManager service)
         {
             _service = service;
         }
@@ -70,12 +70,6 @@ namespace AraWeb.Presentation
                 .GetOccupanciesForUserAsync(userId!, trackChanges: false);
 
             return Ok(occups);
-        }
-
-        [HttpPost("{id:guid}/occupancies")]
-        public async Task<IActionResult> CreateOccupancy()
-        {
-            return NotFound();
         }
 
         private bool TryGetLoggedUserId(out Guid userId) =>

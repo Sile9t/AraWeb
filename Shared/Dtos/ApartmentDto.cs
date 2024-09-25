@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-
-namespace Shared.Dtos
+﻿namespace Shared.Dtos
 {
     public record ApartmentDto
     {
@@ -15,5 +12,6 @@ namespace Shared.Dtos
         public double Rate { get; init; }
         public long ReviewsCount { get; init; }
         public Guid OwnerId { get; init; }
+        public double TotalCost { get; set; }
     }
 }

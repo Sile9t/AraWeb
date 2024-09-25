@@ -12,6 +12,7 @@ namespace Service
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
+
         public ReservationDateService(IRepositoryManager repository, ILoggerManager logger,
             IMapper mapper)
         {
@@ -113,20 +114,64 @@ namespace Service
             await _repository.SaveAsync();
         }
 
-        public async Task GenerateEmptyDatesForApartmentAsync(Guid apartId, bool trackChanges)
+        public async Task CheckAllApartmentsForDatesAndGenerateThemIfNotEnough(bool trackChanges, 
+            DateTime firstDate, DateTime secondDate)
         {
-            var apart = await GetApartIfExistAsync(apartId, trackChanges);
-            
-            var datesRange = Enumerable.Range(0, DateTime.DaysInMonth(DateTime.Now.Year,
-                DateTime.Now.Month) - DateTime.Now.Day)
-                .Select(x => DateTime.Now.AddDays(1.0 * x)).ToList();
-            datesRange = datesRange.Select(d => d.Date.Equals(DateTime.Now.Date) ? d
-                : d.AddMicroseconds((-1) * d.TimeOfDay.TotalMicroseconds)).ToList();
-            var dates = datesRange.Select(d => 
-                new ReservationDateForCreationDto { Date = d, ApartmentId = apartId });
+            var aparts = await _repository.Apartment.GetAllApartmentsAsync(trackChanges);
+            var dateRange = GenerateDates(firstDate, secondDate).ToList();
+
+            var tasks = from a in aparts select Task.Run(async () =>
+                await GenerateEmptyDatesForApartmentAsync(a.Id, trackChanges, dateRange));
+
+            CancellationTokenSource tokenSource = new ();
+            var token = tokenSource.Token;
+            await Parallel.ForEachAsync(aparts,
+                async (apart, token) => await GenerateEmptyDatesForApartmentAsync(apart.Id, false, dateRange));
+            await Task.Delay(1_000);
+            tokenSource.Cancel();
+
+            foreach (var apart in aparts)
+            {
+                await GenerateEmptyDatesForApartmentAsync(apart.Id, trackChanges, dateRange);
+            }
+        }
+
+        public async Task GenerateEmptyDatesForApartmentAsync(Guid apartId, bool trackChanges, 
+            IEnumerable<DateTime> dateRange)
+        {
+            var existingDates = 
+                await _repository.ReservationDate
+                .GetDatesForApartmentAsync(apartId, trackChanges);
+            var dates = dateRange.Except(existingDates.Select(d => d.Date))
+                .Select(d => new ReservationDateForCreationDto { Date = d, ApartmentId = apartId });
+
+            if (dates is null) return;
 
             await CreateDateCollectionForApartmentAsync(apartId, dates, trackChanges);
         }
+
+        public async Task GenerateEmptyDatesForNewApartmentAsync(Guid apartId, bool trackChages,
+            DateTime firstDate, DateTime secondDate)
+        {
+            var dates = GenerateDates(firstDate, secondDate);
+            var emptyDates = dates
+                .Select(d => new ReservationDateForCreationDto { Date = d, ApartmentId = apartId });
+
+            await CreateDateCollectionForApartmentAsync(apartId, emptyDates, trackChages);
+        }
+
+        private IEnumerable<DateTime> GenerateDates(DateTime start, DateTime end)
+        {
+            var startDate = start.AddDays(1 - start.Day).Date;
+            var endDate = end.Date.AddMonths(1).AddDays(1 - end.Date.Day).Date;
+            var dateSub = endDate.Subtract(startDate);
+            var days = dateSub.TotalDays - endDate.Day + 1;
+            var range = Enumerable.Range(0, (int)days)
+                .Select(x => startDate.AddDays(1.0 * x).Date);
+
+            return range;
+        }
+
 
         public async Task UpdateDateAsync(ReservationDateForUpdateDto dateDto,
             bool apartTrackChanges, bool dateTrackChanges)

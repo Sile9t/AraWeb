@@ -5,7 +5,8 @@ namespace Contracts
 {
     public interface IApartmentRepository
     {
-        Task<PagedList<Apartment>> GetAllApartmentsAsync(ApartmentParameters apartmentParameters, 
+        Task<IEnumerable<Apartment>> GetAllApartmentsAsync(bool trackChanges);
+        Task<PagedList<Apartment>> GetAllApartmentsForQueryAsync(ApartmentParameters apartmentParameters, 
             bool trackChanges);
         Task<IEnumerable<Apartment>> GetApartmentsByIdsAsync(IEnumerable<Guid> ids,
             bool trackChanges);

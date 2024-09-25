@@ -29,12 +29,16 @@ namespace Service
         public async Task<(LinkResponse apartments, MetaData metaData)> GetAllApartmentsAsync(
             LinkParameters linkParameters, bool trackChanges)
         {
-            var apartmentsWithMetaData = await _repository.Apartment.GetAllApartmentsAsync(
+            var apartmentsWithMetaData = await _repository.Apartment.GetAllApartmentsForQueryAsync(
                 linkParameters.ApartmentParameters, trackChanges);
             
-            var apartmentsDto = _mapper.Map<IEnumerable<ApartmentDto>>(apartmentsWithMetaData);
-            var links = _apartmentLinks.TryGenerateLinks(apartmentsDto,
+            var apartDtos = _mapper.Map<IEnumerable<ApartmentDto>>(apartmentsWithMetaData);
+            var apartDtosWithTotalCost = apartDtos
+                .Select(a => CalculateAndSetTotalCostForApartment(a, linkParameters.ApartmentParameters));
+            
+            var links = _apartmentLinks.TryGenerateLinks(apartDtos,
                 linkParameters.ApartmentParameters.Fields!, linkParameters.HttpContext);
+
             return (apartments: links, metaData: apartmentsWithMetaData.MetaData);
         }
 
@@ -59,6 +63,21 @@ namespace Service
 
             var apartmentsDto = _mapper.Map<IEnumerable<ApartmentDto>>(apartments);
             return apartmentsDto;
+        }
+
+        private ApartmentDto CalculateAndSetTotalCostForApartment(ApartmentDto apartmentDto, 
+            ApartmentParameters apartmentParameters)
+        {
+            var occupDate = apartmentParameters.OccupDate;
+            var evicDate = apartmentParameters.EvicDate;
+            var dates = _repository.ReservationDate
+                .GetDatesForApartmentAsync(apartmentDto.Id, trackChanges: false)
+                .Result.Where(d => d.Date >= occupDate && d.Date <= evicDate);
+            var totalCost = dates.Select(d => d.Cost).Sum();
+
+            apartmentDto.TotalCost = totalCost;
+
+            return apartmentDto;
         }
 
         public async Task<ApartmentDto> GetApartmentByIdAsync(Guid id, bool trackChanges)

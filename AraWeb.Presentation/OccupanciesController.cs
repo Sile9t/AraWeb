@@ -44,7 +44,11 @@ namespace AraWeb.Presentation
         private OccupancyForCreationDto CreateOccupancyDtoFromApartParameters(Guid apartId,
             Guid userId, ApartmentParameters apartmentParameters)
         {
-            throw new NotImplementedException();
+            return new OccupancyForCreationDto
+            {
+                OccupancyDate = apartmentParameters.OccupDate,
+                EvictionDate = apartmentParameters.EvicDate,
+            };
         }
     }
 }

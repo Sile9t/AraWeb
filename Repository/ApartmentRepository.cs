@@ -12,7 +12,10 @@ namespace Repository
         {
         }
 
-        public async Task<PagedList<Apartment>> GetAllApartmentsAsync(ApartmentParameters apartmentParameters,
+        public async Task<IEnumerable<Apartment>> GetAllApartmentsAsync(bool trackChanges) =>
+            await FindAll(trackChanges).ToListAsync();
+
+        public async Task<PagedList<Apartment>> GetAllApartmentsForQueryAsync(ApartmentParameters apartmentParameters,
             bool trackChanges)
         {
             var apartments = await FindAll(trackChanges)

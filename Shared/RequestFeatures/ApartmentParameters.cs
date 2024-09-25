@@ -9,6 +9,8 @@
 
         public bool ValidDates => (EvicDate - OccupDate).TotalDays > 0;
 
+        public double TotalDays => (OccupDate - EvicDate).TotalDays;
+
         public double MinSquare { get; set; }
         public double MaxSquare { get; set; } = uint.MaxValue;
 
