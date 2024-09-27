@@ -27,6 +27,9 @@ namespace Entities.Models
         [Required(ErrorMessage = "Rooms count field is required!")]
         public int RoomsCount {  get; set; }
 
+        public double DefaultCost { get; set; }
+        public double DefaultExtraCharge { get; set; }
+
         public double Rate { get; set; }
         public long ReviewsCount { get; set; }
 

@@ -4,7 +4,7 @@ namespace Shared.Dtos
 {
     public record UserDto
     {
-        public string Id { get; init; }
+        public Guid Id { get; init; }
         [Display(Name = "First Name")]
         public string? FirstName { get; init; }
         [Display(Name = "Last Name")]

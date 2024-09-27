@@ -18,9 +18,9 @@ namespace Entities.Models
             _expando = new ExpandoObject()!;
         }
 
-        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        public override bool TryGetMember(GetMemberBinder binder, out object? result)
         {
-            if (_expando.TryGetValue(binder.Name, out object value))
+            if (_expando.TryGetValue(binder.Name, out object? value))
             {
                 result = value;
                 return true;
@@ -31,7 +31,7 @@ namespace Entities.Models
 
         public override bool TrySetMember(SetMemberBinder binder, object? value)
         {
-            _expando[binder.Name] = value;
+            _expando[binder.Name] = value!;
 
             return true;
         }
@@ -52,9 +52,10 @@ namespace Entities.Models
 
                 reader.MoveToAttribute("type");
                 typeContent = reader.ReadContentAsString();
-                underlyingType = Type.GetType(typeContent);
+                underlyingType = Type.GetType(typeContent)!;
                 reader.MoveToContent();
-                _expando[name] = reader.ReadElementContentAs(underlyingType, null);
+                _expando[name] = reader
+                    .ReadElementContentAs(underlyingType, new XmlNamespaceManager(new NameTable()));
             }
         }
         public void WriteXml(XmlWriter writer)
@@ -72,7 +73,7 @@ namespace Entities.Models
 
             if (value.GetType().Equals(typeof(List<Link>)))
             {
-                foreach (var val in value as List<Link>)
+                foreach (var val in (value as List<Link>)!)
                 {
                     writer.WriteStartElement(nameof(Link));
                     WriteLinksToXml(nameof(val.Href), val, writer);

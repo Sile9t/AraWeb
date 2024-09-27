@@ -43,6 +43,8 @@ namespace Repository.Bogus
                 .RuleFor(a => a.GuestsCount, f => f.Random.Int(1,12))
                 .RuleFor(a => a.BedsCount, f => f.Random.Int(1,8))
                 .RuleFor(a => a.RoomsCount, f => f.Random.Int(1,4))
+                .RuleFor(a => a.DefaultCost, f => f.Random.Int(1,20) * 10)
+                .RuleFor(a => a.DefaultExtraCharge, f => f.Random.Int(1,10) * 10)
                 .RuleFor(a => a.Rate, f => Math.Round(f.Random.Double() * 10, 1))
                 .RuleFor(a => a.ReviewsCount, f => f.Random.Int(0,100))
                 .RuleFor(a => a.OwnerId, _ => ownerId);

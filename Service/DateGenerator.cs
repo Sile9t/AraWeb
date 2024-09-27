@@ -72,31 +72,32 @@ namespace Service
 
             foreach (var apart in aparts)
             {
-                await CreateDateCollectionForApartmentAsync(repository, apart.Id, dates, trackChanges: true);
+
+                await CheckApartmentDatesAndCreateNewIfNeeded(repository, apart.Id, dates, trackChanges: true);
             }
         }
 
-        public async Task CreateDateCollectionForApartmentAsync(IRepositoryManager repository, 
+        public async Task CheckApartmentDatesAndCreateNewIfNeeded(IRepositoryManager repository, 
             Guid apartId, IEnumerable<DateTime> dateRange, bool trackChanges)
         {
             var apart = await repository.Apartment
                 .GetApartmentByIdAsync(apartId, trackChanges);
             if (apart is null) return;
 
-            var dateEntities = await CreateDateEntitiesCollectionForApartmentAsync(repository,
+            var newDateDtos = await CreateDateEntitiesCollectionForApartmentAsync(repository,
                 apartId, dateRange, trackChanges);
-            if (dateEntities is null) return;
+            if (newDateDtos is null) return;
 
-            var dates = _mapper.Map<IEnumerable<ReservationDate>>(dateEntities);
+            //var dates = _mapper.Map<IEnumerable<ReservationDate>>(newDateDtos);
 
-            foreach (var date in dates)
+            foreach (var date in newDateDtos)
             {
                 repository.ReservationDate.CreateDate(date);
                 await repository.SaveAsync();
             }
         }
 
-        public async Task<IEnumerable<ReservationDateForCreationDto>?> 
+        public async Task<IEnumerable<ReservationDate>?> 
             CreateDateEntitiesCollectionForApartmentAsync(IRepositoryManager repository, 
             Guid apartId, IEnumerable<DateTime> dateRange, bool trackChanges)
         {
@@ -107,8 +108,23 @@ namespace Service
 
             var existingDates = await repository.ReservationDate
                 .GetDatesForApartmentAsync(apartId, trackChanges);
+
+            if (apart.DefaultCost > 0)
+                foreach (var date in existingDates.Where(d => d.Cost <= 0))
+                {
+                    date.Cost = apart.DefaultCost;
+                    date.ExtraCharge = apart.DefaultExtraCharge;
+                    await repository.SaveAsync();
+                }
+
             var dates = dateRange.Except(existingDates.Select(d => d.Date))
-                .Select(d => new ReservationDateForCreationDto { Date = d, ApartmentId = apartId });
+                .Select(d => new ReservationDate
+                { 
+                    Date = d, 
+                    ApartmentId = apartId,
+                    Cost = apart.DefaultCost,
+                    ExtraCharge = apart.DefaultExtraCharge
+                });
 
             return dates;
         }

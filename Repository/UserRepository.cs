@@ -35,11 +35,11 @@ namespace Repository
             await FindByCondition(u => ids.Contains(u.Id), trackChanges)
                 .ToListAsync();
 
-        public async Task<User> GetUserByPhoneNumberAsync(string phoneNumber, bool trackChanges) =>
-            await FindByCondition(u => u.PhoneNumber.Equals(phoneNumber), trackChanges)
+        public async Task<User?> GetUserByPhoneNumberAsync(string phoneNumber, bool trackChanges) =>
+            await FindByCondition(u => u.PhoneNumber!.Equals(phoneNumber), trackChanges)
                 .FirstOrDefaultAsync();
 
-        public async Task<User> GetUserByIdAsync(Guid id, bool trackChanges) =>
+        public async Task<User?> GetUserByIdAsync(Guid id, bool trackChanges) =>
             await FindByCondition(u => u.Id.Equals(id), trackChanges)
                 .FirstOrDefaultAsync();
 

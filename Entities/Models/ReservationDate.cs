@@ -17,12 +17,5 @@ namespace Entities.Models
         [ForeignKey(nameof(Occupancy))]
         public Guid? OccupancyId { get; set; }
         public virtual Occupancy? Occupancy { get; set; }
-
-        //public ReservationDate(DateTime date, Guid apartId)
-        //{
-        //    Date = date;
-        //    ApartmentId = apartId;
-        //    DateStateId = DateStateId.Empty;
-        //}
     }
 }

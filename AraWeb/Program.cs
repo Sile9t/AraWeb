@@ -31,8 +31,8 @@ namespace AraWeb
 
             // Add services to the container.
 
-            LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(),
-                "/nlog.config"));
+            LogManager.Setup().LoadConfigurationFromFile(
+                string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 
             builder.Services.ConfigureCors();
             builder.Services.ConfigureIISIntegration();
@@ -44,7 +44,7 @@ namespace AraWeb
 
             builder.Services.ConfigureRepositoryManager();
             builder.Services.ConfigureServiceManager();
-            builder.Services.AddTransient<IPeriodicTimer, FiveMinutePeriodicTimer>();
+            builder.Services.AddTransient<IPeriodicTimer, OneMinutePeriodicTimer>();
             builder.Services.Configure<HostOptions>(options =>
             {
                 options.ServicesStartConcurrently = true;

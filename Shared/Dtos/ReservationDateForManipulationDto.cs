@@ -9,8 +9,8 @@ namespace Shared.Dtos
         public Guid ApartmentId { get; init; }
         public int DateStateId { get; init; } = 0;
 
-        public decimal Cost { get; init; }
-        public decimal ExtraCharge { get; init; }
+        public double Cost { get; init; }
+        public double ExtraCharge { get; init; }
         public Guid? OccupancyId { get; init; }
     }
 

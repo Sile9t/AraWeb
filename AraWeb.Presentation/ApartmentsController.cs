@@ -30,17 +30,6 @@ namespace AraWeb.Presentation
         {
             var linkParams = new LinkParameters(apartmentParameters, HttpContext);
 
-            //var tokenSource = new CancellationTokenSource();
-            //try
-            //{
-            //    var dateGeneration = _service.ReservationDateService
-            //        .CheckAllApartmentsForDatesAndGenerateThemIfNotEnough(trackChanges: false,
-            //            apartmentParameters.OccupDate, apartmentParameters.EvicDate)
-            //        .WaitAsync(tokenSource.Token);
-            //    await Task.WhenAll(dateGeneration);
-            //}
-            //finally { tokenSource.Cancel(); }
-
             var result = await _service.ApartmentService
                 .GetAllApartmentsAsync(linkParams, trackChanges: true);
 
@@ -86,9 +75,6 @@ namespace AraWeb.Presentation
         {
             var createdApart = await _service.ApartmentService
                 .CreateApartmentForUserAsync(userId, apartment, trackChanges: false);
-
-            await _service.ReservationDateService.GenerateEmptyDatesForNewApartmentAsync(createdApart.Id,
-                trackChanges: true, DateTime.Now, DateTime.Now.AddMonths(6));
 
             return CreatedAtRoute("GetApartmentById", new { id = createdApart.Id }, createdApart);
         }

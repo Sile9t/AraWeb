@@ -36,7 +36,7 @@ namespace AraWeb.Utility
 
         private bool ShouldGenerateLinks(HttpContext httpContext)
         {
-            var mediaType = (MediaTypeHeaderValue)httpContext.Items["AcceptHeaderMediaType"];
+            var mediaType = (MediaTypeHeaderValue)httpContext!.Items["AcceptHeaderMediaType"]!;
 
             return mediaType.SubTypeWithoutSuffix.EndsWith("hateoas",
                 StringComparison.InvariantCultureIgnoreCase);
@@ -68,19 +68,19 @@ namespace AraWeb.Utility
             var links = new List<Link>
             {
                 new Link(_linkGenerator.GetUriByAction(httpContext, "GetApartmentById",
-                values: new {id, fields}),
+                values: new {id, fields})!,
                 "self",
                 "GET"),
                 new Link(_linkGenerator.GetUriByAction(httpContext, "DeleteApartment",
-                values: new {id}),
+                values: new {id})!,
                 "delete_apartment",
                 "DELETE"),
                 new Link(_linkGenerator.GetUriByAction(httpContext, "UpdateApartment",
-                values: new {id}),
+                values: new {id})!,
                 "update_apartment",
                 "PUT"),
                 new Link(_linkGenerator.GetUriByAction(httpContext, "ParticallyUpdateApartment",
-                values: new {id}),
+                values: new {id})!,
                 "partially_update_apartment",
                 "PATCH")
             };
@@ -92,7 +92,7 @@ namespace AraWeb.Utility
             LinkCollectionWrapper<Entity> apartmentsWrapper)
         {
             apartmentsWrapper.Links.Add(new Link(_linkGenerator.GetUriByAction(httpContext, "GetApartments",
-                values: new { }),
+                values: new { })!,
                 "self",
                 "GET"));
 

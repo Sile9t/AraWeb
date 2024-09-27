@@ -36,7 +36,7 @@ namespace Service
             var apartDtosWithTotalCost = apartDtos
                 .Select(a => CalculateAndSetTotalCostForApartment(a, linkParameters.ApartmentParameters));
             
-            var links = _apartmentLinks.TryGenerateLinks(apartDtos,
+            var links = _apartmentLinks.TryGenerateLinks(apartDtosWithTotalCost,
                 linkParameters.ApartmentParameters.Fields!, linkParameters.HttpContext);
 
             return (apartments: links, metaData: apartmentsWithMetaData.MetaData);
