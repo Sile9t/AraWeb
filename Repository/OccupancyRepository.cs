@@ -34,11 +34,8 @@ namespace Repository
             await FindByCondition(o => o.Id.Equals(id), trackChanges)
                 .SingleOrDefaultAsync();
 
-        public void CreateOccupancy(Guid apartId, Occupancy occupancy)
-        {
-            occupancy.ApartmentId = apartId;
+        public void CreateOccupancy(Occupancy occupancy) =>
             Create(occupancy);
-        }
 
         public void DeleteOccupancy(Occupancy occupancy) =>
             Delete(occupancy);

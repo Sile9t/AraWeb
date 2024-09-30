@@ -52,16 +52,14 @@ namespace Service
             return occupDtos;
         }
 
-        public async Task UpdateOccupancy(Guid apartId, Guid id, 
-            OccupancyForUpdateDto occupancyDto, bool apartTrackChanges, bool occupTrackChanges)
+        public async Task<OccupancyDto> GetOccupancyById(Guid occupId, bool trackChanges)
         {
-            var apart = await GetApartIfExist(apartId, apartTrackChanges);
-
             var occup = await _repository.Occupancy
-                .GetOccupancyByIdAsync(id, occupTrackChanges);
-            _mapper.Map(occupancyDto, occup);
+                .GetOccupancyByIdAsync(occupId, trackChanges);
 
-            await _repository.SaveAsync();
+            var occupDto = _mapper.Map<OccupancyDto>(occup);
+
+            return occupDto;
         }
 
         public async Task<OccupancyDto> CreateOccupancyForUserAndApartmentAsync(Guid userId, Guid apartId, 
@@ -73,11 +71,32 @@ namespace Service
 
             var occup = _mapper.Map<Occupancy>(occupancyDto);
 
-            _repository.Occupancy.CreateOccupancy(apartId, occup);
+            _repository.Occupancy.CreateOccupancy(occup);
             await _repository.SaveAsync();
 
             var occupDto = _mapper.Map<OccupancyDto>(occup);
             return occupDto;
+        }
+
+        public async Task<IEnumerable<OccupancyDto>> CreateOccupancyCollectionForUserAndApartmentAsync(
+            Guid userId, Guid apartId, IEnumerable<OccupancyForCreationDto> occupCollection, 
+            bool userTrackChanges, bool apartTrackChanges, bool occupTrackChanges)
+        {
+            var user = GetUserIfExist(userId, userTrackChanges);
+            var apart = GetApartIfExist(apartId, apartTrackChanges);
+
+            var occups = _mapper.Map<IEnumerable<Occupancy>>(occupCollection);
+            foreach (var occup in occups)
+            {
+                occup.ReservedById = userId;
+                occup.ApartmentId = apartId;
+                _repository.Occupancy.CreateOccupancy(occup);
+                await _repository.SaveAsync();
+            }
+
+            var occupDtos = _mapper.Map<IEnumerable<OccupancyDto>>(occups);
+
+            return occupDtos;
         }
 
         public async Task DeleteOccupancy(Guid userId, Guid apartId, Guid id, 
@@ -91,6 +110,28 @@ namespace Service
             _repository.Occupancy.DeleteOccupancy(occup);
 
             await _repository.SaveAsync();
+        }
+
+        public Task DeleteOccupancyCollection(Guid userId, Guid apartId, IEnumerable<Guid> collectionIds, bool trackChanges)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task UpdateOccupancy(Guid apartId, Guid id, 
+            OccupancyForUpdateDto occupancyDto, bool apartTrackChanges, bool occupTrackChanges)
+        {
+            var apart = await GetApartIfExist(apartId, apartTrackChanges);
+
+            var occup = await _repository.Occupancy
+                .GetOccupancyByIdAsync(id, occupTrackChanges);
+            _mapper.Map(occupancyDto, occup);
+
+            await _repository.SaveAsync();
+        }
+
+        public Task PartiallyUpdateOccupancy(Guid occupId, OccupancyForUpdateDto occupForPatch, bool trackChanges)
+        {
+            throw new NotImplementedException();
         }
 
         private async Task<ApartmentDto> GetApartIfExist(Guid apartId, bool trackChanges)
