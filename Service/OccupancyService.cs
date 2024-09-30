@@ -107,14 +107,28 @@ namespace Service
 
             var occup = await _repository.Occupancy
                 .GetOccupancyByIdAsync(id, trackChanges);
+            if (occup is null) return;
+
             _repository.Occupancy.DeleteOccupancy(occup);
 
             await _repository.SaveAsync();
         }
 
-        public Task DeleteOccupancyCollection(Guid userId, Guid apartId, IEnumerable<Guid> collectionIds, bool trackChanges)
+        public async Task DeleteOccupancyCollection(Guid userId, Guid apartId, 
+            IEnumerable<Guid> ids, bool trackChanges)
         {
-            throw new NotImplementedException();
+            var user = await GetUserIfExist(userId, trackChanges);
+            var apart = await GetApartIfExist(apartId, trackChanges);
+
+            var occups = await _repository.Occupancy
+                .GetOccupanciesByIds(ids, trackChanges);
+
+            if (occups.Count() != ids.Count()) return;
+
+            foreach (var occup in occups)
+                _repository.Occupancy.DeleteOccupancy(occup);
+
+            await _repository.SaveAsync();
         }
 
         public async Task UpdateOccupancy(Guid apartId, Guid id, 

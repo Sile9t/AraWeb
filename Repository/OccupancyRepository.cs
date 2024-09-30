@@ -34,6 +34,11 @@ namespace Repository
             await FindByCondition(o => o.Id.Equals(id), trackChanges)
                 .SingleOrDefaultAsync();
 
+        public async Task<IEnumerable<Occupancy>> GetOccupanciesByIds(IEnumerable<Guid> ids, 
+            bool trackChanges) =>
+            await FindByCondition(o => ids.Contains(o.Id), trackChanges)
+                .ToListAsync();
+
         public void CreateOccupancy(Occupancy occupancy) =>
             Create(occupancy);
 

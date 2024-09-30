@@ -17,7 +17,7 @@ namespace Service.Contracts
             Guid userId, Guid apartId, IEnumerable<OccupancyForCreationDto> occupForCreate, 
             bool userTrackChanges, bool apartTrackChanges, bool occupTrackChanges);
         Task DeleteOccupancy(Guid userId, Guid apartId, Guid id, bool trackChanges);
-        Task DeleteOccupancyCollection(Guid userId, Guid apartId, IEnumerable<Guid> collectionIds,
+        Task DeleteOccupancyCollection(Guid userId, Guid apartId, IEnumerable<Guid> ids,
             bool trackChanges);
         Task UpdateOccupancy(Guid apartId, Guid id, OccupancyForUpdateDto occupancyDto,
             bool apartTrackChanges, bool occupTrackChanges);
