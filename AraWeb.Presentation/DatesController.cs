@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.Dtos;
+using System.Security.Claims;
 
 namespace AraWeb.Presentation
 {
@@ -29,16 +30,19 @@ namespace AraWeb.Presentation
             return Ok(dates);
         }
 
-        [HttpGet("{id:guid}")]
+        [HttpGet("{id:guid}", Name = "GetDatesForUser")]
         public async Task<IActionResult> GetDatesForUser(Guid userId)
         {
+            userId = Guid.Parse(this.HttpContext.User
+                .FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
             var dates = await _service.ReservationDateService
                 .GetDatesForUserAsync(userId, trackChanges: false);
 
             return Ok(dates);
         }
 
-        [HttpPost]
+        [HttpPost(Name = " CreateDateForApartment")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateDateForApartment(Guid apartId, 
             [FromBody]ReservationDateForCreationDto dateDto)
@@ -49,7 +53,7 @@ namespace AraWeb.Presentation
             return NoContent();
         }
 
-        [HttpPost("collection")]
+        [HttpPost("collection", Name = "CreateDateCollection")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateDateCollection(Guid apartId, 
             [FromBody] IEnumerable<ReservationDateForCreationDto> dateDtos)
@@ -60,7 +64,7 @@ namespace AraWeb.Presentation
             return NoContent();
         }
 
-        [HttpDelete]
+        [HttpDelete(Name = "DeleteDateForApartment")]
         public async Task<IActionResult> DeleteDateForApartment(Guid apartId, DateTime date)
         {
             await _service.ReservationDateService
@@ -69,9 +73,9 @@ namespace AraWeb.Presentation
             return NoContent();
         }
 
-        [HttpDelete("collection")]
+        [HttpDelete("collection", Name = "DeleteDatesForApartment")]
         public async Task<IActionResult> DeleteDatesForApartment(Guid apartId, 
-            IEnumerable<DateTime> dateRange)
+            [FromQuery]IEnumerable<DateTime> dateRange)
         {
             await _service.ReservationDateService
                 .DeleteDateCollectionForApartmentAsync(apartId, dateRange, trackChanges: false);
@@ -79,7 +83,7 @@ namespace AraWeb.Presentation
             return NoContent();
         }
 
-        [HttpPut]
+        [HttpPut(Name = "UpdateDateForApartment")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateDateForApartment(Guid apartId, 
             [FromBody] ReservationDateForUpdateDto dateForUpdate)
@@ -91,7 +95,7 @@ namespace AraWeb.Presentation
         }
 
 
-        [HttpPut("collection")]
+        [HttpPut("collection", Name = "UpdateDatesForApartment")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateDatesForApartment(Guid apartId, 
             [FromBody] IEnumerable<ReservationDateForUpdateDto> datesForUpdate)
@@ -102,7 +106,7 @@ namespace AraWeb.Presentation
             return NoContent();
         }
 
-        [HttpPatch]
+        [HttpPatch(Name = "PartiallyUpdateDateForApartment")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> PartiallyUpdateDateForApartment(Guid apartId, DateTime date,
             [FromBody] JsonPatchDocument<ReservationDateForUpdateDto> patchDoc)
@@ -120,7 +124,7 @@ namespace AraWeb.Presentation
             return NoContent();
         }
 
-        [HttpPatch("collection")]
+        [HttpPatch("collection", Name = "PartialluUpdateDatesForApartment")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> PartiallyUpdateDatesForApartment(Guid apartId, 
             IEnumerable<DateTime> dateRange,
