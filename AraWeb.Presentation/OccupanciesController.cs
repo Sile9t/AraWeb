@@ -40,6 +40,15 @@ namespace AraWeb.Presentation
             return Ok(occups);
         }
 
+        [HttpGet(Name = "GetOccupanciesForApartment")]
+        public async Task<IActionResult> GetOccupanciesForApartment(Guid apartId)
+        {
+            var occups = await _service.OccupancyService
+                .GetOccupanciesForApartmentAsync(apartId, trackChanges: false);
+
+            return Ok(occups);
+        }
+
         [HttpPost("{id:guid}", Name = "CreateOccupancyForApartment")]
         public async Task<IActionResult> CreateOccupancyForApartment(Guid apartId, 
             [FromQuery] ApartmentParameters apartParameters)
