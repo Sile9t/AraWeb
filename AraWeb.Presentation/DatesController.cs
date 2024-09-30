@@ -30,6 +30,7 @@ namespace AraWeb.Presentation
             return Ok(dates);
         }
 
+        //TODO: Redirect all routes to main calendar route
         [HttpGet("{id:guid}", Name = "GetDatesForUser")]
         public async Task<IActionResult> GetDatesForUser(Guid userId)
         {
