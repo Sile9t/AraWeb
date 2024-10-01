@@ -11,6 +11,8 @@ namespace Service.Contracts
         Task<IEnumerable<OccupancyDto>> GetOccupanciesForApartmentAsync(Guid apartId, 
             bool trackChanges);
         Task<OccupancyDto> GetOccupancyByIdAsync(Guid occupId, bool trackChanges);
+        Task<IEnumerable<OccupancyDto>> GetOccupanciesByIdsAsync(IEnumerable<Guid> occupIds,
+            bool trackChanges);
         Task<OccupancyDto> CreateOccupancyForUserAndApartmentAsync(Guid userId, Guid apartId, 
             OccupancyForCreationDto occupancyDto, bool userTrackChanges, bool apartTrackChanges,
             bool occupTrackChanges);

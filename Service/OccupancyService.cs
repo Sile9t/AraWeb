@@ -64,15 +64,15 @@ namespace Service
             return occupDto;
         }
 
-        public async Task<IEnumerable<OccupancyDto>> GetOccupanciesByIdsAsync(IEnumerable<Guid> ids, 
+        public async Task<IEnumerable<OccupancyDto>> GetOccupanciesByIdsAsync(IEnumerable<Guid> occupIds, 
             bool trackChanges)
         {
-            if (ids is null)
+            if (occupIds is null)
                 throw new IdParametersBadRequestException();
 
             var occups = await _repository.Occupancy
-                .GetOccupanciesByIdsAsync(ids, trackChanges);
-            if (ids.Count() != occups.Count())
+                .GetOccupanciesByIdsAsync(occupIds, trackChanges);
+            if (occupIds.Count() != occups.Count())
                 throw new CollectionByIdsBadRequestException();
 
             var occupDtos = _mapper.Map<IEnumerable<OccupancyDto>>(occups);
