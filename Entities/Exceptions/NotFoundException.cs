@@ -34,4 +34,12 @@
         {
         }
     }
+
+    public sealed class OccupancyNotFoundException : NotFoundException
+    {
+        public OccupancyNotFoundException(Guid occupId)
+            : base($"Occupancy with id: {occupId} doesn't exist in the database.") 
+        {
+        }
+    }
 }

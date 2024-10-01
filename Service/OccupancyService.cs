@@ -143,9 +143,23 @@ namespace Service
             await _repository.SaveAsync();
         }
 
-        public Task PartiallyUpdateOccupancy(Guid occupId, OccupancyForUpdateDto occupForPatch, bool trackChanges)
+        public async Task<(OccupancyForUpdateDto occupToPatch, Occupancy occup)> 
+            GetOccupancyForPatch(Guid occupId, OccupancyForUpdateDto occupForPatch, bool trackChanges)
         {
-            throw new NotImplementedException();
+            var occup = await _repository.Occupancy
+                .GetOccupancyByIdAsync(occupId, trackChanges);
+            if (occup is null)
+                throw new OccupancyNotFoundException(occupId);
+
+            var occupToPatch = _mapper.Map<OccupancyForUpdateDto>(occup);
+
+            return (occupToPatch, occup);
+        }
+
+        public async Task SaveChangesForPatch(OccupancyForUpdateDto occupToPatch, Occupancy occup)
+        {
+            _mapper.Map(occupToPatch, occup);
+            await _repository.SaveAsync();
         }
 
         private async Task<ApartmentDto> GetApartIfExist(Guid apartId, bool trackChanges)

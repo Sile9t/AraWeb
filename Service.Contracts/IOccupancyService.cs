@@ -1,4 +1,5 @@
-﻿using Shared.Dtos;
+﻿using Entities.Models;
+using Shared.Dtos;
 
 namespace Service.Contracts
 {
@@ -21,7 +22,8 @@ namespace Service.Contracts
             bool trackChanges);
         Task UpdateOccupancy(Guid apartId, Guid id, OccupancyForUpdateDto occupancyDto,
             bool apartTrackChanges, bool occupTrackChanges);
-        Task PartiallyUpdateOccupancy(Guid occupId, OccupancyForUpdateDto occupForPatch, 
-            bool trackChanges);
+        Task<(OccupancyForUpdateDto occupToPatch, Occupancy occup)> GetOccupancyForPatch(
+            Guid occupId, OccupancyForUpdateDto occupForPatch, bool trackChanges);
+        Task SaveChangesForPatch(OccupancyForUpdateDto occupToPatch, Occupancy occup);
     }
 }
