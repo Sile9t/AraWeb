@@ -22,10 +22,10 @@ namespace Service.Contracts
         Task DeleteOccupancyAsync(Guid occupId, bool trackChanges);
         Task DeleteOccupancyCollectionAsync(IEnumerable<Guid> ids,
             bool trackChanges);
-        Task UpdateOccupancyAsync(Guid apartId, Guid occupId, OccupancyForUpdateDto occupancyDto,
-            bool apartTrackChanges, bool occupTrackChanges);
+        Task UpdateOccupancyAsync(Guid occupId, OccupancyForUpdateDto occupancyDto,
+            bool trackChanges);
         Task<(OccupancyForUpdateDto occupToPatch, Occupancy occup)> GetOccupancyForPatchAsync(
-            Guid occupId, OccupancyForUpdateDto occupForPatch, bool trackChanges);
+            Guid occupId, bool trackChanges);
         Task SaveChangesForPatchAsync(OccupancyForUpdateDto occupToPatch, Occupancy occup);
     }
 }

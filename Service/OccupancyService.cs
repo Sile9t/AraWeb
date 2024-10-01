@@ -143,20 +143,18 @@ namespace Service
             await _repository.SaveAsync();
         }
 
-        public async Task UpdateOccupancyAsync(Guid apartId, Guid occupId, 
-            OccupancyForUpdateDto occupancyDto, bool apartTrackChanges, bool occupTrackChanges)
+        public async Task UpdateOccupancyAsync(Guid occupId, OccupancyForUpdateDto occupancyDto, 
+            bool trackChanges)
         {
-            var apart = await GetApartIfExist(apartId, apartTrackChanges);
-
             var occup = await _repository.Occupancy
-                .GetOccupancyByIdAsync(occupId, occupTrackChanges);
+                .GetOccupancyByIdAsync(occupId, trackChanges);
             _mapper.Map(occupancyDto, occup);
 
             await _repository.SaveAsync();
         }
 
         public async Task<(OccupancyForUpdateDto occupToPatch, Occupancy occup)> 
-            GetOccupancyForPatchAsync(Guid occupId, OccupancyForUpdateDto occupForPatch, bool trackChanges)
+            GetOccupancyForPatchAsync(Guid occupId, bool trackChanges)
         {
             var occup = await _repository.Occupancy
                 .GetOccupancyByIdAsync(occupId, trackChanges);

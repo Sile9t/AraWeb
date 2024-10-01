@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using Shared.Dtos;
@@ -77,7 +78,25 @@ namespace AraWeb.Presentation
                 .CreateOccupancyForUserAndApartmentAsync(userId, apartId, occupDto, 
                     userTrackChanges: true, apartTrackChanges: true, occupTrackChanges: false);
 
-            return Ok(occup);
+            return CreatedAtRoute("GetOccupancy", new { occupId = occup.Id }, occup);
+        }
+
+        [HttpPatch("{id:guid}")]
+        public async Task<IActionResult> PartiallyUpdateOccupancy(Guid occupId, 
+            [FromBody] JsonPatchDocument<OccupancyForUpdateDto> patchDoc)
+        {
+            if (patchDoc is null)
+                return BadRequest("PatchDoc object sent from client is null.");
+
+            var result = await _service.OccupancyService
+                .GetOccupancyForPatchAsync(occupId, trackChanges: false);
+
+            patchDoc.ApplyTo(result.occupToPatch);
+
+            await _service.OccupancyService
+                .SaveChangesForPatchAsync(result.occupToPatch, result.occup);
+
+            return NoContent();
         }
 
         private OccupancyForCreationDto CreateOccupancyDtoFromApartParameters(Guid apartId,
@@ -104,6 +123,15 @@ namespace AraWeb.Presentation
         {
             await _service.OccupancyService
                 .DeleteOccupancyCollectionAsync(occupIds, trackChanges: false);
+
+            return NoContent();
+        }
+
+        [HttpPut("{id:guid}", Name = "UpdateOccupancy")]
+        public async Task<IActionResult> UpdateOccupancy(Guid occupId, OccupancyForUpdateDto occupForUpdate)
+        {
+            await _service.OccupancyService
+                .UpdateOccupancyAsync(occupId, occupForUpdate, trackChanges: false);
 
             return NoContent();
         }
