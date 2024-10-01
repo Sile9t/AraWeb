@@ -7,13 +7,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NLog;
 using AraWeb.ActionFilters;
-using Service.Contracts;
-using Service;
 using Shared.Dtos;
 using Contracts.Links;
 using AraWeb.Utility;
 using ActionFilter;
 using Repository.Utility;
+using Service.Services;
+using Service.Additional;
+using Service.Contracts.Additional;
 
 namespace AraWeb
 {
@@ -51,7 +52,7 @@ namespace AraWeb
             });
             builder.Services.AddHostedService<DateGenerator>();
 
-            builder.Services.AddControllers(config =>
+            builder.Services.AddControllersWithViews(config =>
             {
                 config.RespectBrowserAcceptHeader = true;
                 config.ReturnHttpNotAcceptable = true;

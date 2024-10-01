@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Contracts;
 using Contracts.Links;
+using Contracts.Repositories;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Service.Contracts;
+using Service.Contracts.Services;
 using Shared.Dtos;
 
 namespace Service

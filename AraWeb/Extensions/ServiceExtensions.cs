@@ -1,4 +1,5 @@
 ﻿using Contracts;
+using Contracts.Repositories;
 using Entities.Models;
 using LoggerService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

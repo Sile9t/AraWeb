@@ -2,7 +2,7 @@
 using Entities.LinkModels;
 using Entities.Models;
 using Microsoft.Net.Http.Headers;
-using Service.Contracts;
+using Service.Contracts.Additional;
 using Shared.Dtos;
 
 namespace AraWeb.Utility
