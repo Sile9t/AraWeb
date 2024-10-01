@@ -9,9 +9,9 @@ namespace Contracts
             bool trackChanges);
         Task<IEnumerable<Occupancy>> GetOccupanciesForApartmentAsync(Guid apartId,
             bool trackChanges);
-        Task<IEnumerable<Occupancy>> GetOccupanciesByIds(IEnumerable<Guid> ids, bool trackChanges);
+        Task<IEnumerable<Occupancy>> GetOccupanciesByIdsAsync(IEnumerable<Guid> ids, bool trackChanges);
         Task<Occupancy?> GetOccupancyByIdAsync(Guid id, bool trackChanges);
-        void CreateOccupancy(Occupancy occupancy);
+        void CreateOccupancy(Guid? userId, Guid? apartId, Occupancy occupancy);
         void DeleteOccupancy(Occupancy occupancy);
     }
 }

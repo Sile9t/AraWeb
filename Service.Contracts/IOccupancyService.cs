@@ -10,20 +10,20 @@ namespace Service.Contracts
             bool trackChanges);
         Task<IEnumerable<OccupancyDto>> GetOccupanciesForApartmentAsync(Guid apartId, 
             bool trackChanges);
-        Task<OccupancyDto> GetOccupancyById(Guid occupId, bool trackChanges);
+        Task<OccupancyDto> GetOccupancyByIdAsync(Guid occupId, bool trackChanges);
         Task<OccupancyDto> CreateOccupancyForUserAndApartmentAsync(Guid userId, Guid apartId, 
             OccupancyForCreationDto occupancyDto, bool userTrackChanges, bool apartTrackChanges,
             bool occupTrackChanges);
         Task<IEnumerable<OccupancyDto>> CreateOccupancyCollectionForUserAndApartmentAsync(
             Guid userId, Guid apartId, IEnumerable<OccupancyForCreationDto> occupForCreate, 
             bool userTrackChanges, bool apartTrackChanges, bool occupTrackChanges);
-        Task DeleteOccupancy(Guid userId, Guid apartId, Guid id, bool trackChanges);
-        Task DeleteOccupancyCollection(Guid userId, Guid apartId, IEnumerable<Guid> ids,
+        Task DeleteOccupancyAsync(Guid occupId, bool trackChanges);
+        Task DeleteOccupancyCollectionAsync(IEnumerable<Guid> ids,
             bool trackChanges);
-        Task UpdateOccupancy(Guid apartId, Guid id, OccupancyForUpdateDto occupancyDto,
+        Task UpdateOccupancyAsync(Guid apartId, Guid occupId, OccupancyForUpdateDto occupancyDto,
             bool apartTrackChanges, bool occupTrackChanges);
-        Task<(OccupancyForUpdateDto occupToPatch, Occupancy occup)> GetOccupancyForPatch(
+        Task<(OccupancyForUpdateDto occupToPatch, Occupancy occup)> GetOccupancyForPatchAsync(
             Guid occupId, OccupancyForUpdateDto occupForPatch, bool trackChanges);
-        Task SaveChangesForPatch(OccupancyForUpdateDto occupToPatch, Occupancy occup);
+        Task SaveChangesForPatchAsync(OccupancyForUpdateDto occupToPatch, Occupancy occup);
     }
 }

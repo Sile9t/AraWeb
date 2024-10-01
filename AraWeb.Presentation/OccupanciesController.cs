@@ -52,7 +52,10 @@ namespace AraWeb.Presentation
         [HttpGet("{id:guid}", Name = "GetOccupancy")]
         public async Task<IActionResult> GetOccupancy(Guid occupId)
         {
+            var occup = await _service.OccupancyService
+                .GetOccupancyByIdAsync(occupId, trackChanges: false);
 
+            return Ok(occup);
         }
 
         [HttpPost("{id:guid}", Name = "CreateOccupancyForApartment")]
@@ -76,6 +79,15 @@ namespace AraWeb.Presentation
                 OccupancyDate = apartmentParameters.OccupDate,
                 EvictionDate = apartmentParameters.EvicDate,
             };
+        }
+
+        [HttpDelete("{id:guid}",Name = "DeleteOccupancy")]
+        public async Task<IActionResult> DeleteOccupancy(Guid occupId)
+        {
+            await _service.OccupancyService
+                .DeleteOccupancyAsync(occupId, trackChanges: false);
+
+            return NoContent();
         }
     }
 }
