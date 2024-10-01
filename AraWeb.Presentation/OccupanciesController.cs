@@ -98,5 +98,14 @@ namespace AraWeb.Presentation
 
             return NoContent();
         }
+
+        [HttpDelete("collection/({ids})", Name = "DeleteOccupancies")]
+        public async Task<IActionResult> DeleteOccupancies(IEnumerable<Guid> occupIds)
+        {
+            await _service.OccupancyService
+                .DeleteOccupancyCollectionAsync(occupIds, trackChanges: false);
+
+            return NoContent();
+        }
     }
 }
