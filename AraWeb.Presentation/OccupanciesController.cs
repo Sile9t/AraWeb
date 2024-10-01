@@ -29,10 +29,10 @@ namespace AraWeb.Presentation
             return Ok(occups);
         }
 
-        [HttpGet(Name = "GetOccupanciesForUser")]
-        public async Task<IActionResult> GetOccupanciesForUser(Guid userId)
+        [HttpGet("profile/occupancies", Name = "GetOccupanciesForUser")]
+        public async Task<IActionResult> GetOccupanciesForUser()
         {
-            userId = Guid.Parse(this.HttpContext.User
+            var userId = Guid.Parse(this.HttpContext.User
                 .FindFirstValue(ClaimTypes.NameIdentifier)!);
 
             var occups = await _service.OccupancyService
@@ -41,7 +41,7 @@ namespace AraWeb.Presentation
             return Ok(occups);
         }
 
-        [HttpGet(Name = "GetOccupanciesForApartment")]
+        [HttpGet("{id:guid}", Name = "GetOccupanciesForApartment")]
         public async Task<IActionResult> GetOccupanciesForApartment(Guid apartId)
         {
             var occups = await _service.OccupancyService
@@ -59,7 +59,7 @@ namespace AraWeb.Presentation
             return Ok(occup);
         }
 
-        [HttpGet("collection/({ids})",Name = "GetOccupanciesByIds")]
+        [HttpGet("collection/({ids})", Name = "GetOccupanciesByIds")]
         public async Task<IActionResult> GetOccupanciesByIds(IEnumerable<Guid> occupIds)
         {
             var occups = await _service.OccupancyService
@@ -81,7 +81,35 @@ namespace AraWeb.Presentation
             return CreatedAtRoute("GetOccupancy", new { occupId = occup.Id }, occup);
         }
 
-        [HttpPatch("{id:guid}")]
+        [HttpDelete("{id:guid}",Name = "DeleteOccupancy")]
+        public async Task<IActionResult> DeleteOccupancy(Guid occupId)
+        {
+            await _service.OccupancyService
+                .DeleteOccupancyAsync(occupId, trackChanges: false);
+
+            return NoContent();
+        }
+
+        [HttpDelete("collection/({ids})", Name = "DeleteOccupancies")]
+        public async Task<IActionResult> DeleteOccupancies(IEnumerable<Guid> occupIds)
+        {
+            await _service.OccupancyService
+                .DeleteOccupancyCollectionAsync(occupIds, trackChanges: false);
+
+            return NoContent();
+        }
+
+        [HttpPut("{id:guid}", Name = "UpdateOccupancy")]
+        public async Task<IActionResult> UpdateOccupancy(Guid occupId, 
+            [FromBody] OccupancyForUpdateDto occupForUpdate)
+        {
+            await _service.OccupancyService
+                .UpdateOccupancyAsync(occupId, occupForUpdate, trackChanges: false);
+
+            return NoContent();
+        }
+
+        [HttpPatch("{id:guid}", Name = "PartiallyUpdateOccupancy")]
         public async Task<IActionResult> PartiallyUpdateOccupancy(Guid occupId, 
             [FromBody] JsonPatchDocument<OccupancyForUpdateDto> patchDoc)
         {
@@ -107,33 +135,6 @@ namespace AraWeb.Presentation
                 OccupancyDate = apartmentParameters.OccupDate,
                 EvictionDate = apartmentParameters.EvicDate,
             };
-        }
-
-        [HttpDelete("{id:guid}",Name = "DeleteOccupancy")]
-        public async Task<IActionResult> DeleteOccupancy(Guid occupId)
-        {
-            await _service.OccupancyService
-                .DeleteOccupancyAsync(occupId, trackChanges: false);
-
-            return NoContent();
-        }
-
-        [HttpDelete("collection/({ids})", Name = "DeleteOccupancies")]
-        public async Task<IActionResult> DeleteOccupancies(IEnumerable<Guid> occupIds)
-        {
-            await _service.OccupancyService
-                .DeleteOccupancyCollectionAsync(occupIds, trackChanges: false);
-
-            return NoContent();
-        }
-
-        [HttpPut("{id:guid}", Name = "UpdateOccupancy")]
-        public async Task<IActionResult> UpdateOccupancy(Guid occupId, OccupancyForUpdateDto occupForUpdate)
-        {
-            await _service.OccupancyService
-                .UpdateOccupancyAsync(occupId, occupForUpdate, trackChanges: false);
-
-            return NoContent();
         }
     }
 }
